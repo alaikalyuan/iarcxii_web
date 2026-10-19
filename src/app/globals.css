@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --navy-950: #0a0e18;
+  --navy-900: #0d1220;
+  --navy-800: #121a2e;
+  --navy-700: #1a2440;
+  --navy-600: #233157;
+  --gold-400: #e8c07d;
+  --gold-500: #d9a94f;
+  --gold-600: #b8862d;
+  --blue-400: #5b7fd4;
+  --blue-500: #3f5fb5;
+  --blue-600: #2c448a;
+  --text-main: #f4f6fb;
+  --text-soft: #b7c0d6;
+  --text-dim: #7c869e;
+}
+
+@theme inline {
+  --font-sans: var(--font-plus-jakarta), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-sora), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-text-main: var(--text-main);
+  --color-text-soft: var(--text-soft);
+  --color-text-dim: var(--text-dim);
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  background-color: var(--navy-950);
+  color: var(--text-main);
+  overflow-x: hidden;
+  max-width: 100%;
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+.cyber-card {
+  background: rgba(18, 26, 46, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(217, 169, 79, 0.15);
+}
+
+.cyber-card:hover {
+  border-color: rgba(217, 169, 79, 0.4);
+}
+
+.cyber-glow {
+  box-shadow: 0 0 25px rgba(217, 169, 79, 0.2);
+}
+
+.cyber-glow-blue {
+  box-shadow: 0 0 25px rgba(63, 95, 181, 0.25);
+}
+
+.cyber-clip-corner {
+  clip-path: polygon(
+    0 12px,
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%
+  );
+}
