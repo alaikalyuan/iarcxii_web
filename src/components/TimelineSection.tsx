@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Calendar, CheckCircle2, Clock } from "lucide-react";
 import { TIMELINE_TRACKS } from "@/data/timeline";
+import DecorativeBackground from "./DecorativeBackground";
 
 export default function TimelineSection() {
   const [activeTrackId, setActiveTrackId] = useState("track-a");
@@ -12,7 +13,8 @@ export default function TimelineSection() {
 
   return (
     <section id="timeline" className="py-12 md:py-16 bg-navy-950/70 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <DecorativeBackground variant="section-d" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-6 md:mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
@@ -34,7 +36,7 @@ export default function TimelineSection() {
                   key={track.id}
                   type="button"
                   onClick={() => setActiveTrackId(track.id)}
-                  className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition ${
+                  className={`min-h-[44px] rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                     isActive
                       ? "bg-gold-500 text-navy-950 shadow-md font-bold"
                       : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"

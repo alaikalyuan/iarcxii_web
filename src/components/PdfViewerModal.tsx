@@ -11,6 +11,7 @@ import {
   FileText,
   ChevronDown,
   Sparkles,
+  Smartphone,
 } from "lucide-react";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { GUIDEBOOKS, getGuidebookById } from "@/data/guidebooks";
@@ -20,13 +21,54 @@ export default function PdfViewerModal() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showMobileBanner, setShowMobileBanner] = useState(true);
 
   const activeDoc = useMemo(() => {
     return getGuidebookById(activeDocId) || GUIDEBOOKS[0];
   }, [activeDocId]);
 
+  // Lock background scroll on mobile (iOS/Android) & desktop when modal is open
+  useEffect(() => {
+    if (!isOpen) {
+      setIsFullscreen(false);
+      setIsDropdownOpen(false);
+      setShowMobileBanner(true);
+      return;
+    }
+
+    const scrollY = window.scrollY;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalBodyPosition = document.body.style.position;
+    const originalBodyTop = document.body.style.top;
+    const originalBodyWidth = document.body.style.width;
+    const originalBodyPaddingRight = document.body.style.paddingRight;
+
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
+    return () => {
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.position = originalBodyPosition;
+      document.body.style.top = originalBodyTop;
+      document.body.style.width = originalBodyWidth;
+      document.body.style.paddingRight = originalBodyPaddingRight;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
+
   // Handle escape key
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         if (isDropdownOpen) {
@@ -37,17 +79,8 @@ export default function PdfViewerModal() {
       }
     };
 
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      window.addEventListener("keydown", handleKeyDown);
-    } else {
-      document.body.style.overflow = "unset";
-      setIsFullscreen(false);
-      setIsDropdownOpen(false);
-    }
-
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, isDropdownOpen, closeModal]);
@@ -64,7 +97,7 @@ export default function PdfViewerModal() {
           role="dialog"
           aria-modal="true"
           aria-label={activeDoc.title}
-          className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 md:p-6"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 md:p-6 overscroll-contain"
         >
           {/* Backdrop */}
           <motion.div
@@ -73,7 +106,7 @@ export default function PdfViewerModal() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeModal}
-            className="fixed inset-0 bg-navy-950/80 backdrop-blur-md"
+            className="fixed inset-0 bg-navy-950/80 backdrop-blur-md touch-none overscroll-none"
           />
 
           {/* Modal Container */}
@@ -82,10 +115,10 @@ export default function PdfViewerModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className={`relative flex flex-col w-full overflow-hidden rounded-2xl border border-gold-500/30 bg-navy-900 shadow-2xl transition-all duration-300 z-10 ${
+            className={`relative flex flex-col w-full overflow-hidden rounded-2xl border border-gold-500/30 bg-navy-900 shadow-2xl transition-all duration-300 z-10 overscroll-contain ${
               isFullscreen
-                ? "fixed inset-0 h-screen w-screen rounded-none border-none"
-                : "max-w-5xl h-[88vh]"
+                ? "fixed inset-0 h-[100dvh] w-screen rounded-none border-none"
+                : "max-w-5xl h-[90dvh] sm:h-[88vh]"
             }`}
           >
             {/* Header Bar */}
@@ -169,8 +202,9 @@ export default function PdfViewerModal() {
                   target="_blank"
                   rel="noopener noreferrer"
                   download
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-3 py-1.5 text-xs font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500"
                   title="Unduh file PDF langsung"
+                  aria-label="Unduh file PDF langsung"
                 >
                   <Download className="h-3.5 w-3.5 text-gold-400" />
                   <span className="hidden sm:inline">Unduh PDF</span>
@@ -181,8 +215,9 @@ export default function PdfViewerModal() {
                   href={activeDoc.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-3 py-1.5 text-xs font-semibold text-text-main transition hover:border-blue-400/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-blue-400/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   title="Buka dokumen di tab baru Google Drive"
+                  aria-label="Buka dokumen di tab baru Google Drive"
                 >
                   <ExternalLink className="h-3.5 w-3.5 text-blue-400" />
                   <span className="hidden sm:inline">Tab Baru</span>
@@ -192,7 +227,7 @@ export default function PdfViewerModal() {
                 <button
                   type="button"
                   onClick={() => setIsFullscreen(!isFullscreen)}
-                  className="inline-flex items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-1.5 text-text-soft transition hover:border-gold-500/50 hover:text-text-main focus:outline-none focus:ring-2 focus:ring-gold-500"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-gold-500/50 hover:text-text-main focus:outline-none focus:ring-2 focus:ring-gold-500"
                   title={isFullscreen ? "Keluar Layar Penuh" : "Layar Penuh"}
                   aria-label={isFullscreen ? "Keluar Layar Penuh" : "Layar Penuh"}
                 >
@@ -207,7 +242,7 @@ export default function PdfViewerModal() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="inline-flex items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-1.5 text-text-soft transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
                   title="Tutup Viewer (Esc)"
                   aria-label="Tutup Viewer"
                 >
@@ -234,10 +269,66 @@ export default function PdfViewerModal() {
               </div>
             </div>
 
+            {/* Mobile Touch / Scroll Assistance Banner (Option A) */}
+            {showMobileBanner ? (
+              <div className="sm:hidden border-b border-gold-500/20 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 p-3 shadow-inner">
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-gold-400">
+                    <Smartphone className="h-4 w-4 shrink-0 text-gold-400 animate-pulse" />
+                    <span>Dokumen sulit digulir di HP?</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowMobileBanner(false)}
+                    className="p-1 -mr-1 text-text-dim hover:text-text-main transition rounded-md hover:bg-navy-800"
+                    title="Tutup pemberitahuan"
+                    aria-label="Tutup pemberitahuan"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+                <p className="text-[11px] text-text-soft leading-snug mb-2.5">
+                  Browser HP membatasi gesture scroll di dalam preview. Buka di tab baru atau unduh PDF untuk membaca seluruh halaman secara lancar.
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={activeDoc.previewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 px-3 py-2 text-xs font-bold text-white shadow-md transition active:scale-95"
+                  >
+                    <ExternalLink className="h-4 w-4 shrink-0" />
+                    <span>Buka di Tab Baru</span>
+                  </a>
+                  <a
+                    href={activeDoc.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-lg border border-gold-500/40 bg-gold-500/15 hover:bg-gold-500/25 active:bg-gold-500/30 px-3 py-2 text-xs font-bold text-gold-300 shadow-md transition active:scale-95"
+                  >
+                    <Download className="h-4 w-4 shrink-0" />
+                    <span>Unduh PDF</span>
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="sm:hidden flex items-center justify-between border-b border-navy-800 bg-navy-950 px-3 py-1.5 text-[11px]">
+                <span className="text-text-dim">Halaman macet di HP?</span>
+                <button
+                  type="button"
+                  onClick={() => setShowMobileBanner(true)}
+                  className="font-semibold text-gold-400 hover:underline"
+                >
+                  Tampilkan Opsi Buka & Unduh
+                </button>
+              </div>
+            )}
+
             {/* PDF Embedded Iframe */}
-            <div className="relative flex-1 bg-navy-950">
+            <div className="relative flex-1 min-h-0 w-full overflow-hidden bg-navy-950 [overflow-scrolling:touch]">
               {isLoading && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-navy-950">
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 bg-navy-950">
                   <div className="h-10 w-10 animate-spin rounded-full border-2 border-navy-700 border-t-gold-400" />
                   <p className="text-xs text-text-dim">
                     Memuat dokumen Google Drive...
@@ -249,7 +340,7 @@ export default function PdfViewerModal() {
                 key={activeDoc.driveFileId}
                 src={activeDoc.previewUrl}
                 title={activeDoc.title}
-                className="h-full w-full border-none"
+                className="absolute inset-0 h-full w-full border-none"
                 allow="autoplay"
                 onLoad={() => setIsLoading(false)}
               />

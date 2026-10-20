@@ -50,12 +50,12 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-xs font-semibold uppercase tracking-wider text-text-soft transition hover:text-gold-400 focus:outline-none focus:text-gold-400"
+              className="rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-text-soft transition hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:text-gold-400"
             >
               {link.name}
             </a>
@@ -67,7 +67,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => openModal("utama")}
-            className="inline-flex items-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900/90 px-4 py-2 text-xs font-semibold text-gold-400 transition hover:border-gold-400 hover:bg-gold-500/10 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900/90 px-4 py-2 text-xs font-semibold text-gold-400 transition hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
             <BookOpen className="h-3.5 w-3.5" />
             <span>Guidebook Utama</span>
@@ -75,22 +75,23 @@ export default function Navbar() {
 
           <a
             href="/#alur"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus:outline-none focus:ring-2 focus:ring-gold-400"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
             <span>Daftar Sekarang</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* Mobile Hamburger Button with Explicit Label (antislop-layoutmobile) */}
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-navy-800 bg-navy-900/90 p-2 text-text-soft transition hover:text-text-main lg:hidden focus:outline-none focus:ring-2 focus:ring-gold-500"
+          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-xl border border-navy-800 bg-navy-900/90 px-3 py-2 text-text-soft transition hover:text-text-main lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           aria-label={mobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <span className="text-xs font-semibold">Menu</span>
         </button>
       </div>
 

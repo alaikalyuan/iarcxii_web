@@ -22,6 +22,7 @@ import {
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
+import DecorativeBackground from "./DecorativeBackground";
 
 const DIVISION_ICONS = {
   "automation-challenge": Cpu,
@@ -76,8 +77,9 @@ export default function CompetitionDetailClient({
   const isVortex = division.slug === "vortex";
 
   return (
-    <div className="pt-24 pb-16 md:py-28 relative">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="pt-24 pb-16 md:py-28 relative overflow-hidden">
+      <DecorativeBackground variant="section-e" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav className="mb-6 flex flex-wrap items-center gap-2 text-xs text-text-dim">
           <Link href="/" className="hover:text-gold-400 transition-colors">

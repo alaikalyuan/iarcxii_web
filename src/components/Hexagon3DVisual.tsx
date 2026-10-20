@@ -29,10 +29,6 @@ const HEX_ITEMS: HexClusterItem[] = [
   { id: "hex-7", x: 86, y: 68, scale: 1.0, depth: 20, delay: 0.9, hasLineRing: false, opacity: 0.8 },
   { id: "hex-8", x: 66, y: 44, scale: 0.75, depth: 18, delay: 0.7, hasLineRing: true, opacity: 0.65 },
   { id: "hex-9", x: 94, y: 52, scale: 0.7, depth: 12, delay: 1.1, hasLineRing: false, opacity: 0.6 },
-
-  // Subtle left-edge framing hexagon to harmonize with static site reference (Foto 1)
-  { id: "hex-left-1", x: -4, y: 76, scale: 0.8, depth: 15, delay: 1.5, hasLineRing: true, opacity: 0.4 },
-  { id: "hex-left-2", x: 4, y: 92, scale: 0.65, depth: 8, delay: 1.8, hasLineRing: false, opacity: 0.3 },
 ];
 
 export default function Hexagon3DVisual() {
@@ -63,7 +59,14 @@ export default function Hexagon3DVisual() {
   return (
     <div
       className="pointer-events-none absolute inset-0 overflow-hidden select-none"
-      style={{ perspective: 1200 }}
+      style={{
+        perspective: 1200,
+        // Keep the left 30% completely transparent so the gear, brand logo, and text are 100% clean of any 3D silhouettes
+        maskImage:
+          "linear-gradient(to right, transparent 0%, transparent 22%, black 42%, black 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent 0%, transparent 22%, black 42%, black 100%)",
+      }}
       aria-hidden="true"
     >
       {/* Shared SVG Definitions for Gradient and Glow Filters */}
@@ -98,6 +101,11 @@ export default function Hexagon3DVisual() {
           rotateX: mounted ? rotateX : 12,
           rotateY: mounted ? rotateY : 0,
           rotateZ: -14,
+          // Soft radial mask directly on the mesh so lines fade out with zero sharp box borders
+          maskImage:
+            "radial-gradient(ellipse 65% 65% at 65% 65%, black 20%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 65% 65% at 65% 65%, black 20%, transparent 75%)",
         }}
       >
         <svg
@@ -149,9 +157,6 @@ export default function Hexagon3DVisual() {
             />
           </g>
         </svg>
-
-        {/* Soft radial fade vignette so grid blends seamlessly into dark navy #0a0e18 */}
-        <div className="absolute inset-0 bg-radial from-transparent via-navy-950/40 to-navy-950" />
       </motion.div>
 
       {/* Layer 2: Main Diagonal 3D Hexagon Cluster with Extrusion & Wave (Foto 4 + figma_shapes) */}

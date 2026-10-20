@@ -15,6 +15,7 @@ import {
 import { siteConfig } from "@/data/siteConfig";
 import { usePdfModal } from "@/context/PdfModalContext";
 import CountdownTimer from "./CountdownTimer";
+import DecorativeBackground from "./DecorativeBackground";
 
 interface StepItem {
   step: number;
@@ -123,14 +124,16 @@ export default function RegistrationFlowSection() {
   ];
 
   return (
-    <section id="alur" className="relative overflow-hidden bg-navy-950 py-16 md:py-24">
+    <section id="alur" className="relative overflow-hidden bg-navy-950 py-12 md:py-16">
+      <DecorativeBackground variant="section-c" />
+
       {/* Subtle ambient lighting */}
       <div
         className="pointer-events-none absolute -top-24 left-1/2 h-72 w-96 -translate-x-1/2 rounded-full bg-gold-500/5 blur-3xl"
         aria-hidden="true"
       />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-10 text-center md:mb-14">
           <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-gold-400">

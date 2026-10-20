@@ -3,23 +3,20 @@
 import React from "react";
 import Image from "next/image";
 import {
-  Trophy,
-  CheckCircle2,
-  Building2,
   Handshake,
   ShieldCheck,
-  Award,
 } from "lucide-react";
 import MediaCarousel from "./MediaCarousel";
+import DecorativeBackground from "./DecorativeBackground";
 import { siteConfig, PRIZE_DATA } from "@/data/siteConfig";
-import { p } from "framer-motion/client";
 
 export default function BentoGridSection() {
   const about = siteConfig.about;
 
   return (
-    <section id="tentang" className="py-12 md:py-16 bg-navy-950 relative">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="tentang" className="py-12 md:py-16 bg-navy-950 relative overflow-hidden">
+      <DecorativeBackground variant="section-a" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-8 md:mb-10 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
@@ -35,8 +32,8 @@ export default function BentoGridSection() {
 
         {/* Bento Grid Architecture */}
         <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-12">
-          {/* Card 1 (Kartu Utama): About IARC XII with Heritage Corner Accent */}
-          <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-7 transition-colors hover:border-gold-500/40 md:col-span-2 lg:col-span-7">
+          {/* Row 1 Left: About IARC (6 cols) with Heritage Corner Accent */}
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-7 transition-colors hover:border-gold-500/40 md:col-span-1 lg:col-span-6">
             {/* Heritage Corner Accent from Legacy Website (Photo 2) */}
             <svg
               className="absolute top-0 right-0 h-16 w-16 pointer-events-none"
@@ -92,48 +89,8 @@ export default function BentoGridSection() {
             </div>
           </div>
 
-          {/* Card 2: Media Carousel (Visual Evidence / Documentation) */}
-          <div className="md:col-span-2 lg:col-span-5 flex flex-col">
-            <MediaCarousel />
-          </div>
-
-          {/* Card 3: Penyelenggara & Filosofi Tema */}
-          <div className="flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-1 lg:col-span-6">
-            <div>
-              <h3 className="text-xl font-bold text-text-main">
-                {siteConfig.theme}
-              </h3>
-              <p className="mt-3 text-xs sm:text-sm leading-relaxed text-text-soft">
-                {siteConfig.themePhilosophy}
-              </p>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-navy-800 flex items-center gap-2 text-xs text-text-soft">
-              <span className="font-semibold text-text-main">
-                {siteConfig.organizer}
-              </span>
-            </div>
-          </div>
-
-          {/* Card 4: 7 Sasaran Utama Kegiatan */}
-          <div className="rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-1 lg:col-span-6 flex flex-col justify-between">
-            <div>
-              <h3 className="text-lg font-bold text-text-main mb-4">
-                Tujuan Kegiatan IARC XII
-              </h3>
-              <ul className="space-y-2.5">
-                {siteConfig.objectives.map((obj, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-text-soft">
-                    <CheckCircle2 className="h-4 w-4 text-gold-400 shrink-0 mt-0.5" />
-                    <span>{obj}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Card 5: Prize Pool Breakdown (12 cols across desktop) */}
-          <div className="rounded-2xl border border-gold-500/30 bg-navy-900 p-5 sm:p-6 md:col-span-2 lg:col-span-12 flex flex-col justify-between">
+          {/* Row 1 Right: Paket Penghargaan Juara (6 cols) */}
+          <div className="rounded-2xl border border-gold-500/30 bg-navy-900 p-6 sm:p-7 md:col-span-1 lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-4">
                 <h3 className="text-lg sm:text-xl font-bold text-text-main">
@@ -144,31 +101,33 @@ export default function BentoGridSection() {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {PRIZE_DATA.map((prize, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-xl border p-4 transition ${idx === 0
+                    className={`rounded-xl border p-3.5 transition flex flex-col justify-between ${idx === 0
                       ? "border-gold-500/50 bg-navy-950/90 shadow-sm"
                       : "border-navy-800 bg-navy-950/70 hover:border-gold-500/30"
                       }`}
                   >
-                    <div className="flex items-center justify-between mb-2.5">
-                      <span className="font-bold text-sm text-gold-400">
-                        {prize.rank}
-                      </span>
-                      <span className="text-[10px] text-text-soft uppercase tracking-wider font-semibold">
-                        {prize.badge}
-                      </span>
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-bold text-sm text-gold-400">
+                          {prize.rank}
+                        </span>
+                        <span className="text-[10px] text-text-soft uppercase tracking-wider font-semibold">
+                          {prize.badge}
+                        </span>
+                      </div>
+                      <ul className="space-y-1.5">
+                        {prize.rewards.map((r, rIdx) => (
+                          <li key={rIdx} className="text-xs text-text-soft flex items-start gap-1.5 leading-snug">
+                            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0 mt-1" />
+                            <span>{r}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-1.5">
-                      {prize.rewards.map((r, rIdx) => (
-                        <li key={rIdx} className="text-xs text-text-soft flex items-start gap-1.5 leading-snug">
-                          <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0 mt-1" />
-                          <span>{r}</span>
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                 ))}
               </div>
@@ -179,7 +138,30 @@ export default function BentoGridSection() {
             </div>
           </div>
 
-          {/* Card 6: Official Partnership & Sponsor (12 cols) */}
+          {/* Row 2 Left: Engineering Systems That Moves The World (6 cols) */}
+          <div className="flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-7 md:col-span-1 lg:col-span-6">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold text-text-main leading-tight">
+                {siteConfig.theme}
+              </h3>
+              <p className="mt-3.5 text-xs sm:text-sm leading-relaxed text-text-soft">
+                {siteConfig.themePhilosophy}
+              </p>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-navy-800 flex items-center gap-2.5 text-xs text-text-soft">
+              <span className="font-semibold text-text-main">
+                {siteConfig.organizer}
+              </span>
+            </div>
+          </div>
+
+          {/* Row 2 Right: Dokumentasi Resmi (MediaCarousel) (6 cols) */}
+          <div className="md:col-span-1 lg:col-span-6 flex flex-col">
+            <MediaCarousel />
+          </div>
+
+          {/* Row 3: Official Educational Partner & Sponsor (12 cols) */}
           <div className="rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-2 lg:col-span-12">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">

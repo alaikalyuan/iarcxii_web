@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { FAQS } from "@/data/faq";
+import DecorativeBackground from "./DecorativeBackground";
 
 export default function FaqSection() {
   const [openId, setOpenId] = useState<string | null>("faq-1");
@@ -12,8 +13,9 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-12 md:py-16 bg-navy-950 relative">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-12 md:py-16 bg-navy-950 relative overflow-hidden">
+      <DecorativeBackground variant="section-e" />
+      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-6 md:mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
@@ -44,7 +46,7 @@ export default function FaqSection() {
                   type="button"
                   onClick={() => toggleFaq(faq.id)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-4 p-4 sm:p-5 text-left transition focus:outline-none"
+                  className="flex min-h-[44px] w-full items-center justify-between gap-4 rounded-2xl p-4 sm:p-5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
                   <div className="flex items-center gap-3">
                     <div

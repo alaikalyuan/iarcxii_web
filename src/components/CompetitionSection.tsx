@@ -13,6 +13,7 @@ import {
 import { COMPETITIONS } from "@/data/competitions";
 import { EducationLevel } from "@/types";
 import { getDivisionTheme } from "@/data/divisionThemes";
+import DecorativeBackground from "./DecorativeBackground";
 
 const DIVISION_ICONS = {
   "automation-challenge": Cpu,
@@ -42,8 +43,9 @@ export default function CompetitionSection() {
   }, [selectedLevel]);
 
   return (
-    <section id="kompetisi" className="py-12 md:py-16 bg-navy-950/80 relative">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="kompetisi" className="py-12 md:py-16 bg-navy-950/80 relative overflow-hidden">
+      <DecorativeBackground variant="section-b" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-6 md:mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
@@ -66,8 +68,8 @@ export default function CompetitionSection() {
                   type="button"
                   onClick={() => setSelectedLevel(lvl)}
                   className={`min-h-[44px] rounded-xl px-4 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-gold-500/50 ${isActive
-                      ? "bg-gold-500 text-navy-950 shadow-md font-bold"
-                      : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
+                    ? "bg-gold-500 text-navy-950 shadow-md font-bold"
+                    : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
                     }`}
                 >
                   {lvl}
@@ -134,8 +136,8 @@ export default function CompetitionSection() {
                         <span
                           key={lvl}
                           className={`rounded-md px-2 py-0.5 text-[10px] font-semibold ${isSelected
-                              ? theme.badge
-                              : "bg-navy-800 text-text-dim border border-navy-700/80"
+                            ? theme.badge
+                            : "bg-navy-800 text-text-dim border border-navy-700/80"
                             }`}
                         >
                           {lvl}
@@ -163,7 +165,7 @@ export default function CompetitionSection() {
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
                             <span className="text-xs font-bold text-text-main group-hover/track:text-rose-400 transition-colors">
-                              1. Jalur Microcontroller (IoT)
+                              Microcontroller (IoT)
                             </span>
                             <div className="flex items-center gap-1.5">
                               <span
@@ -198,7 +200,7 @@ export default function CompetitionSection() {
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
                             <span className="text-xs font-bold text-text-main group-hover/track:text-rose-400 transition-colors">
-                              2. Jalur PLC (Industri)
+                              PLC (Industri)
                             </span>
                             <div className="flex items-center gap-1.5">
                               <span

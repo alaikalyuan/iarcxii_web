@@ -4,10 +4,14 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Hexagon3DVisual from "./Hexagon3DVisual";
+import DecorativeBackground from "./DecorativeBackground";
 
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen min-h-[100dvh] min-h-[92vh] flex flex-col justify-center overflow-hidden pt-20 pb-8 md:pt-28 md:pb-12">
+      {/* Decorative Gear, Rhombus, Elipse & Gold-Blue Ambient Glow (from figma_shapes) */}
+      <DecorativeBackground variant="hero" showHoneycomb={false} />
+
       {/* 3D Hexagon Visual Layer (Right/Bottom-Right Cluster from figma_shapes & Perspective Mesh) */}
       <Hexagon3DVisual />
 
