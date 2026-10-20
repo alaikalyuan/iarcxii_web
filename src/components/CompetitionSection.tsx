@@ -65,11 +65,10 @@ export default function CompetitionSection() {
                   key={lvl}
                   type="button"
                   onClick={() => setSelectedLevel(lvl)}
-                  className={`min-h-[44px] rounded-xl px-4 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-gold-500/50 ${
-                    isActive
+                  className={`min-h-[44px] rounded-xl px-4 py-2 text-xs font-semibold transition focus:outline-none focus:ring-2 focus:ring-gold-500/50 ${isActive
                       ? "bg-gold-500 text-navy-950 shadow-md font-bold"
                       : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
-                  }`}
+                    }`}
                 >
                   {lvl}
                 </button>
@@ -134,11 +133,10 @@ export default function CompetitionSection() {
                       return (
                         <span
                           key={lvl}
-                          className={`rounded-md px-2 py-0.5 text-[10px] font-semibold ${
-                            isSelected
+                          className={`rounded-md px-2 py-0.5 text-[10px] font-semibold ${isSelected
                               ? theme.badge
                               : "bg-navy-800 text-text-dim border border-navy-700/80"
-                          }`}
+                            }`}
                         >
                           {lvl}
                         </span>

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import MediaCarousel from "./MediaCarousel";
 import { siteConfig, PRIZE_DATA } from "@/data/siteConfig";
+import { p } from "framer-motion/client";
 
 export default function BentoGridSection() {
   const about = siteConfig.about;
@@ -49,9 +50,6 @@ export default function BentoGridSection() {
             </svg>
 
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-gold-400 uppercase tracking-wider mb-2">
-                <span>{about?.badge || "Tentang Acara"}</span>
-              </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-text-main">
                 ABOUT <span className="text-gold-400">IARC</span>
               </h3>
@@ -102,10 +100,6 @@ export default function BentoGridSection() {
           {/* Card 3: Penyelenggara & Filosofi Tema */}
           <div className="flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-1 lg:col-span-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-gold-400 uppercase tracking-wider mb-2">
-                <Building2 className="h-4 w-4" />
-                <span>Penyelenggara &amp; Filosofi Tema</span>
-              </div>
               <h3 className="text-xl font-bold text-text-main">
                 {siteConfig.theme}
               </h3>
@@ -115,7 +109,6 @@ export default function BentoGridSection() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-navy-800 flex items-center gap-2 text-xs text-text-soft">
-              <ShieldCheck className="h-4 w-4 text-gold-400 shrink-0" />
               <span className="font-semibold text-text-main">
                 {siteConfig.organizer}
               </span>
@@ -125,10 +118,6 @@ export default function BentoGridSection() {
           {/* Card 4: 7 Sasaran Utama Kegiatan */}
           <div className="rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-1 lg:col-span-6 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-2 text-xs font-bold text-gold-400 uppercase tracking-wider mb-2">
-                <Award className="h-4 w-4" />
-                <span>7 Sasaran Utama Kegiatan</span>
-              </div>
               <h3 className="text-lg font-bold text-text-main mb-4">
                 Tujuan Kegiatan IARC XII
               </h3>
@@ -146,29 +135,23 @@ export default function BentoGridSection() {
           {/* Card 5: Prize Pool Breakdown (12 cols across desktop) */}
           <div className="rounded-2xl border border-gold-500/30 bg-navy-900 p-5 sm:p-6 md:col-span-2 lg:col-span-12 flex flex-col justify-between">
             <div>
-              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-gold-400 uppercase tracking-wider">
-                  <Trophy className="h-4 w-4" />
-                  <span>Struktur Apresiasi &amp; Hadiah</span>
-                </div>
-                <span className="rounded-full bg-gold-500/20 px-3.5 py-1 text-xs font-bold text-gold-400 border border-gold-500/30">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-4">
+                <h3 className="text-lg sm:text-xl font-bold text-text-main">
+                  Paket Penghargaan Juara
+                </h3>
+                <span className="w-fit shrink-0 rounded-full bg-gold-500/20 px-3.5 py-1 text-xs font-bold text-gold-400 border border-gold-500/30">
                   Total {siteConfig.totalPrize}
                 </span>
               </div>
-
-              <h3 className="text-lg sm:text-xl font-bold text-text-main mb-4">
-                Paket Penghargaan Juara
-              </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                 {PRIZE_DATA.map((prize, idx) => (
                   <div
                     key={idx}
-                    className={`rounded-xl border p-4 transition ${
-                      idx === 0
-                        ? "border-gold-500/50 bg-navy-950/90 shadow-sm"
-                        : "border-navy-800 bg-navy-950/70 hover:border-gold-500/30"
-                    }`}
+                    className={`rounded-xl border p-4 transition ${idx === 0
+                      ? "border-gold-500/50 bg-navy-950/90 shadow-sm"
+                      : "border-navy-800 bg-navy-950/70 hover:border-gold-500/30"
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-2.5">
                       <span className="font-bold text-sm text-gold-400">

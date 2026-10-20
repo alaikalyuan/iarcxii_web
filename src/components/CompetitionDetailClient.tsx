@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Sparkles,
   BookOpen,
   ExternalLink,
   ChevronRight,
@@ -14,7 +13,6 @@ import {
   Lightbulb,
   CheckCircle2,
   Calendar,
-  Users,
   Award,
   Layers,
   ArrowRight,
@@ -114,19 +112,7 @@ export default function CompetitionDetailClient({
           <div className="absolute -left-16 -bottom-16 h-64 w-64 rounded-full bg-gold-500/10 blur-3xl pointer-events-none" />
 
           <div className="relative z-10">
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-3.5 py-1 text-xs font-semibold text-gold-400">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>Divisi Resmi IARC XII</span>
-              </div>
-              {isAutomationChallenge && currentTrack && (
-                <span className={`rounded-full px-3 py-1 text-xs font-bold ${theme.badge}`}>
-                  {currentTrack.name}
-                </span>
-              )}
-            </div>
-
-            <div className="mt-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex items-start gap-4">
                 <div
                   className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border ${theme.iconBox} shadow-lg`}
@@ -487,19 +473,6 @@ export default function CompetitionDetailClient({
                 className={`group flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900/80 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 ${theme.cardHoverBorder} hover:bg-navy-900/95 hover:shadow-xl ${theme.cardGlow} hover:-translate-y-1`}
               >
                 <div>
-                  {/* Category Header */}
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span
-                      className={`rounded-md px-2.5 py-0.5 text-xs font-bold ${theme.badge}`}
-                    >
-                      {cat.level}
-                    </span>
-                    <span className="text-xs text-text-dim flex items-center gap-1">
-                      <Users className="h-3 w-3" />
-                      <span>{cat.teamRequirement.split(" ")[0]} Anggota</span>
-                    </span>
-                  </div>
-
                   <h4
                     className={`text-base sm:text-lg font-bold text-text-main ${theme.textHover} transition-colors`}
                   >
