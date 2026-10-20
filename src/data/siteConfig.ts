@@ -16,11 +16,6 @@ export const siteConfig: SiteConfig = {
     tiktok: "https://www.tiktok.com/@iarc.its",
     linkedin: "https://www.linkedin.com/company/iarc-its",
   },
-  bcaAccount: {
-    bank: "Bank Central Asia (BCA)",
-    accountNumber: "1430996882",
-    accountHolder: "Luna Aulia Afifah",
-  },
   twibbonUrl: "https://its.id/m/TwibbonCompeIARCXII",
   captionUrl: "https://its.id/m/CaptionTwibbonIARCXII",
   totalPrize: "Rp 50.000.000+++",
@@ -33,6 +28,22 @@ export const siteConfig: SiteConfig = {
     "Menjadi wadah kolaborasi, pertukaran pengetahuan, dan jejaring antar peserta lintas jenjang.",
     "Memperkenalkan serta mengapresiasi inovasi karya teknologi kepada industri dan masyarakat luas.",
   ],
+  about: {
+    badge: "Tentang Acara",
+    title: "ABOUT IARC",
+    subtitle: "Industrial Automation & Robotics Competition",
+    paragraph1:
+      "IARC (Industrial Automation & Robotics Competition) merupakan kompetisi teknologi tahunan yang diselenggarakan oleh Departemen Teknik Elektro Otomasi, Fakultas Vokasi, Institut Teknologi Sepuluh Nopember (ITS) Surabaya. Ajang ini mempertemukan pelajar dan mahasiswa dari seluruh Indonesia untuk menguji kemampuan di bidang robotika dan sistem otomasi melalui tantangan yang aplikatif, kreatif, dan inovatif.",
+    paragraph2:
+      "IARC menjadi wadah strategis bagi generasi muda dalam mengasah kompetensi teknis, daya pemecahan masalah (problem solving), kreativitas, serta kolaborasi tim yang solid melalui kompetisi rekayasa teknologi berskala nasional.",
+    quoteEn:
+      "IARC serves as a platform for the younger generation to develop technical skills, creativity, problem solving, and teamwork through a technology competition.",
+    highlights: [
+      { label: "Penyelenggara", value: "Departemen Teknik Elektro Otomasi ITS" },
+      { label: "Tingkat", value: "Nasional & Terbuka untuk Pelajar/Mahasiswa" },
+      { label: "Fokus", value: "Robotika Presisi, Otomasi Industri, & IoT" },
+    ],
+  },
 };
 
 export interface PrizeItem {

@@ -6,6 +6,18 @@ export type EducationLevel =
   | "Mahasiswa"
   | "International";
 
+export interface CategoryStage {
+  name: string;
+  date?: string;
+  description: string;
+}
+
+export interface CategoryScoring {
+  criterion: string;
+  weight: string;
+  note?: string;
+}
+
 export interface CategoryCard {
   id: string;
   name: string;
@@ -19,6 +31,8 @@ export interface CategoryCard {
     batch3: string;
   };
   highlights: string[];
+  stages?: CategoryStage[];
+  scoringCriteria?: CategoryScoring[];
 }
 
 export interface CompetitionTrack {

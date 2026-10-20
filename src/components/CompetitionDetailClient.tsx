@@ -7,6 +7,7 @@ import {
   BookOpen,
   ExternalLink,
   ChevronRight,
+  ChevronDown,
   Cpu,
   Bot,
   Zap,
@@ -18,7 +19,7 @@ import {
   Layers,
   ArrowRight,
   ShieldCheck,
-  CreditCard,
+  ClipboardCheck,
 } from "lucide-react";
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
@@ -51,6 +52,16 @@ export default function CompetitionDetailClient({
   const [activeTrackId, setActiveTrackId] = useState(
     lockedTrackId || initialTrackId || division.tracks[0]?.id || ""
   );
+
+  // Per-category accordion expansion state
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
+
+  const toggleCategoryAccordion = (catId: string) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [catId]: !prev[catId],
+    }));
+  };
 
   useEffect(() => {
     if (lockedTrackId) {
@@ -145,10 +156,10 @@ export default function CompetitionDetailClient({
                   <span>Guidebook Utama</span>
                 </button>
                 <a
-                  href="#alur-biaya"
+                  href="#pendaftaran"
                   className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20"
                 >
-                  <span>Informasi Biaya &amp; Transfer</span>
+                  <span>Daftar Sekarang</span>
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
@@ -459,7 +470,7 @@ export default function CompetitionDetailClient({
         </div>
 
         {/* Distinct Category Cards Grid with Thematic Accents */}
-        <div className="mt-10">
+        <div id="pendaftaran" className="mt-10 scroll-mt-24">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg sm:text-xl font-bold text-text-main">
               Kategori Partisipasi ({currentTrack.categories.length})
@@ -531,6 +542,99 @@ export default function CompetitionDetailClient({
                       </div>
                     </div>
                   </div>
+
+                  {/* Accordion: Rincian Babak & Kriteria Penilaian Spesifik Jenjang */}
+                  {(cat.stages || cat.scoringCriteria) && (
+                    <div className="mt-4 pt-3 border-t border-navy-800/80">
+                      <button
+                        type="button"
+                        onClick={() => toggleCategoryAccordion(cat.id)}
+                        aria-expanded={!!expandedCategories[cat.id]}
+                        className="flex w-full items-center justify-between gap-2 rounded-xl border border-navy-700/80 bg-navy-950/60 px-3.5 py-2.5 text-xs font-semibold text-text-soft transition hover:border-gold-500/40 hover:text-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+                      >
+                        <span className="flex items-center gap-2">
+                          <Award className="h-4 w-4 text-gold-400" />
+                          <span>Rincian Babak &amp; Penilaian</span>
+                        </span>
+                        <ChevronDown
+                          className={`h-4 w-4 text-text-dim transition-transform duration-200 ${
+                            expandedCategories[cat.id] ? "rotate-180 text-gold-400" : ""
+                          }`}
+                        />
+                      </button>
+
+                      {/* Accordion Content */}
+                      {expandedCategories[cat.id] && (
+                        <div className="mt-3 space-y-4 rounded-xl border border-navy-800 bg-navy-950/90 p-4 text-xs text-text-soft">
+                          {/* Tahapan Babak Spesifik Jenjang */}
+                          {cat.stages && cat.stages.length > 0 && (
+                            <div>
+                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
+                                <Calendar className="h-3.5 w-3.5 text-gold-400" />
+                                <span>Alur Babak Kompetisi</span>
+                              </div>
+                              <div className="space-y-2.5 border-l border-navy-800 pl-3 ml-1">
+                                {cat.stages.map((stg, sIdx) => (
+                                  <div key={sIdx} className="relative">
+                                    <div className="flex items-baseline justify-between gap-2">
+                                      <span className="font-semibold text-text-main text-xs">
+                                        {stg.name}
+                                      </span>
+                                      {stg.date && (
+                                        <span className="text-[10px] text-gold-400 font-mono shrink-0">
+                                          {stg.date}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <p className="text-[11px] text-text-dim mt-0.5 leading-relaxed">
+                                      {stg.description}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Kriteria Penilaian Spesifik Jenjang */}
+                          {cat.scoringCriteria && cat.scoringCriteria.length > 0 && (
+                            <div className="pt-3 border-t border-navy-800/80">
+                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
+                                <Award className="h-3.5 w-3.5 text-gold-400" />
+                                <span>Fokus Kriteria Penilaian</span>
+                              </div>
+                              <div className="space-y-2">
+                                {cat.scoringCriteria.map((crit, cIdx) => (
+                                  <div
+                                    key={cIdx}
+                                    className="flex items-start justify-between gap-2 rounded-lg bg-navy-900/70 p-2.5 border border-navy-800"
+                                  >
+                                    <div>
+                                      <span className="font-semibold text-text-main text-xs block">
+                                        {crit.criterion}
+                                      </span>
+                                      {crit.note && (
+                                        <span className="text-[11px] text-text-dim block mt-0.5 leading-relaxed">
+                                          {crit.note}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <span className="shrink-0 rounded bg-gold-500/10 border border-gold-500/20 px-2 py-0.5 text-[10px] font-bold text-gold-400">
+                                      {crit.weight}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Guidebook Reminder Note */}
+                          <div className="pt-2 text-[11px] text-text-dim italic leading-relaxed border-t border-navy-800/60">
+                            Regulasi teknis lengkap, batas toleransi dimensi, dan instrumen penilaian komprehensif tercantum di Guidebook PDF resmi jenjang ini.
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 {/* Dedicated Action Buttons (MANDATORY R3, R5) */}
@@ -559,110 +663,68 @@ export default function CompetitionDetailClient({
           </div>
         </div>
 
-        {/* Scoring Rubric Table / Cards */}
-        <div className="mt-12">
-          <div className="mb-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/20 bg-gold-500/10 px-3 py-0.5 text-xs font-semibold text-gold-400">
-              <Award className="h-3.5 w-3.5" />
-              <span>Standar Penilaian Juri</span>
-            </div>
-            <h3 className="mt-2 text-xl font-bold text-text-main">
-              Rubrik &amp; Kriteria Penilaian Resmi
-            </h3>
-            <p className="mt-1 text-xs sm:text-sm text-text-soft">
-              {isAutomationChallenge && activeTrackId === "plc"
-                ? "Rubrik total 100 poin berstandar industri dengan pengujian presisi ladder diagram dan trainer Omron."
-                : "Bobot penilaian transparan oleh dewan juri ahli Departemen Teknik Elektro Otomasi ITS."}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {division.scoringRubric.map((item, idx) => (
-              <div
-                key={idx}
-                className="flex items-start justify-between gap-4 rounded-xl border border-navy-800 bg-navy-900/60 p-4 backdrop-blur-sm"
-              >
-                <div>
-                  <h4 className="text-sm font-bold text-text-main">
-                    {item.criterion}
-                  </h4>
-                  <p className="mt-1 text-xs text-text-soft leading-relaxed">
-                    {item.note}
-                  </p>
-                </div>
-                <span className="shrink-0 rounded-lg bg-gold-500/15 border border-gold-500/25 px-2.5 py-1 text-xs font-bold text-gold-400">
-                  {item.weight}
-                </span>
+        {/* Official Regulation Reference Callout */}
+        <div className="mt-12 rounded-2xl border border-navy-800 bg-navy-900/60 p-5 sm:p-6 backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-400">
+                <BookOpen className="h-5 w-5" />
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Selection Stages Timeline */}
-        <div className="mt-12">
-          <div className="mb-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-navy-700 bg-navy-900 px-3 py-0.5 text-xs font-semibold text-text-soft">
-              <Calendar className="h-3.5 w-3.5 text-gold-400" />
-              <span>Tahapan Seleksi</span>
-            </div>
-            <h3 className="mt-2 text-xl font-bold text-text-main">
-              Rangkaian Babak Kompetisi
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {division.stages.map((stage, idx) => (
-              <div
-                key={idx}
-                className="relative rounded-xl border border-navy-800 bg-navy-900/60 p-4 backdrop-blur-sm"
-              >
-                <span className="inline-block rounded bg-navy-800 px-2 py-0.5 text-[10px] font-bold text-gold-400 mb-2">
-                  Tahap {idx + 1}
-                </span>
-                <h4 className="text-sm font-bold text-text-main">
-                  {stage.name}
-                </h4>
-                <span className="text-[11px] text-text-dim block mt-0.5">
-                  {stage.date}
-                </span>
-                <p className="mt-2 text-xs text-text-soft leading-relaxed">
-                  {stage.description}
+              <div>
+                <h3 className="text-sm sm:text-base font-bold text-text-main">
+                  Acuan Regulasi &amp; Teknis Resmi IARC XII
+                </h3>
+                <p className="mt-1 text-xs text-text-soft leading-relaxed max-w-2xl">
+                  Setiap kategori jenjang memiliki spesifikasi arena, dimensi alat, toleransi mekanik, dan instrumen penilaian yang berbeda. Buka dokumen Guidebook PDF pada masing-masing kartu kategori di atas untuk panduan teknis yang mengikat.
                 </p>
               </div>
-            ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => openModal("utama")}
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2 text-xs font-bold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+            >
+              <BookOpen className="h-4 w-4" />
+              <span>Guidebook Utama (Umum)</span>
+            </button>
           </div>
         </div>
 
-        {/* Payment & Verification Guidance Section */}
+        {/* Registration Guidance & Verification Section */}
         <div
-          id="alur-biaya"
+          id="panduan-pendaftaran"
           className="mt-12 rounded-3xl border border-gold-500/30 bg-gradient-to-r from-navy-900 via-navy-950 to-navy-900 p-6 sm:p-8 backdrop-blur-md shadow-xl"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-gold-500/10 border border-gold-500/20 px-3 py-0.5 text-xs font-semibold text-gold-400">
                 <ShieldCheck className="h-3.5 w-3.5" />
-                <span>Rekening Resmi Panitia IARC XII</span>
+                <span>Petunjuk Pendaftaran Resmi</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-text-main">
-                Petunjuk Pembayaran &amp; Verifikasi Berkas
+                Petunjuk Pendaftaran &amp; Verifikasi Berkas
               </h3>
               <p className="text-xs sm:text-sm text-text-soft leading-relaxed">
-                Pembayaran biaya registrasi dilakukan via transfer ke Bank Central Asia (BCA). Unggah bukti transfer pada formulir Google Form pendaftaran masing-masing kategori untuk divalidasi oleh bendahara panitia.
+                Informasi nomor rekening tujuan pembayaran dan rincian biaya registrasi resmi tercantum langsung di dalam formulir Google Form pendaftaran masing-masing kategori lomba. Unggah bukti pembayaran beserta berkas persyaratan pada formulir tersebut untuk proses verifikasi oleh panitia.
               </p>
             </div>
 
-            <div className="w-full sm:w-auto rounded-2xl border border-gold-500/40 bg-navy-950/80 p-4 sm:p-5 text-center sm:min-w-[280px]">
-              <div className="flex items-center justify-center gap-2 text-xs font-semibold text-text-dim mb-1">
-                <CreditCard className="h-4 w-4 text-gold-400" />
-                <span>Bank Central Asia (BCA)</span>
-              </div>
-              <span className="font-mono text-xl sm:text-2xl font-extrabold tracking-wider text-gold-400 block my-1">
-                1430996882
+            <div className="w-full sm:w-auto rounded-2xl border border-gold-500/30 bg-navy-950/80 p-5 text-center sm:min-w-[260px] flex flex-col items-center justify-center gap-2">
+              <ClipboardCheck className="h-6 w-6 text-gold-400" />
+              <span className="text-xs font-bold text-text-main">
+                Formulir Pendaftaran
               </span>
-              <span className="text-xs text-text-soft block">
-                a.n. <strong className="text-text-main">Luna Aulia Afifah</strong>
-              </span>
+              <p className="text-[11px] text-text-soft max-w-[220px]">
+                Informasi rekening transfer tersedia langsung di Google Form
+              </p>
+              <a
+                href="#pendaftaran"
+                className="mt-1 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500"
+              >
+                <span>Pilih Kategori &amp; Daftar</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </div>
 

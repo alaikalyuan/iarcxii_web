@@ -37,13 +37,17 @@ export interface SiteConfig {
     tiktok: string;
     linkedin: string;
   };
-  bcaAccount: {
-    bank: string;
-    accountNumber: string;
-    accountHolder: string;
-  };
   twibbonUrl: string;
   captionUrl: string;
   totalPrize: string;
   objectives: string[];
+  about?: {
+    badge: string;
+    title: string;
+    subtitle: string;
+    paragraph1: string;
+    paragraph2: string;
+    quoteEn: string;
+    highlights: Array<{ label: string; value: string }>;
+  };
 }

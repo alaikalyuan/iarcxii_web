@@ -7,9 +7,15 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function fetchUrl(url) {
+function fetchUrl(url, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
     http.get(url, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
+        const redirectUrl = res.headers.location.startsWith('http')
+          ? res.headers.location
+          : new URL(res.headers.location, url).toString();
+        return resolve(fetchUrl(redirectUrl, maxRedirects - 1));
+      }
       let data = '';
       res.on('data', (chunk) => (data += chunk));
       res.on('end', () => resolve({ statusCode: res.statusCode, headers: res.headers, body: data }));
@@ -169,9 +175,9 @@ async function main() {
       assert(rootHtml.includes(`id="${sec}"`), `Root contains section anchor id="${sec}"`);
     }
 
-    // Bank Account & Twibbon
-    assert(rootHtml.includes('1430996882'), 'BCA Account 1430996882 present');
-    assert(rootHtml.includes('Luna Aulia Afifah'), 'Account holder Luna Aulia Afifah present');
+    // Privacy Check: Sensitive Bank Info NOT exposed on website
+    assert(!rootHtml.includes('1430996882'), 'BCA Account 1430996882 is NOT exposed on website');
+    assert(!rootHtml.includes('Luna Aulia Afifah'), 'Account holder Luna Aulia Afifah is NOT exposed on website');
     assert(rootHtml.includes('https://its.id/m/TwibbonCompeIARCXII'), 'Twibbon link present');
     assert(rootHtml.includes('https://its.id/m/CaptionTwibbonIARCXII'), 'Caption link present');
 

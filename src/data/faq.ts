@@ -40,7 +40,7 @@ export const FAQS: FaqItem[] = [
     id: "faq-6",
     question: "Bagaimana proses dan verifikasi pembayaran pendaftaran?",
     answer:
-      "Pembayaran ditransfer ke rekening BCA 1430996882 atas nama Luna Aulia Afifah sesuai gelombang pendaftaran yang berlaku. Bukti transfer wajib diunggah pada formulir Google Form pendaftaran resmi. Tim verifikasi panitia akan mengonfirmasi dalam 1x24 jam dan mengundang tim ke grup resmi WhatsApp Open Training IARC XII.",
+      "Informasi nomor rekening tujuan transfer bank dan nominal biaya registrasi resmi tercantum langsung di dalam formulir Google Form pendaftaran masing-masing cabang lomba. Bukti transfer wajib diunggah pada formulir tersebut saat mendaftar. Tim verifikasi panitia akan mengonfirmasi dalam 1x24 jam dan mengundang tim ke grup resmi WhatsApp Open Training IARC XII.",
     category: "Pembayaran",
   },
   {

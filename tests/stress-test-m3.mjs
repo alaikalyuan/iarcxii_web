@@ -97,21 +97,21 @@ for (const gb of GUIDEBOOKS) {
 
 // 3. Static Generation Parameters
 console.log('\n--- 3. Static Params Functionality ---');
-const pageModule = await import('../src/app/competition/[slug]/page.tsx');
+const pageModule = await import('../src/app/competition/[...slug]/page.tsx');
 const { generateStaticParams, generateMetadata } = pageModule;
 
-const staticParams = generateStaticParams();
-assert(Array.isArray(staticParams) && staticParams.length === 4, 'generateStaticParams() returns 4 static routes', JSON.stringify(staticParams));
+const staticParams = await generateStaticParams();
+assert(Array.isArray(staticParams) && staticParams.length >= 4, 'generateStaticParams() returns static routes', JSON.stringify(staticParams));
 
 // Test metadata generator
 for (const param of staticParams) {
   const meta = await generateMetadata({ params: Promise.resolve(param) });
-  assert(typeof meta.title === 'string' && meta.title.includes('IARC XII'), `generateMetadata for ${param.slug} has title`, meta.title);
-  assert(typeof meta.description === 'string' && meta.description.length > 20, `generateMetadata for ${param.slug} has description`);
+  assert(typeof meta.title === 'string' && meta.title.includes('IARC XII'), `generateMetadata for ${JSON.stringify(param.slug)} has title`, meta.title);
+  assert(typeof meta.description === 'string' && meta.description.length > 20, `generateMetadata for ${JSON.stringify(param.slug)} has description`);
 }
 
 // Test metadata generator for invalid slug
-const notFoundMeta = await generateMetadata({ params: Promise.resolve({ slug: 'unknown-slug' }) });
+const notFoundMeta = await generateMetadata({ params: Promise.resolve({ slug: ['unknown-slug'] }) });
 assert(notFoundMeta.title === 'Kompetisi Tidak Ditemukan - IARC XII', 'generateMetadata handles not-found slug gracefully', notFoundMeta.title);
 
 // 4. Cross-Route Navigation Anchors Verification

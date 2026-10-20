@@ -45,12 +45,12 @@ export default function CompetitionSection() {
     <section id="kompetisi" className="py-12 md:py-16 bg-navy-950/80 relative">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-8 text-center">
+        <div className="mb-6 md:mb-8 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
             Cabang Perlombaan
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
-            4 Divisi Kompetisi Bereputasi
+            4 Divisi Kompetisi Utama
           </h2>
           <p className="mt-2 mx-auto max-w-2xl text-xs sm:text-sm text-text-soft">
             Pilih cabang lomba sesuai minat keahlian dan jenjang pendidikan Anda. Akses halaman dedikasi untuk melihat ketentuan lengkap dan panduan teknis PDF resmi.

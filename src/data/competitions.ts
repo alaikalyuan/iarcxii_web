@@ -44,6 +44,55 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Pengumpulan proposal ide dan video presentasi konsep",
               "Top 5 tim terbaik diundang ke babak final luring ITS",
             ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "Pengumpulan 11 Des 2026",
+                description: "Pemilihan studi kasus, pengumpulan proposal ide inovasi mikrokontroler, dan pengunggahan video penjelasan konsep alat. 5 tim terbaik lolos ke babak final.",
+              },
+              {
+                name: "Technical Meeting Final",
+                date: "18 Des 2026",
+                description: "Pengarahan teknis daring via Zoom untuk 5 tim finalis mengenai ketentuan babak final.",
+              },
+              {
+                name: "Babak Final: Hari 1 Bootcamp",
+                date: "9 Jan 2027",
+                description: "Microcontroller Bootcamp: pembekalan materi dan praktik dasar mikrokontroler, sensor, aktuator, pemrograman, dan IoT di kampus ITS.",
+              },
+              {
+                name: "Babak Final: Hari 2 Challenge",
+                date: "10 Jan 2027",
+                description: "Microcontroller Challenge: penyelesaian tantangan studi kasus menggunakan trainer kit yang disediakan oleh panitia.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Inovasi",
+                weight: "30%",
+                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas karya.",
+              },
+              {
+                criterion: "Video Penjelasan",
+                weight: "25%",
+                note: "Menjelaskan ide, inovasi yang dibawakan, serta keterkaitannya dengan tema pilihan.",
+              },
+              {
+                criterion: "Keterkaitan dengan Tema",
+                weight: "20%",
+                note: "Keselarasan karya dengan target tema (Energi, Mitigasi Bencana, Teknologi Tepat Guna) dan kontribusi nyata solutif.",
+              },
+              {
+                criterion: "Dampak & Berkelanjutan",
+                weight: "15%",
+                note: "Potensi manfaat karya bagi masyarakat, lingkungan, atau industri serta peluang keberlanjutan.",
+              },
+              {
+                criterion: "Kesesuaian Format",
+                weight: "10%",
+                note: "Kesesuaian terhadap tata cara dan format penulisan, sistematika naskah, serta bahasa pedoman.",
+              },
+            ],
           },
           {
             id: "ac-iot-smp",
@@ -61,6 +110,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Pengolahan data sensor dan pengendalian aktuator otomatis",
               "Kesesuaian dengan salah satu dari 3 Pusdi ITS",
               "Top 5 tim terbaik melaju ke final demonstrasi alat di ITS",
+            ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "Pengumpulan 11 Des 2026",
+                description: "Penyusunan rencana penyelesaian studi kasus dalam bentuk proposal dan video penjelasan ide inovasi konsep alat. 5 tim dengan nilai tertinggi lolos ke final.",
+              },
+              {
+                name: "Technical Meeting Final",
+                date: "18 Des 2026",
+                description: "Pengarahan teknis daring via Zoom bagi finalis mengenai ketentuan dan batasan prototipe.",
+              },
+              {
+                name: "Babak Final Luring",
+                date: "9 - 10 Jan 2027",
+                description: "Realisasi proposal menjadi prototipe fisik dengan batasan komponen maksimal 75 Flux Poin, dilanjutkan presentasi di hadapan dewan juri.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Inovasi",
+                weight: "30%",
+                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas karya.",
+              },
+              {
+                criterion: "Video Penjelasan",
+                weight: "25%",
+                note: "Menjelaskan ide, inovasi yang dibawakan, serta keterkaitannya dengan tema yang sudah dipilih.",
+              },
+              {
+                criterion: "Keterkaitan dengan Tema",
+                weight: "20%",
+                note: "Keselarasan karya dengan target tema dan kontribusi nyata dalam menjawab isu global atau nasional.",
+              },
+              {
+                criterion: "Dampak & Berkelanjutan",
+                weight: "15%",
+                note: "Potensi manfaat karya bagi masyarakat, lingkungan, atau industri serta keberlanjutan jangka panjang.",
+              },
+              {
+                criterion: "Kesesuaian Format",
+                weight: "10%",
+                note: "Kesesuaian tata cara dan format penulisan, sistematika penyusunan karya, serta kaidah ejaan pedoman.",
+              },
             ],
           },
           {
@@ -80,6 +173,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Kelayakan teknis, efisiensi energi, dan batasan plafon Rp 500k",
               "Top 10 tim diundang sesi pameran dan pengujian langsung di ITS",
             ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "Pengumpulan 11 Des 2026",
+                description: "Pemilihan studi kasus, pengiriman proposal perancangan mikrokontroler, dan video penjelasan inovasi rancangan. 10 tim terbaik lolos ke final.",
+              },
+              {
+                name: "Technical Meeting Final",
+                date: "18 Des 2026",
+                description: "Briefing daring via Zoom untuk 10 tim finalis mengenai petunjuk teknis pelaksanaan babak final.",
+              },
+              {
+                name: "Babak Final Luring",
+                date: "9 - 10 Jan 2027",
+                description: "Realisasi proposal dalam bentuk prototipe fisik, pameran stan booth dengan membawa X-Banner informasi alat, serta sesi penilaian juri.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Inovasi",
+                weight: "30%",
+                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas proposal.",
+              },
+              {
+                criterion: "Video Penjelasan",
+                weight: "25%",
+                note: "Kemampuan menjelaskan ide serta keterkaitannya dengan tema yang sudah dipilih.",
+              },
+              {
+                criterion: "Keterkaitan dengan Tema",
+                weight: "20%",
+                note: "Keselarasan proposal dengan target tema dan kontribusi nyatanya dalam menjawab permasalahan.",
+              },
+              {
+                criterion: "Dampak & Berkelanjutan",
+                weight: "15%",
+                note: "Potensi manfaat proposal bagi masyarakat, lingkungan, atau industri serta peluang keberlanjutan.",
+              },
+              {
+                criterion: "Kesesuaian Format",
+                weight: "10%",
+                note: "Kesesuaian terhadap tata cara dan format penulisan, sistematika penyusunan proposal, serta kaidah bahasa.",
+              },
+            ],
           },
           {
             id: "ac-iot-mahasiswa",
@@ -98,6 +235,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Analisis kelayakan implementasi industri dan dampak sosio-ekonomi",
               "Top 10 finalis diundang demonstrasi luring dan evaluasi juri",
             ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "Pengumpulan 11 Des 2026",
+                description: "Penyusunan proposal sistem mikrokontroler tingkat lanjut berbasis studi kasus industri dan pembuatan video penjelasan ide. 10 tim terbaik melaju ke final.",
+              },
+              {
+                name: "Technical Meeting Final",
+                date: "18 Des 2026",
+                description: "Pertemuan teknis daring via Zoom untuk informasi detail dan regulasi pameran babak final.",
+              },
+              {
+                name: "Babak Final Luring",
+                date: "9 - 10 Jan 2027",
+                description: "Fabrikasi prototipe fisik fungsional, setup booth pameran dengan X-Banner informasi alat, dan demonstrasi langsung di hadapan dewan juri.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Inovasi",
+                weight: "30%",
+                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas proposal.",
+              },
+              {
+                criterion: "Keterkaitan dengan Tema",
+                weight: "20%",
+                note: "Keselarasan proposal dengan target tema dan kontribusi nyatanya dalam menjawab isu lokal atau nasional.",
+              },
+              {
+                criterion: "Dampak & Berkelanjutan",
+                weight: "20%",
+                note: "Potensi manfaat proposal bagi masyarakat, lingkungan, atau industri serta peluang keberlanjutan jangka panjang.",
+              },
+              {
+                criterion: "Video Kreatif",
+                weight: "20%",
+                note: "Kemampuan menjelaskan ide serta keterkaitannya dengan tema yang sudah dipilih.",
+              },
+              {
+                criterion: "Kesesuaian Format",
+                weight: "10%",
+                note: "Kesesuaian terhadap tata cara dan format penulisan, sistematika penyusunan proposal, serta kaidah bahasa baku.",
+              },
+            ],
           },
           {
             id: "ac-iot-college",
@@ -115,6 +296,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Global competition track conducted in English",
               "Focus on sustainability and smart community resilience",
               "Live presentation and hardware exhibition for international finalists",
+            ],
+                        stages: [
+              {
+                name: "Preliminary Round (Online)",
+                date: "Deadline Dec 11, 2026",
+                description: "Case study selection, submission of advanced microcontroller engineering proposal, and explanatory video. Top 10 teams advance to finals.",
+              },
+              {
+                name: "Technical Meeting",
+                date: "Dec 18, 2026",
+                description: "Online briefing via Zoom detailing final round procedures, exhibition booth guidelines, and evaluation rubrics.",
+              },
+              {
+                name: "Final Round (Offline ITS)",
+                date: "Jan 9 - 10, 2027",
+                description: "Fabrication of working physical prototype, interactive booth exhibition with X-Banner, and on-site technical demonstration with jury panel.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Innovation",
+                weight: "30%",
+                note: "The level of novelty of the idea, creativity of the solution, and originality of the proposal.",
+              },
+              {
+                criterion: "Relation to the Theme",
+                weight: "20%",
+                note: "The alignment of the proposal with sustainable living objectives and its tangible contribution to addressing issues.",
+              },
+              {
+                criterion: "Impact & Sustainability",
+                weight: "20%",
+                note: "The proposal potential benefits for society, the environment, or industry, as well as opportunities for long-term sustainability.",
+              },
+              {
+                criterion: "Creative Video",
+                weight: "20%",
+                note: "Ability to explain ideas and their connection to the chosen theme.",
+              },
+              {
+                criterion: "Format Compliance",
+                weight: "10%",
+                note: "Adherence to writing procedures and formatting, structural organization, and correct language according to guidelines.",
+              },
             ],
           },
         ],
@@ -153,6 +378,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Babak final luring di ITS menggunakan trainer kit Omron CP2E-N",
               "Penilaian ketepatan program (+70), address/comment (+10), waktu (+20)",
             ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "9 Jan 2027",
+                description: "Pengerjaan soal logika ladder logic selama 60 menit melalui Zoom breakout room dengan sistem 2 kamera (kamera belakang ruangan dan share screen).",
+              },
+              {
+                name: "Babak Semifinal (Luring ITS)",
+                date: "23 Jan 2027",
+                description: "Departemen Teknik Elektro Otomasi ITS. Sesi penyesuaian trainer 15 menit dan pengerjaan soal 60 menit. Top 3 tim terbaik melaju ke Final.",
+              },
+              {
+                name: "Babak Final (Luring ITS)",
+                date: "24 Jan 2027",
+                description: "Pengerjaan soal studi kasus industri 60 menit, transfer program ke modul trainer hardware, dan sesi presentasi di hadapan dewan juri untuk penentuan Juara.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Program Berjalan Sesuai Soal",
+                weight: "60 - 70 Poin",
+                note: "Logika dan eksekusi instruksi ladder logic berjalan sempurna (+70 pada Penyisihan & Final, +60 pada Semifinal).",
+              },
+              {
+                criterion: "Address & Comment I/O",
+                weight: "10 Poin",
+                note: "Pemberian address dan comment utama yang sesuai dengan deskripsi tugas.",
+              },
+              {
+                criterion: "Upload & Simulasi Trainer PLC",
+                weight: "10 Poin",
+                note: "Program berhasil ditransfer dan disimulasikan secara valid pada modul trainer PLC (Babak Semifinal & Final).",
+              },
+              {
+                criterion: "Pengumpulan Berkas Tepat Waktu",
+                weight: "10 Poin",
+                note: "Mengumpulkan file program kepada dewan juri sebelum waktu perlombaan 60 menit berakhir.",
+              },
+              {
+                criterion: "Bonus Kecepatan Pengumpulan",
+                weight: "10 Poin",
+                note: "Tambahan nilai bagi 2 peserta tercepat yang mengumpulkan berkas program ke dewan juri.",
+              },
+            ],
           },
           {
             id: "ac-plc-mahasiswa",
@@ -170,6 +439,45 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Studi kasus kompleks sistem manufaktur bertingkat (multi-stage)",
               "Integrasi dua arah antara PLC Omron dan antarmuka HMI Haiwell Cloud SCADA",
               "Sesi pengujian modul trainer fisik 60 menit di lab otomasi ITS",
+            ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "9 Jan 2027",
+                description: "Pengerjaan soal software pemrograman PLC 60 menit via Zoom breakout room dengan sistem 2 kamera (kamera sudut ruangan dan share screen). Peserta terbaik langsung melaju ke Final.",
+              },
+              {
+                name: "Babak Final (Luring ITS)",
+                date: "23 - 24 Jan 2027",
+                description: "Departemen Teknik Elektro Otomasi ITS. Studi kasus kontrol industri nyata (Omron CP2E-N & Haiwell Cloud HMI), waktu 60 menit, transfer program ke trainer, dan presentasi juri. (Tanpa babak semifinal).",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Program Berjalan Sesuai Soal",
+                weight: "70 Poin",
+                note: "Program ladder logic dan integrasi HMI berjalan penuh sesuai deskripsi kasus industri nyata.",
+              },
+              {
+                criterion: "Upload & Simulasi Trainer Hardware",
+                weight: "10 Poin",
+                note: "Program berhasil terupload via Ethernet dan disimulasikan pada modul Omron CP2E-N & Haiwell Cloud HMI.",
+              },
+              {
+                criterion: "Address & Comment I/O",
+                weight: "10 Poin",
+                note: "Pemberian address dan comment utama yang sesuai dengan deskripsi soal.",
+              },
+              {
+                criterion: "Pengumpulan Berkas Tepat Waktu",
+                weight: "10 Poin",
+                note: "Mengumpulkan file program NAMA TIM_FINAL.zip sebelum waktu perlombaan berakhir.",
+              },
+              {
+                criterion: "Bonus Kecepatan Pengumpulan",
+                weight: "10 Poin",
+                note: "Tambahan nilai bagi 2 peserta tercepat yang mengumpulkan file program ke dewan juri.",
+              },
             ],
           },
         ],
@@ -231,6 +539,45 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Misi mendorong objek rintangan keluar dari zona poin",
               "Babak grup kualifikasi 4 tim per pool dengan waktu persiapan 20 menit",
             ],
+                        stages: [
+              {
+                name: "Day 1: Group Stage & Rising Stage",
+                date: "Hari Pertama",
+                description: "Arena 1 Onsite Program. Babak grup 4 tim per grup, dilanjutkan Rising Stage (4 runner-up bertanding serentak) untuk perebutan tiket Knockout Stage.",
+              },
+              {
+                name: "Day 1: Knockout Stage",
+                date: "Hari Pertama",
+                description: "Arena 1 Onsite Program. Pembagian 4 grup (masing-masing 4 tim) sistem Onsite Program untuk menentukan peserta yang lolos ke Day 2.",
+              },
+              {
+                name: "Day 2: Top 8, Semifinal, & Final",
+                date: "Hari Kedua",
+                description: "Arena 2 Onsite Program. Format 1 vs 1 sistem gugur mulai dari Top 8 Stage, Semifinal (maksimal 15 menit), hingga Perebutan Juara 3 dan Grand Final.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Start & Ketepatan Kehadiran",
+                weight: "50%",
+                note: "Kehadiran tim tepat waktu (25%) dan robot mulai bergerak tertib pasca aba-aba wasit dari garis start (25%).",
+              },
+              {
+                criterion: "Navigasi Lintasan & Finish",
+                weight: "50%",
+                note: "Kestabilan robot melintasi garis arena (25%) dan keberhasilan menyelesaikan misi hingga garis finish (25%).",
+              },
+              {
+                criterion: "Poin Objek Misi Arena",
+                weight: "Bonus Poin",
+                note: "Perolehan poin objek lintasan: Objek Bulat 1 (+10 pt), Objek Bulat 2 (+30 pt), dan Objek Hexagon (+50 pt).",
+              },
+              {
+                criterion: "Penalti Pelanggaran",
+                weight: "Pengurangan",
+                note: "Start mendahului aba-aba wasit (-5 poin) dan intervensi menyentuh robot tanpa izin juri (-10 poin).",
+              },
+            ],
           },
           {
             id: "sr-smp",
@@ -248,6 +595,45 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Line follower otonom pembawa muatan objek dari garis start",
               "Waktu trial lintasan bersama selama 60 menit sebelum race",
               "Kualifikasi pencatatan waktu tercepat top 16 menuju babak eliminasi",
+            ],
+                        stages: [
+              {
+                name: "Day 1: Trial & Babak Kualifikasi",
+                date: "Hari Pertama",
+                description: "Masa trial 60 menit. Babak Kualifikasi di Arena 1 untuk menentukan 16 tim catatan waktu tercepat ke Babak 16 Besar (alokasi 8 menit per match, COT 5 menit).",
+              },
+              {
+                name: "Day 2: Trial & Babak 16 Besar",
+                date: "Hari Kedua",
+                description: "Masa trial 30-40 menit. Babak 16 Besar di Arena 2 (konfigurasi lintasan baru) sistem Onsite Program dengan misi khusus pelepasan objek di drop point.",
+              },
+              {
+                name: "Day 2: Quarter Final hingga Grand Final",
+                date: "Hari Kedua",
+                description: "Sistem gugur single elimination lanjutan di Arena 2 dengan misi utama drop point dan misi bonus pengambilan objek khusus.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Babak Kualifikasi (100 Poin)",
+                weight: "100 Poin",
+                note: "Start & navigasi (20 pt), mendorong objek hingga Checkpoint 1 (30 pt), finish berbeban bersama objek (50 pt) + waktu tercepat.",
+              },
+              {
+                criterion: "Babak 16 Besar (100 Poin)",
+                weight: "100 Poin",
+                note: "Mendorong ke drop point (30 pt), pelepasan objek di zona drop (40 pt), dan finish robot tanpa beban (30 pt).",
+              },
+              {
+                criterion: "Babak Final (100 Poin)",
+                weight: "100 Poin",
+                note: "Mendorong ke drop point (25 pt), pelepasan objek (25 pt), garis finish (20 pt), dan objek khusus (ambil +15 pt, bawa finish +15 pt).",
+              },
+              {
+                criterion: "Penalti Misi Khusus",
+                weight: "Pengurangan",
+                note: "Objek meleset di luar batas drop point (-10 pt), objek khusus jatuh sebelum finish (hangus 15 pt), objek terbawa finish (0 pt pelepasan).",
+              },
             ],
           },
           {
@@ -267,6 +653,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Poin checkpoint (+15) dan relokasi objek ke kotak target (+10 per objek)",
               "Dimensi maksimal 25x20x25 cm dengan toleransi dimensi ketat 5%",
             ],
+                        stages: [
+              {
+                name: "Day 1: Babak Penyisihan",
+                date: "Hari Pertama",
+                description: "Kompetisi luring arena berintangan. Setiap tim melakoni 2 kali race untuk mengakumulasikan skor rute, checkpoint, dan pemindahan objek.",
+              },
+              {
+                name: "Day 2: Babak 16 & 8 Besar",
+                date: "Hari Kedua",
+                description: "Format knock-out 1 vs 1. Setiap race diikuti 2 tim di lintasan masing-masing dengan batas maksimal 50 poin per race.",
+              },
+              {
+                name: "Day 2: Semifinal & Grand Final",
+                date: "Hari Kedua",
+                description: "Babak Semifinal dan Final (2 kali pertandingan; jika poin seri dilakukan race ketiga) untuk menentukan Juara.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Checkpoint Lintasan Arena",
+                weight: "15 Poin",
+                note: "Robot berhasil melewati 5 titik checkpoint bertanda garis merah di lintasan (masing-masing bernilai 3 poin).",
+              },
+              {
+                criterion: "Pemindahan Objek 1 (Kotak Jingga)",
+                weight: "10 Poin",
+                note: "Mekanisme robot berhasil mengambil dan memindahkan objek 1 ke kotak jingga (minimal 50% alas objek masuk).",
+              },
+              {
+                criterion: "Pemindahan Objek 2 (Kotak Hijau)",
+                weight: "10 Poin",
+                note: "Mekanisme robot berhasil menjepit dan meletakkan objek 2 secara tepat ke dalam kotak target hijau.",
+              },
+              {
+                criterion: "Menuntaskan Misi & Garis Finish",
+                weight: "15 Poin",
+                note: "Robot mencapai garis finish dan menyelesaikan seluruh rangkaian misi rintangan track.",
+              },
+              {
+                criterion: "Total Skor & Penentu Seri",
+                weight: "50 Pt / Race",
+                note: "Maksimal 50 poin per race (Day 1 akumulasi 2 race = 100 pt). Jika poin sama, pemenang ditentukan berdasarkan waktu tercepat.",
+              },
+            ],
           },
           {
             id: "sr-mahasiswa",
@@ -284,6 +714,50 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Kolaborasi Dual-Robot: R1 otonom pemindah balok & R2 shooter penembak sasaran",
               "Format turnamen Best of 3 (BO3) sejak babak 16 besar hingga partai final",
               "Robot harus memenuhi standar uji kelayakan hardware sebelum masuk lintasan",
+            ],
+                        stages: [
+              {
+                name: "Penyisihan Tahap 1 (Daring)",
+                date: "Daring",
+                description: "Seleksi berkas administrasi dan pengumpulan video pengujian performa Robot Autonomous Line Follower serta Robot Shooter.",
+              },
+              {
+                name: "Penyisihan Tahap 2 Day 1: Seeding",
+                date: "Hari Pertama",
+                description: "Babak Seeding non-eliminasi yang diikuti 16 tim terbaik di arena ITS untuk menentukan posisi bagan bracket.",
+              },
+              {
+                name: "Penyisihan Tahap 2 Day 2: Knockout",
+                date: "Hari Kedua",
+                description: "Pertandingan sistem gugur Best of 3 (BO3, 2 kemenangan race) dari 16 Besar, 8 Besar, Semifinal, hingga Perebutan Juara 3 dan Final.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Seleksi Tahap 1: Line Follower",
+                weight: "30 Poin",
+                note: "Kecepatan looping 1 putaran (maksimal 5 menit), konsistensi jalur, dan kemandirian robot autonomous.",
+              },
+              {
+                criterion: "Seleksi Tahap 1: Robot Shooter",
+                weight: "30 Poin",
+                note: "Akurasi dan kestabilan menembak 3 target sasaran serta kejelasan verifikasi visual tembakan.",
+              },
+              {
+                criterion: "Kepatuhan Regulasi & Administrasi",
+                weight: "40 Poin",
+                note: "Kesesuaian dimensi, bobot, dan komponen (25 pt) serta kelengkapan formulir dan video demonstrasi (15 pt).",
+              },
+              {
+                criterion: "Pertandingan Tahap 2: Misi Balok",
+                weight: "+10 Poin",
+                note: "Robot Autonomous berhasil mendorong balok rintangan pada arena pertandingan.",
+              },
+              {
+                criterion: "Pertandingan Tahap 2: Misi Shooter",
+                weight: "+10 - 20 Poin",
+                note: "Bola mengenai Robot Autonomous lawan (+20 pt) atau bola berhasil masuk Target Bowl (+10 pt).",
+              },
             ],
           },
         ],
@@ -343,6 +817,40 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Arena labirin rahasia baru diumumkan saat hari pelaksanaan",
               "Penilaian gabungan kecepatan lintasan dan ketahanan konsumsi baterai",
             ],
+                        stages: [
+              {
+                name: "Tahap 1: Pra Kualifikasi & Kualifikasi",
+                date: "Hari Pertama",
+                description: "Robot autonomous melintasi track awal. Pra Kualifikasi menentukan kuota tim lolos, Kualifikasi menetapkan seeding urutan (tidak memengaruhi skor akhir).",
+              },
+              {
+                name: "Tahap 2: On Site Programming",
+                date: "Hari Pertama / Kedua",
+                description: "Arena/lintasan baru diberikan pada hari-H. Seluruh tim lolos bertanding menyusuri track baru; pencatatan waktu dan konsumsi daya dimulai.",
+              },
+              {
+                name: "Tahap 3: On Site Programming",
+                date: "Hari Kedua",
+                description: "Konfigurasi lintasan baru berikutnya tanpa eliminasi tim. Hasil skor diakumulasikan langsung dengan Tahap 2 untuk menentukan Juara.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Waktu Tempuh Lintasan",
+                weight: "50%",
+                note: "Skor Waktu = (Sisa Waktu Countdown ÷ Waktu Countdown Total) × 100. Jika robot tidak finish, Skor Waktu = 0.",
+              },
+              {
+                criterion: "Efisiensi Konsumsi Energi",
+                weight: "50%",
+                note: "Skor Energi = ((Energi Maksimal − Energi Terpakai) ÷ Energi Maksimal) × 100. Melebihi energi maksimum mendapat nilai 0.",
+              },
+              {
+                criterion: "Akumulasi Skor Akhir",
+                weight: "Tahap 2 + 3",
+                note: "Skor Tahap = (50% × Skor Waktu) + (50% × Skor Energi). Pemenang Juara 1, 2, dan 3 ditentukan murni dari total Skor Tahap 2 + Skor Tahap 3.",
+              },
+            ],
           },
           {
             id: "et-mahasiswa",
@@ -360,6 +868,40 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Studi kasus labirin multi-junction dinamis dengan rintangan jalan buntu",
               "Tahapan On-site programming di tempat tanpa eliminasi langsung",
               "Akumulasi skor tertinggi gabungan efisiensi konsumsi daya dan waktu tempuh",
+            ],
+                        stages: [
+              {
+                name: "Tahap 1: Pra Kualifikasi & Kualifikasi",
+                date: "Hari Pertama",
+                description: "Pengujian autonomous di arena awal untuk menentukan kuota tim lolos dan penempatan urutan seeding bracket pertandingan.",
+              },
+              {
+                name: "Tahap 2: On Site Programming",
+                date: "Hari Pertama / Kedua",
+                description: "Tantangan lintasan baru yang diumumkan di hari-H. Seluruh tim berlomba mengoptimalkan kecepatan dan efisiensi konsumsi daya robot.",
+              },
+              {
+                name: "Tahap 3: On Site Programming",
+                date: "Hari Kedua",
+                description: "Kompetisi lanjutan pada konfigurasi lintasan baru hari-H tanpa eliminasi tim dari Tahap 2.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Waktu Tempuh Lintasan",
+                weight: "50%",
+                note: "Dihitung berdasarkan rumus: (Sisa Waktu Countdown ÷ Waktu Countdown Total) × 100.",
+              },
+              {
+                criterion: "Efisiensi Konsumsi Energi",
+                weight: "50%",
+                note: "Dihitung berdasarkan rumus: ((Energi Maksimal − Energi Terpakai) ÷ Energi Maksimal) × 100.",
+              },
+              {
+                criterion: "Akumulasi Skor Akhir",
+                weight: "Tahap 2 + 3",
+                note: "Penentuan peringkat Juara 1, 2, dan 3 didasarkan pada akumulasi total perolehan Skor Tahap 2 ditambah Skor Tahap 3.",
+              },
             ],
           },
         ],
@@ -419,6 +961,45 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Penilaian paper: Orisinalitas (35%), Relevansi isu (20%), Sistematika (15%)",
               "Top naskah terpilih melaju ke sesi presentasi daring/luring finalis",
             ],
+                        stages: [
+              {
+                name: "Babak Penyisihan (Daring)",
+                date: "Pengumpulan Berkas",
+                description: "Peserta memilih 1 dari 4 rumusan masalah subtema, menyusun karya tulis ilmiah/konsep ide format PDF. 10 tim terbaik lolos ke Final.",
+              },
+              {
+                name: "Final: Vortex Idea Challenge",
+                date: "Luring ITS",
+                description: "Penyelesaian studi kasus baru secara on-the-spot dalam 120 menit, dilanjutkan presentasi Three Minute Thesis (3MT) 3 menit dan sesi Q&A juri.",
+              },
+              {
+                name: "Final: Vortex Innovation Challenge",
+                date: "Luring ITS",
+                description: "Penataan booth pameran, demonstrasi fungsional alat/prototipe secara langsung saat sesi booth judging dewan juri, dan tanya jawab teknis.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Penyisihan: Idea Challenge",
+                weight: "100 Poin",
+                note: "Orisinalitas Gagasan (35%), Relevansi Isu (20%), Kelayakan Konsep (20%), Sistematika (15%), Format (10%).",
+              },
+              {
+                criterion: "Penyisihan: Innovation Challenge",
+                weight: "100 Poin",
+                note: "Urgensi Masalah (30%), Solusi & Kelayakan (30%), Metodologi (15%), Orisinalitas (15%), Format Penulisan (10%).",
+              },
+              {
+                criterion: "Final: Idea Challenge (3MT)",
+                weight: "100 Poin",
+                note: "Spontanitas Ide Baru (25%), Komunikasi Verbal (25%), Q&A Juri (25%), Konsep & Solusi (20%), Kepatuhan Aturan (5%).",
+              },
+              {
+                criterion: "Final: Innovation Challenge (Booth)",
+                weight: "100 Poin",
+                note: "Urgensi Masalah (30%), Presentasi Verbal (25%), Tanya Jawab Juri (25%), Solusi Teknis Alat (15%), Kepatuhan Aturan (5%).",
+              },
+            ],
           },
           {
             id: "kti-mahasiswa",
@@ -436,6 +1017,45 @@ export const COMPETITIONS: CompetitionDivision[] = [
               "Menjawab problem statement dari 4 fokus riset unggulan ITS",
               "Analisis kasus tajam (30%), Kelayakan solusi & purwarupa (30%), Orisinalitas (15%)",
               "Sidang presentasi ilmiah di hadapan dewan dosen penguji ITS",
+            ],
+                        stages: [
+              {
+                name: "Preliminary Stage (Online)",
+                date: "Submission Period",
+                description: "Selection of 1 of 4 case study topics, submission of scientific research/innovation paper in PDF format. Top 10 teams advance to Final.",
+              },
+              {
+                name: "Final: Vortex Idea Challenge",
+                date: "Offline ITS",
+                description: "On-site problem solving for a new case study within 120 minutes, followed by a 3-Minute Thesis (3MT) pitch and rigorous jury Q&A defense.",
+              },
+              {
+                name: "Final: Vortex Innovation Challenge",
+                date: "Offline ITS",
+                description: "Exhibition booth setup, on-site live prototype/device demonstration during booth judging rounds, and technical Q&A session.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Preliminary: Idea Challenge",
+                weight: "100 Points",
+                note: "Originality of Ideas (35%), Relevance & Depth (20%), Concept Feasibility (20%), Systematics (15%), Format Compliance (10%).",
+              },
+              {
+                criterion: "Preliminary: Innovation Challenge",
+                weight: "100 Points",
+                note: "Problem Urgency (30%), Solution & Feasibility (30%), Research Methodology (15%), Originality (15%), Format Compliance (10%).",
+              },
+              {
+                criterion: "Final: Idea Challenge (3MT)",
+                weight: "100 Points",
+                note: "Spontaneity & New Solutions (25%), Verbal Communication (25%), Jury Q&A Defense (25%), Concept Quality (20%), Rules Compliance (5%).",
+              },
+              {
+                criterion: "Final: Innovation Challenge (Booth)",
+                weight: "100 Points",
+                note: "Problem Urgency (30%), Verbal Presentation (25%), Jury Q&A (25%), Technical Prototype Quality (15%), Rules Compliance (5%).",
+              },
             ],
           },
         ],

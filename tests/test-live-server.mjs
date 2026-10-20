@@ -147,8 +147,8 @@ async function main() {
 
     // Verify critical content elements
     console.log('\n--- VERIFYING CONTENT INTEGRITY IN HTML ---');
-    assert(html.includes('1430996882'), 'BCA Account Number 1430996882 is present');
-    assert(html.includes('Luna Aulia Afifah'), 'Account holder Luna Aulia Afifah is present');
+    assert(!html.includes('1430996882'), 'BCA Account Number 1430996882 is NOT exposed in HTML');
+    assert(!html.includes('Luna Aulia Afifah'), 'Account holder Luna Aulia Afifah is NOT exposed in HTML');
     assert(html.includes('https://its.id/m/TwibbonCompeIARCXII'), 'Twibbon link is present');
     assert(html.includes('https://its.id/m/CaptionTwibbonIARCXII'), 'Caption link is present');
     assert(html.includes('Engineering Systems That Moves the World'), 'Theme slogan is present');

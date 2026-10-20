@@ -105,11 +105,6 @@ export default function Footer() {
                   <ExternalLink className="h-3 w-3 text-text-dim" />
                 </a>
               </li>
-              <li>
-                <span className="text-text-dim">
-                  BCA: {siteConfig.bcaAccount.accountNumber} ({siteConfig.bcaAccount.accountHolder})
-                </span>
-              </li>
             </ul>
           </div>
 
