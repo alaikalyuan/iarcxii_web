@@ -136,15 +136,12 @@ export default function RegistrationFlowSection() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-10 text-center md:mb-14">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold-500/30 bg-gold-500/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-gold-400">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-gold-400">
             <span>Panduan Registrasi</span>
           </div>
           <h2 className="mt-3 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
             Alur Pendaftaran Resmi IARC XII
           </h2>
-          <p className="mx-auto mt-2.5 max-w-2xl text-xs text-text-soft sm:text-sm">
-            Ikuti 5 tahapan berurutan berikut untuk menyelesaikan registrasi tim dan mengamankan slot kompetisi Anda.
-          </p>
 
           {/* Active Batch Countdown Timer */}
           <div className="mt-6 flex justify-center">
@@ -187,25 +184,15 @@ export default function RegistrationFlowSection() {
                   >
                     {/* Node Circle */}
                     <div
-                      className={`relative z-10 flex h-13 w-13 items-center justify-center rounded-2xl border-2 transition-all duration-300 ${
-                        isHovered
-                          ? "scale-110 border-gold-400 bg-navy-900 shadow-[0_0_20px_rgba(217,169,79,0.35)] ring-4 ring-gold-500/20"
-                          : "border-gold-500/50 bg-navy-900/90 shadow-md hover:border-gold-400"
-                      }`}
+                      className={`relative z-10 flex h-13 w-13 items-center justify-center rounded-2xl border-2 transition-all duration-300 ${isHovered
+                        ? "scale-110 border-gold-400 bg-navy-900 shadow-[0_0_20px_rgba(217,169,79,0.35)] ring-4 ring-gold-500/20"
+                        : "border-gold-500/50 bg-navy-900/90 shadow-md hover:border-gold-400"
+                        }`}
                     >
                       <span className="font-mono text-base font-extrabold tracking-tight text-gold-400">
                         {item.stepNumber}
                       </span>
                     </div>
-
-                    {/* Step label under node */}
-                    <span
-                      className={`mt-2 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors duration-200 ${
-                        isHovered ? "text-gold-400" : "text-text-dim"
-                      }`}
-                    >
-                      Langkah {item.stepNumber}
-                    </span>
 
                     {/* Flow arrow indicator between steps (except last) */}
                     {!isLast && (
@@ -233,35 +220,29 @@ export default function RegistrationFlowSection() {
                   key={`card-${item.step}`}
                   onMouseEnter={() => setHoveredStep(item.step)}
                   onMouseLeave={() => setHoveredStep(null)}
-                  className={`group relative flex flex-col justify-between rounded-2xl border p-5 transition-all duration-300 ${
-                    isHovered
-                      ? "-translate-y-1 border-gold-500/60 bg-navy-900/95 shadow-xl shadow-gold-500/10 ring-1 ring-gold-500/20"
-                      : "border-navy-800 bg-navy-900/70 hover:border-gold-500/40 hover:bg-navy-900/90"
-                  }`}
+                  className={`group relative flex flex-col justify-between rounded-2xl border p-5 transition-all duration-300 ${isHovered
+                    ? "-translate-y-1 border-gold-500/60 bg-navy-900/95 shadow-xl shadow-gold-500/10 ring-1 ring-gold-500/20"
+                    : "border-navy-800 bg-navy-900/70 hover:border-gold-500/40 hover:bg-navy-900/90"
+                    }`}
                 >
                   {/* Top content */}
                   <div>
                     {/* Icon & Category Pill */}
                     <div className="mb-4 flex items-center justify-between">
                       <div
-                        className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-200 ${
-                          isHovered
-                            ? "border-gold-500/40 bg-gold-500/20 text-gold-300"
-                            : "border-gold-500/20 bg-gold-500/10 text-gold-400"
-                        }`}
+                        className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors duration-200 ${isHovered
+                          ? "border-gold-500/40 bg-gold-500/20 text-gold-300"
+                          : "border-gold-500/20 bg-gold-500/10 text-gold-400"
+                          }`}
                       >
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </div>
-                      <span className="rounded-full border border-navy-700 bg-navy-800/80 px-2 py-0.5 font-mono text-[10px] font-bold text-text-dim">
-                        Step {item.step}
-                      </span>
                     </div>
 
                     {/* Step Title */}
                     <h3
-                      className={`text-sm font-bold leading-snug transition-colors duration-200 ${
-                        isHovered ? "text-gold-300" : "text-text-main"
-                      }`}
+                      className={`text-sm font-bold leading-snug transition-colors duration-200 ${isHovered ? "text-gold-300" : "text-text-main"
+                        }`}
                     >
                       {item.title}
                     </h3>
@@ -314,11 +295,10 @@ export default function RegistrationFlowSection() {
                   {/* Step Marker Node on the vertical line */}
                   <div className="relative z-10 flex flex-col items-center">
                     <div
-                      className={`flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl border-2 transition-all duration-300 ${
-                        isHovered
-                          ? "scale-105 border-gold-400 bg-navy-900 shadow-[0_0_18px_rgba(217,169,79,0.35)] ring-4 ring-gold-500/20"
-                          : "border-gold-500/50 bg-navy-950 shadow-md"
-                      }`}
+                      className={`flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl border-2 transition-all duration-300 ${isHovered
+                        ? "scale-105 border-gold-400 bg-navy-900 shadow-[0_0_18px_rgba(217,169,79,0.35)] ring-4 ring-gold-500/20"
+                        : "border-gold-500/50 bg-navy-950 shadow-md"
+                        }`}
                     >
                       <span className="font-mono text-sm sm:text-base font-extrabold text-gold-400">
                         {item.stepNumber}
@@ -339,35 +319,32 @@ export default function RegistrationFlowSection() {
                   {/* Card on the right */}
                   <div className="ml-4 flex-1 sm:ml-6">
                     <div
-                      className={`rounded-2xl border p-4 sm:p-5 transition-all duration-300 ${
-                        isHovered
-                          ? "-translate-y-0.5 border-gold-500/60 bg-navy-900/95 shadow-xl shadow-gold-500/10 ring-1 ring-gold-500/20"
-                          : "border-navy-800 bg-navy-900/70 hover:border-gold-500/40 hover:bg-navy-900/90"
-                      }`}
+                      className={`rounded-2xl border p-4 sm:p-5 transition-all duration-300 ${isHovered
+                        ? "-translate-y-0.5 border-gold-500/60 bg-navy-900/95 shadow-xl shadow-gold-500/10 ring-1 ring-gold-500/20"
+                        : "border-navy-800 bg-navy-900/70 hover:border-gold-500/40 hover:bg-navy-900/90"
+                        }`}
                     >
                       {/* Card Header: Icon & Step Label */}
                       <div className="mb-3 flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
                           <div
-                            className={`flex h-9 w-9 items-center justify-center rounded-xl border ${
-                              isHovered
-                                ? "border-gold-500/40 bg-gold-500/20 text-gold-300"
-                                : "border-gold-500/20 bg-gold-500/10 text-gold-400"
-                            }`}
+                            className={`flex h-9 w-9 items-center justify-center rounded-xl border ${isHovered
+                              ? "border-gold-500/40 bg-gold-500/20 text-gold-300"
+                              : "border-gold-500/20 bg-gold-500/10 text-gold-400"
+                              }`}
                           >
                             <Icon className="h-4.5 w-4.5" aria-hidden="true" />
                           </div>
                           <span className="font-mono text-xs font-bold uppercase tracking-wider text-gold-400">
-                            Langkah {item.stepNumber}
+                            Step {item.stepNumber}
                           </span>
                         </div>
                       </div>
 
                       {/* Card Title */}
                       <h3
-                        className={`text-sm sm:text-base font-bold leading-snug transition-colors duration-200 ${
-                          isHovered ? "text-gold-300" : "text-text-main"
-                        }`}
+                        className={`text-sm sm:text-base font-bold leading-snug transition-colors duration-200 ${isHovered ? "text-gold-300" : "text-text-main"
+                          }`}
                       >
                         {item.title}
                       </h3>

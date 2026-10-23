@@ -3,7 +3,7 @@ import { TimelineTrack } from "@/types";
 export const TIMELINE_TRACKS: TimelineTrack[] = [
   {
     id: "track-a",
-    name: "Track A (Robotics, PLC & Energy)",
+    name: "Smart Robotics · PLC · Energy Treasure",
     targetDivisions: "Smart Robotics, Automation Challenge (PLC), Energy Treasure",
     milestones: [
       {
@@ -58,7 +58,7 @@ export const TIMELINE_TRACKS: TimelineTrack[] = [
   },
   {
     id: "track-b",
-    name: "Track B (IoT & Vortex)",
+    name: "Microcontroller & Vortex",
     targetDivisions: "Automation Challenge (Microcontroller IoT), KTI Vortex",
     milestones: [
       {

@@ -25,9 +25,6 @@ export default function BentoGridSection() {
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
             Arsitektur Inovasi &amp; Ekosistem IARC XII
           </h2>
-          <p className="mt-2.5 mx-auto max-w-2xl text-xs sm:text-sm text-text-soft leading-relaxed">
-            Konsolidasi rekayasa sistem otomasi, robotika presisi, dan transfer teknologi terapan dari Departemen Teknik Elektro Otomasi ITS Surabaya.
-          </p>
         </div>
 
         {/* Bento Grid Architecture */}
@@ -159,41 +156,6 @@ export default function BentoGridSection() {
           {/* Row 2 Right: Dokumentasi Resmi (MediaCarousel) (6 cols) */}
           <div className="md:col-span-1 lg:col-span-6 flex flex-col">
             <MediaCarousel />
-          </div>
-
-          {/* Row 3: Official Educational Partner & Sponsor (12 cols) */}
-          <div className="rounded-2xl border border-navy-800 bg-navy-900 p-5 sm:p-6 md:col-span-2 lg:col-span-12">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
-                <div className="relative flex h-16 w-36 shrink-0 items-center justify-center rounded-xl bg-white p-2 shadow-sm">
-                  <Image
-                    src="/images/logo_robokidz.png"
-                    alt="Logo Sponsor Robokidz"
-                    width={130}
-                    height={50}
-                    className="max-h-12 w-auto object-contain"
-                  />
-                </div>
-                <div>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-400 uppercase tracking-wider mb-1">
-                    <Handshake className="h-3.5 w-3.5" />
-                    <span>Official Educational Partner</span>
-                  </div>
-                  <h4 className="text-base font-bold text-text-main">
-                    Robokidz: Pelopor Edukasi Robotika &amp; Coding Generasi Muda
-                  </h4>
-                  <p className="mt-1 text-xs text-text-soft max-w-2xl leading-relaxed">
-                    Mendukung pengembangan bakat sains, rekayasa perangkat lunak, dan robotika aplikatif sejak dini untuk menciptakan inovator teknologi masa depan.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="rounded-full border border-navy-700 bg-navy-800 px-3.5 py-1.5 text-xs font-semibold text-text-soft">
-                  Sponsor Resmi IARC XII
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </div>

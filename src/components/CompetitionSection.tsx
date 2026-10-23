@@ -54,9 +54,6 @@ export default function CompetitionSection() {
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
             4 Divisi Kompetisi Utama
           </h2>
-          <p className="mt-2 mx-auto max-w-2xl text-xs sm:text-sm text-text-soft">
-            Pilih cabang lomba sesuai minat keahlian dan jenjang pendidikan Anda. Akses halaman dedikasi untuk melihat ketentuan lengkap dan panduan teknis PDF resmi.
-          </p>
 
           {/* Interactive Education Level Filter */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
@@ -153,7 +150,7 @@ export default function CompetitionSection() {
                         <span
                           className={`text-[11px] font-bold uppercase tracking-wider ${theme.text}`}
                         >
-                          2 Jalur Spesialisasi (Klik untuk Buka Halaman):
+                          2 Jalur Spesialisasi:
                         </span>
                       </div>
 

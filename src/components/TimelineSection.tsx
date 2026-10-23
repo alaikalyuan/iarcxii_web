@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Calendar, CheckCircle2, Clock } from "lucide-react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Calendar } from "lucide-react";
 import { TIMELINE_TRACKS } from "@/data/timeline";
 import DecorativeBackground from "./DecorativeBackground";
 
@@ -11,35 +11,148 @@ export default function TimelineSection() {
   const currentTrack =
     TIMELINE_TRACKS.find((t) => t.id === activeTrackId) || TIMELINE_TRACKS[0];
 
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const topDotsRef = useRef<HTMLElement[]>([]);
+  const bottomDotsRef = useRef<HTMLElement[]>([]);
+  const [svgData, setSvgData] = useState<{
+    width: number;
+    height: number;
+    d: string;
+  }>({ width: 0, height: 0, d: "" });
+
+  const calculatePath = useCallback(() => {
+    const wrap = wrapRef.current;
+    if (!wrap) return;
+    const wrapRect = wrap.getBoundingClientRect();
+    if (wrapRect.width === 0 || wrapRect.height === 0) return;
+
+    const topDots = topDotsRef.current.filter(Boolean);
+    const bottomDots = bottomDotsRef.current.filter(Boolean);
+
+    if (topDots.length < 2) {
+      setSvgData({ width: wrapRect.width, height: wrapRect.height, d: "" });
+      return;
+    }
+
+    const getCenter = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      return {
+        x: r.left + r.width / 2 - wrapRect.left,
+        y: r.top + r.height / 2 - wrapRect.top,
+      };
+    };
+
+    const topCenters = topDots.map(getCenter);
+    const bottomCenters = bottomDots.map(getCenter);
+
+    const yTop = topCenters[0].y;
+    const xTopStart = topCenters[0].x;
+    const xTopEnd = topCenters[topCenters.length - 1].x;
+
+    if (bottomCenters.length === 0) {
+      setSvgData({
+        width: wrapRect.width,
+        height: wrapRect.height,
+        d: `M ${xTopStart} ${yTop} L ${xTopEnd} ${yTop}`,
+      });
+      return;
+    }
+
+    const yBottom = bottomCenters[0].y;
+    const xBottomStart = bottomCenters[0].x;
+    const xBottomEnd = bottomCenters[bottomCenters.length - 1].x;
+
+    // Delta for smooth U-turn hairpin
+    const delta = Math.min(80, Math.max(40, (yBottom - yTop) * 0.45));
+
+    // Construct path:
+    // 1. Straight horizontal line through top row dots
+    // 2. Smooth U-turn connecting top-right dot to bottom-right dot
+    // 3. Straight horizontal line through bottom row dots
+    const d = `M ${xTopStart} ${yTop} L ${xTopEnd} ${yTop} C ${xTopEnd + delta} ${yTop}, ${xBottomStart + delta} ${yBottom}, ${xBottomStart} ${yBottom} L ${xBottomEnd} ${yBottom}`;
+
+    setSvgData({
+      width: wrapRect.width,
+      height: wrapRect.height,
+      d,
+    });
+  }, []);
+
+  useEffect(() => {
+    topDotsRef.current = [];
+    bottomDotsRef.current = [];
+
+    const handleUpdate = () => {
+      requestAnimationFrame(calculatePath);
+    };
+
+    const timer = setTimeout(handleUpdate, 60);
+
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && wrapRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        handleUpdate();
+      });
+      resizeObserver.observe(wrapRef.current);
+    }
+
+    window.addEventListener("resize", handleUpdate);
+    if (typeof document !== "undefined" && document.fonts) {
+      document.fonts.ready.then(handleUpdate);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleUpdate);
+      if (resizeObserver) resizeObserver.disconnect();
+    };
+  }, [activeTrackId, calculatePath]);
+
+  const topItems = currentTrack.milestones.slice(0, 4);
+  const remainingItems = currentTrack.milestones.slice(4);
+
+  // Bottom row grid cells in DOM order (left to right: Col 0 -> Col 3)
+  // Col 3 aligns under Col 4 top, connecting directly to the U-turn
+  const bottomGridCells = [0, 1, 2, 3].map((colIdx) => {
+    const reverseIndex = 3 - colIdx;
+    if (reverseIndex < remainingItems.length) {
+      return {
+        item: remainingItems[reverseIndex],
+        originalIndex: 4 + reverseIndex,
+        reverseIndex,
+      };
+    }
+    return null;
+  });
+
   return (
-    <section id="timeline" className="py-12 md:py-16 bg-navy-950/70 relative overflow-hidden">
+    <section id="timeline" className="py-12 md:py-16 bg-navy-950/80 relative overflow-hidden">
       <DecorativeBackground variant="section-d" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-6 md:mb-8 text-center">
+        <div className="mb-8 md:mb-12 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
             Jadwal &amp; Rangkaian Acara
           </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
-            Linimasa Resmi Perlombaan IARC XII
+          <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl md:text-5xl">
+            TIMELINE
           </h2>
-          <p className="mt-2 mx-auto max-w-2xl text-xs sm:text-sm text-text-soft">
-            Rangkaian jadwal terbagi menjadi dua trek kompetisi untuk mengakomodasi mekanisme penyisihan daring dan pameran luring di kampus ITS Surabaya.
-          </p>
 
           {/* Track Switcher Tabs */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3" role="tablist">
             {TIMELINE_TRACKS.map((track) => {
               const isActive = track.id === activeTrackId;
               return (
                 <button
                   key={track.id}
                   type="button"
+                  role="tab"
+                  aria-selected={isActive}
                   onClick={() => setActiveTrackId(track.id)}
-                  className={`min-h-[44px] rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+                  className={`min-h-[44px] rounded-lg px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                     isActive
-                      ? "bg-gold-500 text-navy-950 shadow-md font-bold"
-                      : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
+                      ? "bg-gradient-to-r from-gold-400 to-gold-500 text-navy-950 shadow-md shadow-gold-500/20"
+                      : "border border-gold-500/35 bg-transparent text-text-soft hover:border-gold-500/70 hover:text-white"
                   }`}
                 >
                   {track.name}
@@ -48,116 +161,160 @@ export default function TimelineSection() {
             })}
           </div>
 
-          <p className="mt-2 text-[11px] text-text-dim">
-            Mencakup cabang: {currentTrack.targetDivisions}
+          <p className="mt-3 text-xs text-text-dim">
+            Mencakup cabang: <span className="text-text-soft font-medium">{currentTrack.targetDivisions}</span>
           </p>
         </div>
 
-        {/* Timeline Milestones Cards */}
-        <div className="relative mx-auto max-w-4xl">
-          {/* Vertical Connecting SVG Line with cyber drawing motion */}
-          <div className="absolute left-4 top-4 bottom-4 w-1 -translate-x-1/2 sm:left-1/2 pointer-events-none">
+        {/* Desktop View (>= 768px): U-shaped Timeline with Straight Line & U-Turn */}
+        <div className="hidden md:block">
+          <div ref={wrapRef} className="timeline-wrap relative mx-auto max-w-5xl px-4 lg:px-8 py-6">
+            {/* Background SVG connecting line */}
             <svg
-              className="h-full w-full overflow-hidden"
-              viewBox="0 0 4 100"
-              preserveAspectRatio="none"
+              className="tl-line-svg absolute inset-0 pointer-events-none z-0 overflow-visible"
+              width={svgData.width || "100%"}
+              height={svgData.height || "100%"}
+              viewBox={`0 0 ${svgData.width || 100} ${svgData.height || 100}`}
               fill="none"
             >
-              <line
-                x1="2"
-                y1="0"
-                x2="2"
-                y2="100"
-                stroke="rgba(30, 41, 59, 0.6)"
-                strokeWidth="2"
-              />
-              <line
-                x1="2"
-                y1="0"
-                x2="2"
-                y2="100"
-                stroke="url(#timeline-gradient)"
-                strokeWidth="2"
-                strokeDasharray="4 4"
-                className="animate-[dash_20s_linear_infinite]"
-              />
               <defs>
-                <linearGradient id="timeline-gradient" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#e8c07d" stopOpacity="0.9" />
-                  <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#d9a94f" stopOpacity="0.3" />
-                </linearGradient>
+                <filter id="gold-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#d9a94f" floodOpacity="0.45" />
+                </filter>
               </defs>
+              {svgData.d && (
+                <path
+                  className="tl-line-path"
+                  d={svgData.d}
+                  stroke="#d9a94f"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  filter="url(#gold-glow)"
+                />
+              )}
             </svg>
-          </div>
 
-          <div className="space-y-6">
+            {/* Top Row: Left to Right (Columns 1 -> 4) */}
+            <div className="grid grid-cols-4 gap-4 lg:gap-6 relative z-10">
+              {topItems.map((item, idx) => (
+                <div key={`${activeTrackId}-top-${idx}`} className="t-item flex flex-col items-center text-center">
+                  <div className="label-top mb-4 flex min-h-[52px] items-end justify-center px-1">
+                    <span className="text-sm lg:text-base font-bold text-white leading-snug">
+                      {item.title}
+                    </span>
+                  </div>
+
+                  <div
+                    ref={(el) => {
+                      if (el) topDotsRef.current[idx] = el;
+                    }}
+                    className="t-dot relative z-10 flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 cursor-default"
+                    style={{
+                      background: "conic-gradient(from 200deg, #d9a94f, #3f5fb5)",
+                      boxShadow: "0 0 16px rgba(217, 169, 79, 0.45)",
+                    }}
+                  >
+                    <span className="h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-navy-950 shadow-inner" />
+                  </div>
+
+                  <div className="label-bottom mt-4 flex min-h-[40px] items-start justify-center px-1">
+                    <span className="text-xs lg:text-sm font-semibold text-text-soft leading-relaxed">
+                      {item.date}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Bottom Row: Right to Left (U-turn from Col 4 -> Col 1 or Col 2) */}
+            <div className="grid grid-cols-4 gap-4 lg:gap-6 relative z-10 mt-16 lg:mt-24">
+              {bottomGridCells.map((cell, colIdx) => {
+                if (!cell) {
+                  return <div key={`empty-${colIdx}`} className="invisible pointer-events-none" />;
+                }
+
+                const { item, originalIndex, reverseIndex } = cell;
+
+                return (
+                  <div
+                    key={`${activeTrackId}-bot-${originalIndex}`}
+                    className="t-item flex flex-col items-center text-center"
+                  >
+                    <div className="label-top mb-4 flex min-h-[52px] items-end justify-center px-1">
+                      <span className="text-sm lg:text-base font-bold text-white leading-snug">
+                        {item.title}
+                      </span>
+                    </div>
+
+                    <div
+                      ref={(el) => {
+                        if (el) bottomDotsRef.current[reverseIndex] = el;
+                      }}
+                      className="t-dot relative z-10 flex h-12 w-12 lg:h-14 lg:w-14 items-center justify-center rounded-full transition-transform duration-300 hover:scale-110 cursor-default"
+                      style={{
+                        background: "conic-gradient(from 200deg, #d9a94f, #3f5fb5)",
+                        boxShadow: "0 0 16px rgba(217, 169, 79, 0.45)",
+                      }}
+                    >
+                      <span className="h-4 w-4 lg:h-5 lg:w-5 rounded-full bg-navy-950 shadow-inner" />
+                    </div>
+
+                    <div className="label-bottom mt-4 flex min-h-[40px] items-start justify-center px-1">
+                      <span className="text-xs lg:text-sm font-semibold text-text-soft leading-relaxed">
+                        {item.date}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile / Narrow View (< 768px): Responsive Clean Grid, No Line */}
+        <div className="block md:hidden">
+          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-4">
             {currentTrack.milestones.map((item, idx) => {
-              const isEven = idx % 2 === 0;
               const isCompleted = item.status === "completed";
               const isActive = item.status === "active";
 
               return (
                 <div
-                  key={`${activeTrackId}-${idx}`}
-                  className={`relative flex flex-col sm:flex-row items-start ${
-                    isEven ? "sm:flex-row-reverse" : ""
+                  key={`${activeTrackId}-m-${idx}`}
+                  className={`flex flex-col justify-between rounded-xl border p-4 backdrop-blur-sm transition-all duration-200 ${
+                    isActive
+                      ? "border-gold-500/60 bg-navy-900/90 shadow-lg shadow-gold-500/10 ring-1 ring-gold-500/30"
+                      : "border-navy-800 bg-navy-900/60 hover:border-gold-500/30"
                   }`}
                 >
-                  {/* Marker Node - Fixed syntax with template literal and pulse glow */}
-                  <div
-                    className={`absolute left-4 -translate-x-1/2 sm:left-1/2 flex h-8 w-8 items-center justify-center rounded-full border-2 bg-navy-950 z-10 transition-transform duration-300 hover:scale-125 shadow-lg ${
-                      isActive
-                        ? "border-gold-400 text-gold-400 ring-4 ring-gold-500/20 shadow-gold-500/40"
-                        : isCompleted
-                        ? "border-emerald-400 text-emerald-400 ring-2 ring-emerald-500/20"
-                        : "border-navy-700 text-text-dim"
-                    }`}
-                  >
-                    {isCompleted ? (
-                      <CheckCircle2 className="h-4 w-4" />
-                    ) : isActive ? (
-                      <Clock className="h-4 w-4 animate-pulse text-gold-400" />
-                    ) : (
-                      <span className="h-2 w-2 rounded-full bg-navy-600" />
-                    )}
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-2.5">
+                      <span className="inline-flex items-center gap-1.5 rounded-md bg-gold-500/15 border border-gold-500/30 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-gold-400">
+                        <Calendar className="h-3 w-3 flex-shrink-0" />
+                        {item.date}
+                      </span>
+                      <span className="text-[11px] font-semibold text-text-dim">
+                        #{idx + 1}
+                      </span>
+                    </div>
+
+                    <h3 className="text-sm font-bold text-white leading-snug">
+                      {item.title}
+                    </h3>
                   </div>
 
-                  {/* Content Card with cyber border & hover glow */}
-                  <div
-                    className={`w-full pl-11 sm:w-[calc(50%-2rem)] ${
-                      isEven
-                        ? "sm:pl-0 sm:pr-6 sm:text-right"
-                        : "sm:pl-6 sm:pr-0 sm:text-left"
-                    }`}
-                  >
+                  <div className="mt-3 pt-2.5 border-t border-navy-800/80 flex items-center justify-between text-[11px]">
+                    <span className="text-text-dim">
+                      {isCompleted ? "Selesai" : isActive ? "Sedang Berlangsung" : "Mendatang"}
+                    </span>
                     <div
-                      className={`rounded-2xl border p-4 sm:p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 ${
-                        isActive
-                          ? "border-gold-500/60 bg-navy-900/90 shadow-xl shadow-gold-500/10 ring-1 ring-gold-500/20"
-                          : "border-navy-800 bg-navy-900/60 hover:border-gold-500/30 hover:bg-navy-900/80"
-                      }`}
+                      className="h-3.5 w-3.5 rounded-full flex items-center justify-center"
+                      style={{
+                        background: "conic-gradient(from 200deg, #d9a94f, #3f5fb5)",
+                      }}
                     >
-                      <div
-                        className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider mb-2 ${
-                          isActive
-                            ? "bg-gold-500/20 text-gold-400 border border-gold-500/30"
-                            : isCompleted
-                            ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/20"
-                            : "bg-navy-800 text-text-dim border border-navy-700"
-                        }`}
-                      >
-                        <Calendar className="h-3 w-3" />
-                        <span>{item.date}</span>
-                      </div>
-
-                      <h3 className="text-sm sm:text-base font-bold text-text-main">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-1 text-xs sm:text-sm text-text-soft leading-relaxed">
-                        {item.description}
-                      </p>
+                      <span className="h-1.5 w-1.5 rounded-full bg-navy-950" />
                     </div>
                   </div>
                 </div>

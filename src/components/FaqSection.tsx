@@ -24,9 +24,6 @@ export default function FaqSection() {
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
             Pertanyaan yang Sering Diajukan (FAQ)
           </h2>
-          <p className="mt-2 mx-auto max-w-2xl text-xs sm:text-sm text-text-soft">
-            Temukan jawaban lengkap seputar teknis kompetisi, akomodasi, pembayaran, perangkat lunak, dan fasilitas kepesertaan IARC XII.
-          </p>
         </div>
 
         {/* Accordion List */}
@@ -36,11 +33,10 @@ export default function FaqSection() {
             return (
               <div
                 key={faq.id}
-                className={`overflow-hidden rounded-2xl border transition-all ${
-                  isOpen
+                className={`overflow-hidden rounded-2xl border transition-all ${isOpen
                     ? "border-gold-500/40 bg-navy-900/90 shadow-md shadow-gold-500/5"
                     : "border-navy-800 bg-navy-900/60 hover:border-navy-700"
-                }`}
+                  }`}
               >
                 <button
                   type="button"
@@ -50,11 +46,10 @@ export default function FaqSection() {
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition ${
-                        isOpen
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition ${isOpen
                           ? "bg-gold-500/20 text-gold-400"
                           : "bg-navy-800 text-text-dim"
-                      }`}
+                        }`}
                     >
                       <HelpCircle className="h-4 w-4" />
                     </div>
@@ -63,9 +58,8 @@ export default function FaqSection() {
                     </span>
                   </div>
                   <ChevronDown
-                    className={`h-4 w-4 shrink-0 text-text-dim transition-transform duration-200 ${
-                      isOpen ? "rotate-180 text-gold-400" : ""
-                    }`}
+                    className={`h-4 w-4 shrink-0 text-text-dim transition-transform duration-200 ${isOpen ? "rotate-180 text-gold-400" : ""
+                      }`}
                   />
                 </button>
 
