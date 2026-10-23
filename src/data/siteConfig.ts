@@ -1,4 +1,5 @@
 import { SiteConfig } from "@/types";
+import { Language } from "@/i18n/types";
 
 export const siteConfig: SiteConfig = {
   title: "IARC XII - Industrial Automation & Robotics Competition 2026",
@@ -45,6 +46,56 @@ export const siteConfig: SiteConfig = {
     ],
   },
 };
+
+export const siteConfigEn: SiteConfig = {
+  title: "IARC XII - Industrial Automation & Robotics Competition 2026",
+  shortTitle: "IARC XII",
+  theme: "ENGINEERING SYSTEMS THAT MOVES THE WORLD",
+  themePhilosophy:
+    "This theme reflects the mission of IARC XII to introduce the Department of Automation Electrical Engineering to society through robotics competitions and applied automation engineering. The event provides a forum for participants to strengthen technical skills and creativity, equipping them to advance technology for industry and public welfare.",
+  organizer: "Department of Automation Electrical Engineering with HMDTEO ITS",
+  department: "Department of Automation Electrical Engineering",
+  faculty: "Faculty of Vocational Studies",
+  university: "Institut Teknologi Sepuluh Nopember (ITS) Surabaya",
+  email: "iarc2025.hmdteo@gmail.com",
+  socials: {
+    instagram: "https://www.instagram.com/iarc.its",
+    tiktok: "https://www.tiktok.com/@iarc.its",
+    linkedin: "https://www.linkedin.com/company/iarc-its",
+  },
+  twibbonUrl: "https://its.id/m/TwibbonCompeIARCXII",
+  captionUrl: "https://its.id/m/CaptionTwibbonIARCXII",
+  totalPrize: "IDR 50,000,000+++",
+  objectives: [
+    "Honing technical capabilities in robotics, automation, and applied engineering technologies.",
+    "Fostering creativity and innovation in building applied technology solutions.",
+    "Strengthening problem-solving skills through real-world technological challenges and case studies.",
+    "Implementing science and engineering into tangible systems and functional prototypes.",
+    "Nurturing healthy competition and sportsmanship across the technology field.",
+    "Serving as a hub for collaboration, knowledge exchange, and networking across educational levels.",
+    "Showcasing and appreciating technological innovations for industry and the broader community.",
+  ],
+  about: {
+    badge: "About Event",
+    title: "ABOUT IARC",
+    subtitle: "Industrial Automation & Robotics Competition",
+    paragraph1:
+      "IARC (Industrial Automation & Robotics Competition) is an annual technology competition organized by the Department of Automation Electrical Engineering, Faculty of Vocational Studies, Institut Teknologi Sepuluh Nopember (ITS) Surabaya. The event convenes students and undergraduates across Indonesia to test capabilities in robotics and automation systems through applied engineering challenges.",
+    paragraph2:
+      "IARC serves as a platform for the younger generation to hone technical competence, problem-solving skills, and teamwork through national-scale technology competitions.",
+    quoteEn:
+      "IARC serves as a platform for the younger generation to develop technical skills, creativity, problem solving, and teamwork through a technology competition.",
+    highlights: [
+      { label: "Organizer", value: "Department of Automation Electrical Engineering ITS" },
+      { label: "Level", value: "National & Open for Students / Undergraduates" },
+      { label: "Focus", value: "Precision Robotics, Industrial Automation, & IoT" },
+    ],
+  },
+};
+
+export function getSiteConfig(lang: Language = "id"): SiteConfig {
+  return lang === "en" ? siteConfigEn : siteConfig;
+}
 
 export interface PrizeItem {
   rank: string;
@@ -96,3 +147,52 @@ export const PRIZE_DATA: PrizeItem[] = [
     ],
   },
 ];
+
+export const PRIZE_DATA_EN: PrizeItem[] = [
+  {
+    rank: "1st Place",
+    badge: "Champion",
+    rewards: [
+      "Cash Coaching Prize",
+      "Official ITS Champion Trophy & Plaque",
+      "Official Certified Winner Certificate",
+      "Exclusive IARC XII Merchandise",
+      "Free Mentoring & Open Training Access",
+    ],
+  },
+  {
+    rank: "2nd Place",
+    badge: "Runner Up",
+    rewards: [
+      "Cash Coaching Prize",
+      "Honorary Trophy & Plaque",
+      "Official Certified Winner Certificate",
+      "Exclusive IARC XII Merchandise",
+      "Free Mentoring & Open Training Access",
+    ],
+  },
+  {
+    rank: "3rd Place",
+    badge: "Third Place",
+    rewards: [
+      "Cash Coaching Prize",
+      "Honorary Trophy & Plaque",
+      "Official Certified Winner Certificate",
+      "Exclusive IARC XII Merchandise",
+      "Free Mentoring & Open Training Access",
+    ],
+  },
+  {
+    rank: "All Participants",
+    badge: "All Participants",
+    rewards: [
+      "National / International E-Certificate",
+      "Exclusive Access to IARC XII Open Training Classes",
+      "Indonesian Automation Community Network",
+    ],
+  },
+];
+
+export function getPrizeData(lang: Language = "id"): PrizeItem[] {
+  return lang === "en" ? PRIZE_DATA_EN : PRIZE_DATA;
+}

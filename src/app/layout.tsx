@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { PdfModalProvider } from "@/context/PdfModalContext";
 import PdfViewerModal from "@/components/PdfViewerModal";
 import ChatbotWidget from "@/components/ChatbotWidget";
@@ -37,11 +38,13 @@ export default function RootLayout({
       className={`${sora.variable} ${plusJakartaSans.variable} scroll-smooth overflow-x-hidden`}
     >
       <body className="min-h-screen bg-navy-950 text-text-main antialiased selection:bg-gold-500/30 selection:text-gold-400 overflow-x-hidden font-sans">
-        <PdfModalProvider>
-          {children}
-          <PdfViewerModal />
-          <ChatbotWidget />
-        </PdfModalProvider>
+        <LanguageProvider>
+          <PdfModalProvider>
+            {children}
+            <PdfViewerModal />
+            <ChatbotWidget />
+          </PdfModalProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -4,11 +4,15 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, ExternalLink, BookOpen } from "lucide-react";
-import { siteConfig } from "@/data/siteConfig";
+import { getSiteConfig } from "@/data/siteConfig";
 import { usePdfModal } from "@/context/PdfModalContext";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Footer() {
   const { openModal } = usePdfModal();
+  const { language, t } = useLanguage();
+  const currentSiteConfig = getSiteConfig(language);
 
   return (
     <footer className="border-t border-navy-800 bg-navy-950 pt-12 pb-8 text-text-soft">
@@ -26,42 +30,42 @@ export default function Footer() {
               />
             </Link>
             <p className="text-xs leading-relaxed text-text-dim">
-              Industrial Automation &amp; Robotics Competition XII. Diselenggarakan oleh Departemen Teknik Elektro Otomasi, Fakultas Vokasi, Institut Teknologi Sepuluh Nopember (ITS) Surabaya.
+              {t.footer.aboutText}
             </p>
-            <p className="text-xs font-semibold text-gold-400">
-              &ldquo;{siteConfig.theme}&rdquo;
+            <p className="text-xs font-semibold text-gold-400 tracking-wide">
+              &ldquo;{currentSiteConfig.theme}&rdquo;
             </p>
           </div>
 
           {/* Col 2: Navigasi Cepat */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
-              Navigasi Halaman
+              {t.footer.navHeading}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
                 <a href="/#tentang" className="hover:text-gold-400 transition">
-                  Tentang &amp; Filosofi Acara
+                  {t.nav.about}
                 </a>
               </li>
               <li>
                 <a href="/#kompetisi" className="hover:text-gold-400 transition">
-                  Cabang &amp; Kategori Lomba
+                  {t.nav.competitions}
                 </a>
               </li>
               <li>
                 <a href="/#alur" className="hover:text-gold-400 transition">
-                  Panduan Alur Pendaftaran
+                  {t.nav.registrationFlow}
                 </a>
               </li>
               <li>
                 <a href="/#timeline" className="hover:text-gold-400 transition">
-                  Linimasa Kegiatan
+                  {t.nav.timeline}
                 </a>
               </li>
               <li>
                 <a href="/#faq" className="hover:text-gold-400 transition">
-                  Pusat Bantuan FAQ
+                  {t.nav.faq}
                 </a>
               </li>
             </ul>
@@ -70,7 +74,7 @@ export default function Footer() {
           {/* Col 3: Dokumen & Berkas */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
-              Akses Dokumen Resmi
+              {t.footer.docsHeading}
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -80,28 +84,28 @@ export default function Footer() {
                   className="inline-flex items-center gap-1.5 text-gold-400 hover:underline"
                 >
                   <BookOpen className="h-3.5 w-3.5" />
-                  <span>Guidebook Utama (PDF Viewer)</span>
+                  <span>{t.footer.mainGuidebook}</span>
                 </button>
               </li>
               <li>
                 <a
-                  href={siteConfig.twibbonUrl}
+                  href={currentSiteConfig.twibbonUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 hover:text-gold-400 transition"
                 >
-                  <span>Unduh Twibbon Resmi</span>
+                  <span>{t.footer.downloadTwibbon}</span>
                   <ExternalLink className="h-3 w-3 text-text-dim" />
                 </a>
               </li>
               <li>
                 <a
-                  href={siteConfig.captionUrl}
+                  href={currentSiteConfig.captionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 hover:text-gold-400 transition"
                 >
-                  <span>Salin Caption Instagram</span>
+                  <span>{t.footer.copyCaption}</span>
                   <ExternalLink className="h-3 w-3 text-text-dim" />
                 </a>
               </li>
@@ -111,20 +115,20 @@ export default function Footer() {
           {/* Col 4: Kontak & Media Sosial */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
-              Hubungi Panitia
+              {t.footer.contactHeading}
             </h4>
-            <div className="space-y-2 text-xs">
+            <div className="space-y-3 text-xs">
               <a
-                href={`mailto:${siteConfig.email}`}
+                href={`mailto:${currentSiteConfig.email}`}
                 className="flex items-center gap-2 hover:text-gold-400 transition"
               >
                 <Mail className="h-3.5 w-3.5 text-gold-400" />
-                <span>{siteConfig.email}</span>
+                <span>{currentSiteConfig.email}</span>
               </a>
 
-              <div className="pt-2 flex items-center gap-3">
+              <div className="pt-1 flex items-center gap-3">
                 <a
-                  href={siteConfig.socials.instagram}
+                  href={currentSiteConfig.socials.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-8 w-8 items-center justify-center rounded-lg border border-navy-800 bg-navy-900 text-text-soft transition hover:border-gold-500/50 hover:text-gold-400"
@@ -135,7 +139,7 @@ export default function Footer() {
                   </svg>
                 </a>
                 <a
-                  href={siteConfig.socials.linkedin}
+                  href={currentSiteConfig.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-8 w-8 items-center justify-center rounded-lg border border-navy-800 bg-navy-900 text-text-soft transition hover:border-blue-400/50 hover:text-blue-400"
@@ -146,6 +150,14 @@ export default function Footer() {
                   </svg>
                 </a>
               </div>
+
+              {/* Secondary Language Switcher in Footer */}
+              <div className="pt-2">
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-text-dim mb-1.5">
+                  {t.footer.switchLanguage}
+                </span>
+                <LanguageSwitcher variant="footer" />
+              </div>
             </div>
           </div>
         </div>
@@ -153,10 +165,10 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs text-text-dim">
           <p>
-            &copy; 2026 IARC XII. Departemen Teknik Elektro Otomasi, FV ITS Surabaya.
+            &copy; 2026 IARC XII. {t.footer.departmentName}.
           </p>
           <p>
-            Dirancang untuk kompetisi robotika dan otomasi bereputasi nasional dan internasional.
+            {t.footer.rightsReserved}
           </p>
         </div>
       </div>

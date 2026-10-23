@@ -1,17 +1,15 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import {
-  Handshake,
-  ShieldCheck,
-} from "lucide-react";
 import MediaCarousel from "./MediaCarousel";
 import DecorativeBackground from "./DecorativeBackground";
-import { siteConfig, PRIZE_DATA } from "@/data/siteConfig";
+import { getSiteConfig } from "@/data/siteConfig";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function BentoGridSection() {
-  const about = siteConfig.about;
+  const { language, t } = useLanguage();
+  const currentSiteConfig = getSiteConfig(language);
+  const about = currentSiteConfig.about;
 
   return (
     <section id="tentang" className="py-12 md:py-16 bg-navy-950 relative overflow-hidden">
@@ -20,20 +18,20 @@ export default function BentoGridSection() {
         {/* Section Header */}
         <div className="mb-8 md:mb-10 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
-            Tentang &amp; Filosofi Acara
+            {t.bento.sectionBadge}
           </p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
-            Arsitektur Inovasi &amp; Ekosistem IARC XII
+            {t.bento.sectionTitle}
           </h2>
         </div>
 
-        {/* Bento Grid Architecture */}
-        <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-12">
-          {/* Row 1 Left: About IARC (6 cols) with Heritage Corner Accent */}
-          <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-7 transition-colors hover:border-gold-500/40 md:col-span-1 lg:col-span-6">
-            {/* Heritage Corner Accent from Legacy Website (Photo 2) */}
+        {/* Asymmetric Architecture: Full-width About card on top, Theme & Media side-by-side below */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+          {/* Row 1: Full-width About IARC (12 cols) with Heritage Corner Accent */}
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-8 md:p-10 transition-colors hover:border-gold-500/40 lg:col-span-12">
+            {/* Heritage Corner Accent from Legacy Website */}
             <svg
-              className="absolute top-0 right-0 h-16 w-16 pointer-events-none"
+              className="absolute top-0 right-0 h-20 w-20 pointer-events-none"
               viewBox="0 0 64 64"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -44,23 +42,26 @@ export default function BentoGridSection() {
             </svg>
 
             <div>
-              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-text-main">
-                ABOUT <span className="text-gold-400">IARC</span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-text-main">
+                {t.bento.aboutTitlePrefix}
+                <span className="text-gold-400">{t.bento.aboutTitleHighlight}</span>
               </h3>
               <p className="mt-1 text-xs sm:text-sm font-semibold text-text-soft">
-                {about?.subtitle || "Industrial Automation & Robotics Competition"}
+                {about?.subtitle || t.bento.aboutSubtitle}
               </p>
 
-              <p className="mt-4 text-xs sm:text-sm leading-relaxed text-text-soft">
-                {about?.paragraph1}
-              </p>
-              <p className="mt-3 text-xs sm:text-sm leading-relaxed text-text-soft">
-                {about?.paragraph2}
-              </p>
+              <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs sm:text-sm leading-relaxed text-text-soft">
+                <p>
+                  {about?.paragraph1 || t.bento.aboutParagraph1}
+                </p>
+                <p>
+                  {about?.paragraph2 || t.bento.aboutParagraph2}
+                </p>
+              </div>
 
               {/* Official Legacy Quote from Old Website */}
               {about?.quoteEn && (
-                <div className="mt-4 rounded-xl border-l-2 border-l-gold-400 border border-navy-800 bg-navy-950/70 p-3.5 text-xs text-text-soft leading-relaxed">
+                <div className="mt-5 rounded-xl border-l-2 border-l-gold-400 border border-navy-800 bg-navy-950/70 p-4 text-xs sm:text-sm text-text-soft leading-relaxed">
                   <p className="italic text-text-main/90 font-medium">
                     &ldquo;{about.quoteEn}&rdquo;
                   </p>
@@ -69,16 +70,16 @@ export default function BentoGridSection() {
             </div>
 
             {/* Key Fact Pills */}
-            <div className="mt-6 pt-4 border-t border-navy-800/90 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-              {about?.highlights.map((h, i) => (
+            <div className="mt-8 pt-5 border-t border-navy-800/90 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              {(about?.highlights || t.bento.aboutHighlights).map((h, i) => (
                 <div
                   key={i}
-                  className="rounded-lg border border-navy-800 bg-navy-950/60 p-2.5 text-left"
+                  className="rounded-xl border border-navy-800 bg-navy-950/60 p-3.5 text-left"
                 >
                   <span className="block text-[10px] font-semibold uppercase tracking-wider text-gold-400">
                     {h.label}
                   </span>
-                  <span className="mt-0.5 block text-xs font-medium text-text-soft">
+                  <span className="mt-1 block text-xs sm:text-sm font-medium text-text-main">
                     {h.value}
                   </span>
                 </div>
@@ -86,75 +87,29 @@ export default function BentoGridSection() {
             </div>
           </div>
 
-          {/* Row 1 Right: Paket Penghargaan Juara (6 cols) */}
-          <div className="rounded-2xl border border-gold-500/30 bg-navy-900 p-6 sm:p-7 md:col-span-1 lg:col-span-6 flex flex-col justify-between">
+          {/* Row 2 Left: Theme & Philosophy (6 cols) */}
+          <div className="flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-8 lg:col-span-6">
             <div>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 mb-4">
-                <h3 className="text-lg sm:text-xl font-bold text-text-main">
-                  Paket Penghargaan Juara
-                </h3>
-                <span className="w-fit shrink-0 rounded-full bg-gold-500/20 px-3.5 py-1 text-xs font-bold text-gold-400 border border-gold-500/30">
-                  Total {siteConfig.totalPrize}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {PRIZE_DATA.map((prize, idx) => (
-                  <div
-                    key={idx}
-                    className={`rounded-xl border p-3.5 transition flex flex-col justify-between ${idx === 0
-                      ? "border-gold-500/50 bg-navy-950/90 shadow-sm"
-                      : "border-navy-800 bg-navy-950/70 hover:border-gold-500/30"
-                      }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-bold text-sm text-gold-400">
-                          {prize.rank}
-                        </span>
-                        <span className="text-[10px] text-text-soft uppercase tracking-wider font-semibold">
-                          {prize.badge}
-                        </span>
-                      </div>
-                      <ul className="space-y-1.5">
-                        {prize.rewards.map((r, rIdx) => (
-                          <li key={rIdx} className="text-xs text-text-soft flex items-start gap-1.5 leading-snug">
-                            <span className="h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0 mt-1" />
-                            <span>{r}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-xl border border-navy-800 bg-navy-950/50 p-3 text-center text-xs text-text-soft">
-              Setiap peserta yang terdaftar resmi mendapatkan akses ke program bimbingan daring Open Training IARC XII.
-            </div>
-          </div>
-
-          {/* Row 2 Left: Engineering Systems That Moves The World (6 cols) */}
-          <div className="flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900 p-6 sm:p-7 md:col-span-1 lg:col-span-6">
-            <div>
-              <h3 className="text-xl sm:text-2xl font-bold text-text-main leading-tight">
-                {siteConfig.theme}
+              <p className="text-[11px] font-bold uppercase tracking-wider text-gold-400 mb-2">
+                Filosofi Tema
+              </p>
+              <h3 className="text-xl sm:text-2xl font-bold text-text-main leading-tight tracking-wide">
+                {currentSiteConfig.theme}
               </h3>
-              <p className="mt-3.5 text-xs sm:text-sm leading-relaxed text-text-soft">
-                {siteConfig.themePhilosophy}
+              <p className="mt-4 text-xs sm:text-sm leading-relaxed text-text-soft">
+                {currentSiteConfig.themePhilosophy}
               </p>
             </div>
 
             <div className="mt-6 pt-4 border-t border-navy-800 flex items-center gap-2.5 text-xs text-text-soft">
               <span className="font-semibold text-text-main">
-                {siteConfig.organizer}
+                {currentSiteConfig.organizer}
               </span>
             </div>
           </div>
 
-          {/* Row 2 Right: Dokumentasi Resmi (MediaCarousel) (6 cols) */}
-          <div className="md:col-span-1 lg:col-span-6 flex flex-col">
+          {/* Row 2 Right: Official Media Carousel (6 cols) */}
+          <div className="lg:col-span-6 flex flex-col">
             <MediaCarousel />
           </div>
         </div>

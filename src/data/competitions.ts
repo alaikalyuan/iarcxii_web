@@ -1,4 +1,6 @@
 import { CompetitionDivision } from "@/types";
+import { Language } from "@/i18n/types";
+import { buildCompetitionsEn } from "./competitionsEn";
 
 export const COMPETITIONS: CompetitionDivision[] = [
   {
@@ -1076,6 +1078,23 @@ export const COMPETITIONS: CompetitionDivision[] = [
   },
 ];
 
-export function getCompetitionBySlug(slug: string): CompetitionDivision | undefined {
-  return COMPETITIONS.find((c) => c.slug === slug);
+let cachedCompetitionsEn: CompetitionDivision[] | null = null;
+
+export function getCompetitions(lang: Language = "id"): CompetitionDivision[] {
+  if (lang === "en") {
+    if (!cachedCompetitionsEn) {
+      cachedCompetitionsEn = buildCompetitionsEn(COMPETITIONS);
+    }
+    return cachedCompetitionsEn;
+  }
+  return COMPETITIONS;
 }
+
+export function getCompetitionBySlug(
+  slug: string,
+  lang: Language = "id"
+): CompetitionDivision | undefined {
+  const pool = getCompetitions(lang);
+  return pool.find((c) => c.slug === slug);
+}
+

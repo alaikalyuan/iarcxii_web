@@ -1,15 +1,19 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Calendar } from "lucide-react";
-import { TIMELINE_TRACKS } from "@/data/timeline";
+import { getTimelineTracks } from "@/data/timeline";
 import DecorativeBackground from "./DecorativeBackground";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function TimelineSection() {
+  const { language, t } = useLanguage();
   const [activeTrackId, setActiveTrackId] = useState("track-a");
 
+  const timelineTracks = useMemo(() => getTimelineTracks(language), [language]);
+
   const currentTrack =
-    TIMELINE_TRACKS.find((t) => t.id === activeTrackId) || TIMELINE_TRACKS[0];
+    timelineTracks.find((tr) => tr.id === activeTrackId) || timelineTracks[0];
 
   const wrapRef = useRef<HTMLDivElement>(null);
   const topDotsRef = useRef<HTMLElement[]>([]);
@@ -112,7 +116,6 @@ export default function TimelineSection() {
   const remainingItems = currentTrack.milestones.slice(4);
 
   // Bottom row grid cells in DOM order (left to right: Col 0 -> Col 3)
-  // Col 3 aligns under Col 4 top, connecting directly to the U-turn
   const bottomGridCells = [0, 1, 2, 3].map((colIdx) => {
     const reverseIndex = 3 - colIdx;
     if (reverseIndex < remainingItems.length) {
@@ -132,15 +135,15 @@ export default function TimelineSection() {
         {/* Section Header */}
         <div className="mb-8 md:mb-12 text-center">
           <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
-            Jadwal &amp; Rangkaian Acara
+            {t.timeline.sectionBadge}
           </p>
           <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl md:text-5xl">
-            TIMELINE
+            {t.timeline.sectionTitle}
           </h2>
 
           {/* Track Switcher Tabs */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3" role="tablist">
-            {TIMELINE_TRACKS.map((track) => {
+            {timelineTracks.map((track) => {
               const isActive = track.id === activeTrackId;
               return (
                 <button
@@ -149,11 +152,10 @@ export default function TimelineSection() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTrackId(track.id)}
-                  className={`min-h-[44px] rounded-lg px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
-                    isActive
+                  className={`min-h-[44px] rounded-lg px-5 py-2.5 text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${isActive
                       ? "bg-gradient-to-r from-gold-400 to-gold-500 text-navy-950 shadow-md shadow-gold-500/20"
                       : "border border-gold-500/35 bg-transparent text-text-soft hover:border-gold-500/70 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {track.name}
                 </button>
@@ -161,8 +163,8 @@ export default function TimelineSection() {
             })}
           </div>
 
-          <p className="mt-3 text-xs text-text-dim">
-            Mencakup cabang: <span className="text-text-soft font-medium">{currentTrack.targetDivisions}</span>
+          <p className="mt-3 text-xs sm:text-sm text-text-dim">
+            {currentTrack.targetDivisions}
           </p>
         </div>
 
@@ -195,10 +197,13 @@ export default function TimelineSection() {
               )}
             </svg>
 
-            {/* Top Row: Left to Right (Columns 1 -> 4) */}
+            {/* Top Row: Left to Right (Col 1 -> Col 4) */}
             <div className="grid grid-cols-4 gap-4 lg:gap-6 relative z-10">
               {topItems.map((item, idx) => (
-                <div key={`${activeTrackId}-top-${idx}`} className="t-item flex flex-col items-center text-center">
+                <div
+                  key={`${activeTrackId}-top-${idx}`}
+                  className="t-item flex flex-col items-center text-center"
+                >
                   <div className="label-top mb-4 flex min-h-[52px] items-end justify-center px-1">
                     <span className="text-sm lg:text-base font-bold text-white leading-snug">
                       {item.title}
@@ -231,7 +236,12 @@ export default function TimelineSection() {
             <div className="grid grid-cols-4 gap-4 lg:gap-6 relative z-10 mt-16 lg:mt-24">
               {bottomGridCells.map((cell, colIdx) => {
                 if (!cell) {
-                  return <div key={`empty-${colIdx}`} className="invisible pointer-events-none" />;
+                  return (
+                    <div
+                      key={`empty-${colIdx}`}
+                      className="invisible pointer-events-none"
+                    />
+                  );
                 }
 
                 const { item, originalIndex, reverseIndex } = cell;
@@ -272,21 +282,25 @@ export default function TimelineSection() {
           </div>
         </div>
 
-        {/* Mobile / Narrow View (< 768px): Responsive Clean Grid, No Line */}
+        {/* Mobile View (< 768px): Responsive Clean Grid */}
         <div className="block md:hidden">
           <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 sm:gap-4">
             {currentTrack.milestones.map((item, idx) => {
               const isCompleted = item.status === "completed";
               const isActive = item.status === "active";
+              const statusLabel = isCompleted
+                ? t.timeline.statusCompleted
+                : isActive
+                  ? t.timeline.statusActive
+                  : t.timeline.statusUpcoming;
 
               return (
                 <div
                   key={`${activeTrackId}-m-${idx}`}
-                  className={`flex flex-col justify-between rounded-xl border p-4 backdrop-blur-sm transition-all duration-200 ${
-                    isActive
+                  className={`flex flex-col justify-between rounded-xl border p-4 backdrop-blur-sm transition-all duration-200 ${isActive
                       ? "border-gold-500/60 bg-navy-900/90 shadow-lg shadow-gold-500/10 ring-1 ring-gold-500/30"
                       : "border-navy-800 bg-navy-900/60 hover:border-gold-500/30"
-                  }`}
+                    }`}
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-2.5">
@@ -305,9 +319,7 @@ export default function TimelineSection() {
                   </div>
 
                   <div className="mt-3 pt-2.5 border-t border-navy-800/80 flex items-center justify-between text-[11px]">
-                    <span className="text-text-dim">
-                      {isCompleted ? "Selesai" : isActive ? "Sedang Berlangsung" : "Mendatang"}
-                    </span>
+                    <span className="text-text-dim">{statusLabel}</span>
                     <div
                       className="h-3.5 w-3.5 rounded-full flex items-center justify-center"
                       style={{

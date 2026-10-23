@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Clock } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface TimeLeft {
   days: number;
@@ -13,11 +14,12 @@ interface TimeLeft {
 
 export default function CountdownTimer({
   targetDate = "2026-11-15T23:59:59+07:00",
-  batchName = "Gelombang 2 (Batch 2)",
+  batchName,
 }: {
   targetDate?: string;
   batchName?: string;
 }) {
+  const { language, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
@@ -26,6 +28,9 @@ export default function CountdownTimer({
     seconds: 0,
     isExpired: false,
   });
+
+  const effectiveBatchName =
+    batchName || (language === "id" ? "Gelombang 2 (Batch 2)" : "Registration Batch 2");
 
   useEffect(() => {
     setMounted(true);
@@ -60,17 +65,21 @@ export default function CountdownTimer({
   }, [targetDate]);
 
   const units = [
-    { label: "Hari", value: timeLeft.days },
-    { label: "Jam", value: timeLeft.hours },
-    { label: "Menit", value: timeLeft.minutes },
-    { label: "Detik", value: timeLeft.seconds },
+    { label: t.flow.countdownDays, value: timeLeft.days },
+    { label: t.flow.countdownHours, value: timeLeft.hours },
+    { label: t.flow.countdownMinutes, value: timeLeft.minutes },
+    { label: t.flow.countdownSeconds, value: timeLeft.seconds },
   ];
 
   return (
     <div className="flex flex-col items-start w-full">
       <div className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-gold-400">
         <Clock className="h-3.5 w-3.5" />
-        <span>Batas Penutupan {batchName}</span>
+        <span>
+          {language === "id"
+            ? `Batas Penutupan ${effectiveBatchName}`
+            : `Closing Deadline: ${effectiveBatchName}`}
+        </span>
       </div>
 
       <div className="grid grid-cols-4 gap-2 sm:gap-3 w-full">

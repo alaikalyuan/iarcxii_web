@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageSquare,
@@ -21,32 +21,39 @@ import { usePdfModal } from "@/context/PdfModalContext";
 import { ChatMessage, ChatApiResponse } from "@/types/chat";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-
-const INITIAL_MESSAGE: ChatMessage = {
-  id: "welcome",
-  role: "assistant",
-  content:
-    "Halo! Saya asisten virtual resmi **IARC XII** 🤖.\n\nSaya siap membantu Anda menjawab pertanyaan seputar cabang lomba, jadwal, biaya pendaftaran, serta regulasi teknis dari seluruh **16 Guidebook resmi**.",
-  timestamp: Date.now(),
-};
-
-const SUGGESTED_QUERIES = [
-  "Berapa biaya pendaftaran PLC?",
-  "Batas dimensi robot Smart Robotics SMA?",
-  "Kapan batas pengumpulan proposal IoT?",
-  "Apakah penginapan disediakan panitia?",
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function ChatbotWidget() {
+  const { language, t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [showTeaser, setShowTeaser] = useState(true);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_MESSAGE]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { openModal } = usePdfModal();
+
+  const initialMessage = useMemo<ChatMessage>(
+    () => ({
+      id: "welcome",
+      role: "assistant",
+      content: t.chatbot.welcomeMessage,
+      timestamp: Date.now(),
+    }),
+    [t.chatbot.welcomeMessage]
+  );
+
+  // Initialize or update welcome message if no conversation has taken place
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length <= 1) {
+        return [initialMessage];
+      }
+      return prev;
+    });
+  }, [initialMessage]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -98,20 +105,21 @@ export default function ChatbotWidget() {
         id: data.id || `bot-${Date.now()}`,
         role: "assistant",
         content: data.reply,
-        status: data.status,
         citations: data.citations,
         suggestedAction: data.suggestedAction,
+        status: data.status,
         timestamp: Date.now(),
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
-    } catch (err) {
-      console.error("Chat error:", err);
+    } catch {
       const fallbackMsg: ChatMessage = {
         id: `err-${Date.now()}`,
         role: "assistant",
         content:
-          "Terjadi kendala saat menghubungkan ke asisten. Silakan hubungi Customer Service panitia melalui kontak resmi di bawah ini.",
+          language === "id"
+            ? "Terjadi kendala saat menghubungkan ke asisten. Silakan hubungi Customer Service panitia melalui kontak resmi di bawah ini."
+            : "An issue occurred while connecting to the assistant. Please contact the committee support via the official contact details below.",
         status: "UNKNOWN_NEED_CS",
         suggestedAction: "CONTACT_CS",
         timestamp: Date.now(),
@@ -123,7 +131,7 @@ export default function ChatbotWidget() {
   };
 
   const handleReset = () => {
-    setMessages([INITIAL_MESSAGE]);
+    setMessages([initialMessage]);
   };
 
   return (
@@ -151,11 +159,11 @@ export default function ChatbotWidget() {
                 <div>
                   <div className="flex items-center gap-1.5">
                     <h3 className="text-xs font-bold text-text-main font-heading tracking-wide">
-                      IARC XII AI Assistant
+                      {t.chatbot.title}
                     </h3>
                   </div>
                   <p className="text-[10px] text-text-dim flex items-center gap-1">
-                    <span>Guidebook &amp; Layanan Panitia</span>
+                    <span>{t.chatbot.subtitle}</span>
                   </p>
                 </div>
               </div>
@@ -164,35 +172,36 @@ export default function ChatbotWidget() {
                 <button
                   type="button"
                   onClick={handleReset}
-                  title="Mulai Ulang Percakapan"
-                  className="rounded-lg p-1.5 text-text-dim hover:bg-navy-800 hover:text-text-main transition"
-                  aria-label="Reset chat"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg text-text-dim hover:bg-navy-800 hover:text-gold-400 transition"
+                  title={t.chatbot.resetTooltip}
+                  aria-label={t.chatbot.resetTooltip}
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  title="Tutup Pop-up"
-                  className="rounded-lg p-1.5 text-text-dim hover:bg-navy-800 hover:text-text-main transition"
-                  aria-label="Tutup chatbot"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg text-text-dim hover:bg-navy-800 hover:text-text-main transition"
+                  aria-label={language === "id" ? "Tutup jendela chat" : "Close chat window"}
                 >
-                  <ChevronDown className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
-            {/* Messages Thread */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs text-text-main">
               {messages.map((msg) => {
                 const isUser = msg.role === "user";
+                const isNeedCs = msg.suggestedAction === "CONTACT_CS";
                 const isOutOfTopic = msg.status === "OUT_OF_TOPIC";
-                const isNeedCs = msg.status === "UNKNOWN_NEED_CS";
 
                 return (
                   <div
                     key={msg.id}
-                    className={`flex gap-2.5 ${isUser ? "justify-end" : "justify-start"}`}
+                    className={`flex gap-2.5 ${
+                      isUser ? "justify-end" : "justify-start"
+                    }`}
                   >
                     {!isUser && (
                       <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-gold-400 mt-0.5">
@@ -211,7 +220,11 @@ export default function ChatbotWidget() {
                       {isOutOfTopic && (
                         <div className="mb-2 flex items-center gap-1 text-[11px] font-semibold text-amber-400">
                           <AlertCircle className="h-3.5 w-3.5" />
-                          <span>Di luar topik perlombaan IARC</span>
+                          <span>
+                            {language === "id"
+                              ? "Di luar topik perlombaan IARC"
+                              : "Outside IARC competition topic"}
+                          </span>
                         </div>
                       )}
 
@@ -262,11 +275,6 @@ export default function ChatbotWidget() {
                                 <h3 className="font-bold text-gold-400 mt-2 mb-1 text-xs font-heading">
                                   {children}
                                 </h3>
-                              ),
-                              h4: ({ children }) => (
-                                <h4 className="font-bold text-gold-400 mt-2 mb-1 text-[11px] font-heading">
-                                  {children}
-                                </h4>
                               ),
                               table: ({ children }) => (
                                 <div className="overflow-x-auto my-2 rounded-lg border border-navy-700 bg-navy-950/80 shadow-inner">
@@ -333,11 +341,6 @@ export default function ChatbotWidget() {
                                   </code>
                                 );
                               },
-                              pre: ({ children }) => (
-                                <pre className="overflow-x-auto rounded-lg bg-navy-950 p-2.5 text-[10px] my-2 border border-navy-800">
-                                  {children}
-                                </pre>
-                              ),
                             }}
                           >
                             {msg.content}
@@ -350,7 +353,11 @@ export default function ChatbotWidget() {
                         <div className="mt-2.5 pt-2 border-t border-navy-800/80 space-y-1">
                           <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim flex items-center gap-1">
                             <BookOpen className="h-3 w-3 text-gold-400" />
-                            <span>Referensi Dokumen Resmi:</span>
+                            <span>
+                              {language === "id"
+                                ? "Referensi Dokumen Resmi:"
+                                : "Official Document References:"}
+                            </span>
                           </p>
                           <div className="flex flex-wrap gap-1.5 pt-0.5">
                             {msg.citations.map((c, i) => (
@@ -359,10 +366,17 @@ export default function ChatbotWidget() {
                                 type="button"
                                 onClick={() => openModal(c.guidebookId)}
                                 className="inline-flex items-center gap-1 rounded bg-navy-800 px-2 py-0.5 text-[10px] font-medium text-gold-400 border border-gold-500/20 hover:border-gold-500/50 hover:bg-navy-750 transition"
-                                title="Klik untuk membuka PDF di viewer"
+                                title={
+                                  language === "id"
+                                    ? "Klik untuk membuka PDF di viewer"
+                                    : "Click to open PDF in viewer"
+                                }
                               >
                                 <span>
-                                  {c.title} (Hlm. {c.pageNumber})
+                                  {c.title}{" "}
+                                  {language === "id"
+                                    ? `(Hlm. ${c.pageNumber})`
+                                    : `(p. ${c.pageNumber})`}
                                 </span>
                                 <ExternalLink className="h-2.5 w-2.5 opacity-60" />
                               </button>
@@ -376,10 +390,16 @@ export default function ChatbotWidget() {
                         <div className="mt-3 rounded-lg border border-red-500/30 bg-red-950/25 p-2.5 space-y-2">
                           <div className="flex items-center gap-1.5 text-[11px] font-semibold text-red-300">
                             <AlertCircle className="h-3.5 w-3.5 text-red-400" />
-                            <span>Butuh Bantuan Panitia CS</span>
+                            <span>
+                              {language === "id"
+                                ? "Butuh Bantuan Panitia CS"
+                                : "Need Committee Support"}
+                            </span>
                           </div>
                           <p className="text-[10px] text-text-dim leading-normal">
-                            Pertanyaan ini memerlukan verifikasi atau konfirmasi langsung panitia IARC XII:
+                            {language === "id"
+                              ? "Pertanyaan ini memerlukan verifikasi atau konfirmasi langsung panitia IARC XII:"
+                              : "This inquiry requires direct verification or confirmation from the IARC XII team:"}
                           </p>
                           <div className="flex flex-col gap-1.5 pt-1">
                             <a
@@ -396,7 +416,7 @@ export default function ChatbotWidget() {
                               className="inline-flex items-center justify-center gap-1.5 rounded bg-navy-900 px-2.5 py-1.5 text-[10px] font-medium text-purple-400 border border-navy-700 hover:border-purple-400 transition"
                             >
                               <ExternalLink className="h-3 w-3" />
-                              <span>Direct Message: @iarc.its</span>
+                              <span>Instagram: @iarc.its</span>
                             </a>
                           </div>
                         </div>
@@ -420,7 +440,11 @@ export default function ChatbotWidget() {
                   </div>
                   <div className="rounded-xl rounded-tl-none border border-navy-800 bg-navy-900/90 px-3.5 py-2.5 text-text-dim flex items-center gap-2">
                     <Sparkles className="h-3.5 w-3.5 text-gold-400 animate-spin" />
-                    <span className="text-[11px]">Memeriksa regulasi &amp; guidebook...</span>
+                    <span className="text-[11px]">
+                      {language === "id"
+                        ? "Memeriksa regulasi & guidebook..."
+                        : "Checking regulations & guidebooks..."}
+                    </span>
                   </div>
                 </div>
               )}
@@ -432,10 +456,10 @@ export default function ChatbotWidget() {
             {messages.length <= 2 && (
               <div className="border-t border-navy-800/60 bg-navy-950/70 px-3.5 py-2">
                 <p className="text-[10px] font-semibold text-text-dim mb-1.5">
-                  Pertanyaan Populer:
+                  {t.chatbot.suggestedHeading}
                 </p>
                 <div className="flex flex-wrap gap-1">
-                  {SUGGESTED_QUERIES.map((q, idx) => (
+                  {t.chatbot.suggestedQueries.map((q, idx) => (
                     <button
                       key={idx}
                       type="button"
@@ -464,7 +488,7 @@ export default function ChatbotWidget() {
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ketik pertanyaan seputar IARC XII..."
+                  placeholder={t.chatbot.inputPlaceholder}
                   disabled={isLoading}
                   className="flex-1 rounded-lg border border-navy-700 bg-navy-950 px-3 py-2 text-xs text-text-main placeholder:text-text-dim focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 disabled:opacity-50"
                 />
@@ -472,13 +496,13 @@ export default function ChatbotWidget() {
                   type="submit"
                   disabled={!input.trim() || isLoading}
                   className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 hover:opacity-90 disabled:opacity-40 transition font-bold"
-                  aria-label="Kirim Pesan"
+                  aria-label={t.chatbot.sendTooltip}
                 >
                   <Send className="h-3.5 w-3.5" />
                 </button>
               </form>
               <p className="mt-1.5 text-center text-[9px] text-text-dim">
-                Didukung DeepSeek &amp; Guidebook Resmi IARC XII ITS
+                {t.chatbot.disclaimer}
               </p>
             </div>
           </motion.div>
@@ -503,14 +527,22 @@ export default function ChatbotWidget() {
               >
                 <Sparkles className="h-3.5 w-3.5 text-gold-400 flex-shrink-0" />
                 <span className="text-[11px] font-medium text-text-main">
-                  Ada pertanyaan lomba? <strong className="text-gold-400">Tanya AI</strong>
+                  {language === "id" ? (
+                    <>
+                      Ada pertanyaan lomba? <strong className="text-gold-400">Tanya AI</strong>
+                    </>
+                  ) : (
+                    <>
+                      Questions on rules? <strong className="text-gold-400">Ask AI</strong>
+                    </>
+                  )}
                 </span>
               </button>
               <button
                 type="button"
                 onClick={() => setShowTeaser(false)}
                 className="ml-1 text-text-dim hover:text-text-main p-0.5 rounded transition"
-                aria-label="Tutup petunjuk"
+                aria-label={language === "id" ? "Tutup petunjuk" : "Close teaser"}
               >
                 <X className="h-3 w-3" />
               </button>
@@ -531,7 +563,15 @@ export default function ChatbotWidget() {
               ? "bg-navy-800 text-text-main border border-navy-700 shadow-navy-950/80"
               : "bg-gradient-to-r from-gold-500 via-amber-500 to-amber-600 text-navy-950 shadow-gold-500/30 hover:shadow-gold-500/50"
           }`}
-          aria-label={isOpen ? "Tutup Chatbot IARC XII" : "Buka Chatbot Tanya Jawab IARC XII"}
+          aria-label={
+            isOpen
+              ? language === "id"
+                ? "Tutup Chatbot IARC XII"
+                : "Close IARC XII Chatbot"
+              : language === "id"
+              ? "Buka Chatbot Tanya Jawab IARC XII"
+              : "Open IARC XII Q&A Chatbot"
+          }
         >
           {isOpen ? (
             <X className="h-5 w-5" />
@@ -543,7 +583,7 @@ export default function ChatbotWidget() {
               </span>
               <MessageSquare className="h-5 w-5 fill-current" />
               <span className="text-xs font-bold tracking-wide hidden sm:inline font-heading">
-                Tanya Bot
+                {language === "id" ? "Tanya Bot" : "Ask Bot"}
               </span>
             </div>
           )}

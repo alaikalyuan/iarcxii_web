@@ -22,7 +22,9 @@ import {
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
+import { getCompetitionBySlug } from "@/data/competitions";
 import DecorativeBackground from "./DecorativeBackground";
+import { useLanguage } from "@/context/LanguageContext";
 
 const DIVISION_ICONS = {
   "automation-challenge": Cpu,
@@ -38,11 +40,16 @@ interface CompetitionDetailClientProps {
 }
 
 export default function CompetitionDetailClient({
-  division,
+  division: initialDivision,
   initialTrackId,
   lockedTrackId,
 }: CompetitionDetailClientProps) {
   const { openModal } = usePdfModal();
+  const { language, t } = useLanguage();
+
+  const division =
+    getCompetitionBySlug(initialDivision.slug, language) || initialDivision;
+
   const Icon =
     DIVISION_ICONS[division.slug as keyof typeof DIVISION_ICONS] || Layers;
   const theme = getDivisionTheme(division.slug);
@@ -69,7 +76,7 @@ export default function CompetitionDetailClient({
   }, [lockedTrackId]);
 
   const currentTrack =
-    division.tracks.find((t) => t.id === activeTrackId) || division.tracks[0];
+    division.tracks.find((tr) => tr.id === activeTrackId) || division.tracks[0];
 
   const isAutomationChallenge = division.slug === "automation-challenge";
   const isSmartRobotics = division.slug === "smart-robotics";
@@ -83,11 +90,11 @@ export default function CompetitionDetailClient({
         {/* Breadcrumb Navigation */}
         <nav className="mb-6 flex flex-wrap items-center gap-2 text-xs text-text-dim">
           <Link href="/" className="hover:text-gold-400 transition-colors">
-            Beranda
+            {language === "id" ? "Beranda" : "Home"}
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
           <Link href="/#kompetisi" className="hover:text-gold-400 transition-colors">
-            Kompetisi
+            {t.nav.competitions}
           </Link>
           <ChevronRight className="h-3.5 w-3.5" />
           {isAutomationChallenge && currentTrack ? (
@@ -138,16 +145,16 @@ export default function CompetitionDetailClient({
                 <button
                   type="button"
                   onClick={() => openModal("utama")}
-                  className="inline-flex items-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
                   <BookOpen className="h-4 w-4" />
-                  <span>Guidebook Utama</span>
+                  <span>{t.nav.mainGuidebook}</span>
                 </button>
                 <a
                   href="#pendaftaran"
-                  className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
-                  <span>Daftar Sekarang</span>
+                  <span>{t.nav.registerNow}</span>
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
@@ -162,7 +169,8 @@ export default function CompetitionDetailClient({
             {/* Educational Levels Badges */}
             <div className="mt-6 flex flex-wrap items-center gap-2 pt-4 border-t border-navy-800/80">
               <span className="text-xs font-semibold text-text-dim">
-                Jenjang Partisipan {isAutomationChallenge && currentTrack ? `(${currentTrack.name})` : ""}:
+                {language === "id" ? "Jenjang Partisipan" : "Eligible Education Levels"}{" "}
+                {isAutomationChallenge && currentTrack ? `(${currentTrack.name})` : ""}:
               </span>
               {(isAutomationChallenge && currentTrack
                 ? Array.from(new Set(currentTrack.categories.map((c) => c.level)))
@@ -172,23 +180,25 @@ export default function CompetitionDetailClient({
                   key={lvl}
                   className={`rounded-lg border px-2.5 py-1 text-xs font-semibold ${theme.badge}`}
                 >
-                  {lvl}
+                  {t.competitions.levelFilters[lvl] || lvl}
                 </span>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Track Switcher Section (With Navigation Links for Automation Challenge) */}
+        {/* Track Switcher Section */}
         {division.tracks.length > 1 && (
           <div className="mt-10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-text-main">
-                  Pilih Jalur Kompetisi (Track)
+                  {t.competitionDetail.divisionTracks}
                 </h2>
                 <p className="mt-1 text-xs sm:text-sm text-text-soft">
-                  Kompetisi {division.name} terbagi menjadi {division.tracks.length} jalur spesialisasi dengan halaman dedikasi terpisah.
+                  {language === "id"
+                    ? `Kompetisi ${division.name} terbagi menjadi ${division.tracks.length} jalur spesialisasi dengan halaman dedikasi terpisah.`
+                    : `${division.name} is divided into ${division.tracks.length} specialization tracks with dedicated overviews.`}
                 </p>
               </div>
 
@@ -206,7 +216,7 @@ export default function CompetitionDetailClient({
                       <Link
                         key={track.id}
                         href={trackUrl}
-                        className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                        className={`min-h-[44px] inline-flex items-center rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                           isActive
                             ? theme.trackActive
                             : "border border-navy-700 bg-navy-900 text-text-soft hover:border-purple-500/40 hover:text-text-main"
@@ -222,7 +232,7 @@ export default function CompetitionDetailClient({
                       key={track.id}
                       type="button"
                       onClick={() => setActiveTrackId(track.id)}
-                      className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
+                      className={`min-h-[44px] rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                         isActive
                           ? theme.trackActive
                           : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
@@ -255,7 +265,8 @@ export default function CompetitionDetailClient({
                 </p>
               </div>
               <span className="text-xs text-text-dim">
-                {currentTrack.categories.length} Kategori Tersedia
+                {currentTrack.categories.length}{" "}
+                {language === "id" ? "Kategori Tersedia" : "Categories Available"}
               </span>
             </div>
             <p className="mt-3 text-xs sm:text-sm text-text-soft leading-relaxed">
@@ -264,46 +275,78 @@ export default function CompetitionDetailClient({
           </div>
         )}
 
-        {/* Technical Specification Banner (Customized with Division Thematic Color) */}
+        {/* Technical Specification Banner */}
         <div className="mt-8">
           {/* Automation Challenge: Microcontroller Track Specifications */}
           {isAutomationChallenge && activeTrackId === "iot" && (
             <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
                 <Cpu className="h-4 w-4" />
-                <span>Spesifikasi Teknis &amp; Regulasi Track 1: Microcontroller (IoT)</span>
+                <span>
+                  {language === "id"
+                    ? "Spesifikasi Teknis & Regulasi Track 1: Microcontroller (IoT)"
+                    : "Technical Specifications & Rules for Track 1: Microcontroller (IoT)"}
+                </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
-                    3 Acuan Pusat Studi (Pusdi) ITS
+                    {language === "id" ? "3 Acuan Pusat Studi (Pusdi) ITS" : "3 Flagship ITS Study Centers"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
                     <li>
-                      <strong className="text-text-main">Pusdi Energi &amp; Sumber Daya Mineral:</strong> Solar monitoring, smart grid, efisiensi energi terbarukan.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Pusdi Energi & Sumber Daya Mineral:" : "Energy & Mineral Resources Center:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Solar monitoring, smart grid, efisiensi energi terbarukan."
+                        : "Solar telemetry, smart grid, renewable power optimization."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Pusdi Mitigasi Bencana &amp; Perubahan Iklim:</strong> Deteksi dini banjir, pemantauan longsor, sensor kualitas udara.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Pusdi Mitigasi Bencana & Perubahan Iklim:" : "Disaster Mitigation & Climate Change Center:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Deteksi dini banjir, pemantauan longsor, sensor kualitas udara."
+                        : "Early flood detection, landslide alert networks, air quality indexing."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Pusdi Teknologi Tepat Guna:</strong> Otomasi pertanian/hidroponik presisi, smart green house, pemilah sampah otomatis.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Pusdi Teknologi Tepat Guna:" : "Appropriate Technology Center:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Otomasi pertanian/hidroponik presisi, smart green house, pemilah sampah otomatis."
+                        : "Precision agriculture/hydroponics automation, smart greenhouse controls, waste sorter systems."}
                     </li>
                   </ul>
                 </div>
 
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
-                    Hardware, Plafon Anggaran &amp; Seleksi
+                    {language === "id" ? "Hardware, Plafon Anggaran & Seleksi" : "Hardware, Budget Ceiling & Evaluation"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
                     <li>
-                      <strong className="text-text-main">Mikrokontroler Bebas:</strong> ESP32, ESP8266, STM32, Arduino, Raspberry Pi Pico.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Mikrokontroler Bebas:" : "Open Microcontroller Architecture:"}
+                      </strong>{" "}
+                      ESP32, ESP8266, STM32, Arduino, Raspberry Pi Pico.
                     </li>
                     <li>
-                      <strong className="text-text-main">Plafon Anggaran:</strong> Biaya komponen maksimal Rp 500.000 disertai Rencana Anggaran Biaya (RAB) resmi.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Plafon Anggaran:" : "Component Budget Cap:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Biaya komponen maksimal Rp 500.000 disertai Rencana Anggaran Biaya (RAB) resmi."
+                        : "Maximum component cost of IDR 500,000 supported by an official budget breakdown."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Tahap Seleksi:</strong> Penyisihan dokumen proposal dan video konsep (3-5 menit) dilanjutkan demonstrasi langsung alat luring di ITS untuk Top 5/10 finalis (evaluasi TRL).
+                      <strong className="text-text-main">
+                        {language === "id" ? "Tahap Seleksi:" : "Selection Stages:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Penyisihan proposal & video konsep, dilanjutkan demonstrasi langsung alat luring di ITS untuk finalis."
+                        : "Proposal screening and video pitch evaluation, advancing finalists to the physical live expo at ITS."}
                     </li>
                   </ul>
                 </div>
@@ -316,39 +359,67 @@ export default function CompetitionDetailClient({
             <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
                 <Cpu className="h-4 w-4" />
-                <span>Spesifikasi Hardware &amp; Software Resmi Track 2: PLC</span>
+                <span>
+                  {language === "id"
+                    ? "Spesifikasi Hardware & Software Resmi Track 2: PLC"
+                    : "Official Hardware & Software Specifications for Track 2: PLC"}
+                </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
-                    Perangkat Lunak (Software) Standar
+                    {language === "id" ? "Perangkat Lunak (Software) Standar" : "Standard Software Toolchain"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
                     <li>
-                      <strong className="text-text-main">OMRON CX-Programmer:</strong> Perancangan diagram tangga (ladder diagram) target tipe PLC CP2E-N pada babak penyisihan dan final.
+                      <strong className="text-text-main">OMRON CX-Programmer:</strong>{" "}
+                      {language === "id"
+                        ? "Perancangan diagram tangga (ladder diagram) target tipe PLC CP2E-N pada babak penyisihan dan final."
+                        : "Ladder diagram programming targeting Omron CP2E-N for both preliminary and final rounds."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Haiwell Cloud SCADA Designer:</strong> Perancangan antarmuka visual HMI Haiwell B7-H/W pada babak final luring.
+                      <strong className="text-text-main">Haiwell Cloud SCADA Designer:</strong>{" "}
+                      {language === "id"
+                        ? "Perancangan antarmuka visual HMI Haiwell B7-H/W pada babak final luring."
+                        : "HMI operator visual screen design for Haiwell B7-H/W in the offline finals."}
                     </li>
                     <li>
-                      <strong className="text-text-main">CX-Simulator:</strong> Simulasi logika mandiri selama babak penyisihan daring via Zoom.
+                      <strong className="text-text-main">CX-Simulator:</strong>{" "}
+                      {language === "id"
+                        ? "Simulasi logika mandiri selama babak penyisihan daring via Zoom."
+                        : "Proctored offline ladder simulation verification during preliminary rounds."}
                     </li>
                   </ul>
                 </div>
 
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
-                    Modul Trainer Hardware ITS
+                    {language === "id" ? "Modul Trainer Hardware ITS" : "Official ITS Hardware Trainers"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
                     <li>
-                      <strong className="text-text-main">Modul Trainer Resmi:</strong> Hardware Trainer Modul PLC Omron CP2E-N fisik disediakan panitia ITS.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Modul Trainer Resmi:" : "Official Trainer Module:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Hardware Trainer Modul PLC Omron CP2E-N fisik disediakan panitia ITS."
+                        : "Physical Omron CP2E-N PLC trainer units provided by the ITS committee."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Perangkat HMI:</strong> Modul fisik HMI Haiwell B7-H/W disediakan panitia ITS.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Perangkat HMI:" : "HMI Hardware Units:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Modul fisik HMI Haiwell B7-H/W disediakan panitia ITS."
+                        : "Physical Haiwell B7-H/W industrial displays provided on-site."}
                     </li>
                     <li>
-                      <strong className="text-text-main">Koneksi &amp; Uji:</strong> Komunikasi kabel Ethernet industri, sesi penyesuaian hardware 10 menit sebelum kompetisi 60 menit.
+                      <strong className="text-text-main">
+                        {language === "id" ? "Koneksi & Uji:" : "Interface & Commissioning:"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Komunikasi kabel Ethernet industri, sesi penyesuaian hardware 10 menit sebelum kompetisi 60 menit."
+                        : "Direct Ethernet cable communication, with a 10-minute calibration window before the 60-minute test."}
                     </li>
                   </ul>
                 </div>
@@ -361,35 +432,65 @@ export default function CompetitionDetailClient({
             <div className="rounded-2xl border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
                 <Bot className="h-4 w-4" />
-                <span>Spesifikasi 4 Jenjang Smart Robotics</span>
+                <span>
+                  {language === "id"
+                    ? "Spesifikasi 4 Jenjang Smart Robotics"
+                    : "Specifications across 4 Smart Robotics Categories"}
+                </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-text-soft">
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">SD (Beginner)</span>
-                  <p>Line follower grafis blok (Ardublock). Misi mendorong objek keluar zona rintangan. Babak grup 4 tim per pool.</p>
+                  <span className="font-bold text-rose-400 block mb-1">
+                    {language === "id" ? "SD (Beginner)" : "Elementary (Beginner)"}
+                  </span>
+                  <p>
+                    {language === "id"
+                      ? "Line follower grafis blok (Ardublock). Misi mendorong objek keluar zona rintangan."
+                      : "Block programming line follower (Ardublock). Mission to push objects outside hazard zones."}
+                  </p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">SMP (Junior)</span>
-                  <p>Line follower mikrokontroler mandiri dengan sensor optik. 60 menit trial bersama, kualifikasi waktu top 16 ke babak gugur.</p>
+                  <span className="font-bold text-rose-400 block mb-1">
+                    {language === "id" ? "SMP (Junior)" : "Junior High (Junior)"}
+                  </span>
+                  <p>
+                    {language === "id"
+                      ? "Line follower mikrokontroler mandiri dengan sensor optik. 60 menit trial, top 16 ke babak gugur."
+                      : "Optical sensor line follower with microcontroller. 60 min trial, top 16 advance to knockouts."}
+                  </p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">SMA/SMK (Senior)</span>
-                  <p>Gripper Line Follower (max 25x20x25 cm ±5%). Checkpoint (+15), relokasi objek 1 kotak jingga (+10), objek 2 kotak hijau (+10).</p>
+                  <span className="font-bold text-rose-400 block mb-1">
+                    {language === "id" ? "SMA/SMK (Senior)" : "Senior High (Senior)"}
+                  </span>
+                  <p>
+                    {language === "id"
+                      ? "Gripper Line Follower (max 25x20x25 cm). Checkpoint (+15), relokasi kotak objek."
+                      : "Gripper line follower (max 25x20x25 cm). Point checkpoints (+15) and cube relocation."}
+                  </p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">Mahasiswa (Dual Robot)</span>
-                  <p>Sistem kolaborasi R1 (Autonomous LF pemindah kubus) + R2 (Shooter Robot penembak sasaran). Format Best of 3 (BO3).</p>
+                  <span className="font-bold text-rose-400 block mb-1">
+                    {language === "id" ? "Mahasiswa (Dual Robot)" : "University (Dual Robot)"}
+                  </span>
+                  <p>
+                    {language === "id"
+                      ? "Kolaborasi R1 (Autonomous LF) + R2 (Shooter Robot). Format Best of 3 (BO3)."
+                      : "Collaboration: R1 (Autonomous Line Follower) + R2 (Shooter Robot). Best of 3 format."}
+                  </p>
                 </div>
               </div>
               <div className="mt-3 pt-3 border-t border-navy-800 flex items-center justify-between text-xs">
-                <span className="text-text-dim">Modul Lintasan Resmi Daring:</span>
+                <span className="text-text-dim">
+                  {language === "id" ? "Modul Lintasan Resmi Daring:" : "Official Digital Track Layout:"}
+                </span>
                 <a
                   href="https://its.id/m/SmartRoboticsOnline"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
                 >
-                  <span>Unduh Lintasan (its.id/m/SmartRoboticsOnline)</span>
+                  <span>{language === "id" ? "Unduh Lintasan" : "Download Track File"}</span>
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
@@ -401,26 +502,52 @@ export default function CompetitionDetailClient({
             <div className="rounded-2xl border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-sm font-bold text-sky-400 mb-3">
                 <Zap className="h-4 w-4" />
-                <span>Spesifikasi Navigasi Labirin &amp; Efisiensi Konsumsi Daya</span>
+                <span>
+                  {language === "id"
+                    ? "Spesifikasi Navigasi Labirin & Efisiensi Konsumsi Daya"
+                    : "Maze Navigation Specifications & Power Consumption Ratio"}
+                </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
-                    Mekanisme 3 Tahapan Seleksi
+                    {language === "id" ? "Mekanisme 3 Tahapan Seleksi" : "3-Stage Selection Mechanics"}
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
-                    <li><strong className="text-text-main">Tahap 1 (Pra-Kualifikasi):</strong> Seeding awal waktu tempuh dan konsumsi miliampere.</li>
-                    <li><strong className="text-text-main">Tahap 2 (Onsite Programming):</strong> Penyesuaian algoritma pada arena labirin rahasia baru di ITS.</li>
-                    <li><strong className="text-text-main">Tahap 3 (Final Non-Eliminasi):</strong> Akumulasi skor tertinggi efisiensi daya dan kecepatan tercepat.</li>
+                    <li>
+                      <strong className="text-text-main">
+                        {language === "id" ? "Tahap 1 (Pra-Kualifikasi):" : "Stage 1 (Pre-Qualification):"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Seeding awal waktu tempuh dan konsumsi miliampere."
+                        : "Baseline seeding based on runtime and milliampere power draw."}
+                    </li>
+                    <li>
+                      <strong className="text-text-main">
+                        {language === "id" ? "Tahap 2 (Onsite Programming):" : "Stage 2 (Onsite Programming):"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Penyesuaian algoritma pada arena labirin rahasia baru di ITS."
+                        : "Algorithm adjustments on the undisclosed secret maze arena at ITS."}
+                    </li>
+                    <li>
+                      <strong className="text-text-main">
+                        {language === "id" ? "Tahap 3 (Final Non-Eliminasi):" : "Stage 3 (Final Run):"}
+                      </strong>{" "}
+                      {language === "id"
+                        ? "Akumulasi skor tertinggi efisiensi daya dan kecepatan tercepat."
+                        : "Accumulated score weighing power efficiency and completion speed."}
+                    </li>
                   </ul>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
-                    Verifikasi Pendaftaran Resmi
+                    {language === "id" ? "Persyaratan Robot Fisik" : "Physical Robot Requirements"}
                   </h4>
                   <p className="leading-relaxed">
-                    Tautan formulir registrasi resmi telah diverifikasi: <code className="text-sky-400 font-mono">https://its.id/m/FormRegistEnergyTreasureIARCXII</code>.
-                    Pastikan robot line follower dilengkapi sensor pendeteksi jarak/dinding dan pemutus arus darurat.
+                    {language === "id"
+                      ? "Pastikan robot line follower dilengkapi sensor pendeteksi jarak/dinding optik atau ultrasonik, modul telemetri daya, dan sakelar pemutus arus darurat."
+                      : "Robots must feature optical or ultrasonic wall/distance sensors, power telemetry indicators, and an emergency manual cutoff switch."}
                   </p>
                 </div>
               </div>
@@ -432,24 +559,40 @@ export default function CompetitionDetailClient({
             <div className="rounded-2xl border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-sm font-bold text-amber-400 mb-3">
                 <Lightbulb className="h-4 w-4" />
-                <span>Format Kompetisi KTI Vortex &amp; Batasan Plagiarisme</span>
+                <span>
+                  {language === "id"
+                    ? "Format Kompetisi KTI Vortex & Batasan Plagiarisme"
+                    : "Vortex Scientific Paper Format & Originality Standards"}
+                </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
-                    Dua Pendekatan Gagasan
+                    {language === "id" ? "Dua Pendekatan Gagasan" : "Two Paper Approaches"}
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
-                    <li><strong className="text-text-main">Vortex Idea Challenge:</strong> Eksplorasi bebas ide visioner bidang energi, lingkungan, dan teknologi rekayasa masa depan.</li>
-                    <li><strong className="text-text-main">Vortex Innovation Challenge:</strong> Solusi pemecahan masalah konkret dari 4 fokus riset unggulan Departemen Teknik Elektro Otomasi ITS.</li>
+                    <li>
+                      <strong className="text-text-main">Vortex Idea Challenge:</strong>{" "}
+                      {language === "id"
+                        ? "Eksplorasi bebas ide visioner bidang energi, lingkungan, dan teknologi rekayasa masa depan."
+                        : "Open exploration of visionary ideas in energy, climate, and applied engineering."}
+                    </li>
+                    <li>
+                      <strong className="text-text-main">Vortex Innovation Challenge:</strong>{" "}
+                      {language === "id"
+                        ? "Solusi pemecahan masalah konkret dari 4 fokus riset unggulan Departemen Teknik Elektro Otomasi ITS."
+                        : "Applied problem solving addressing 4 research flagships of the ITS Department of Automation Electrical Engineering."}
+                    </li>
                   </ul>
                 </div>
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
                   <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
-                    Persyaratan Orisinalitas Ketat
+                    {language === "id" ? "Persyaratan Orisinalitas Ketat" : "Strict Originality Rules"}
                   </h4>
                   <p className="leading-relaxed">
-                    Naskah karya tulis ilmiah wajib bebas plagiarisme dengan indeks kemiripan Turnitin di bawah 20%. Naskah dengan kemiripan di atas 20% langsung didiskualifikasi pada babak seleksi administrasi.
+                    {language === "id"
+                      ? "Naskah karya tulis ilmiah wajib bebas plagiarisme dengan indeks kemiripan Turnitin di bawah 20%. Naskah dengan kemiripan di atas 20% langsung didiskualifikasi."
+                      : "Scientific manuscripts must maintain a Turnitin similarity index below 20%. Submissions exceeding 20% are disqualified during administrative screening."}
                   </p>
                 </div>
               </div>
@@ -461,10 +604,14 @@ export default function CompetitionDetailClient({
         <div id="pendaftaran" className="mt-10 scroll-mt-24">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg sm:text-xl font-bold text-text-main">
-              Kategori Partisipasi ({currentTrack.categories.length})
+              {language === "id"
+                ? `Kategori Partisipasi (${currentTrack.categories.length})`
+                : `Participation Categories (${currentTrack.categories.length})`}
             </h3>
             <span className="text-xs text-text-dim">
-              Setiap kategori memiliki berkas panduan PDF dan formulir pendaftaran mandiri
+              {language === "id"
+                ? "Setiap kategori memiliki berkas panduan PDF dan formulir pendaftaran mandiri"
+                : "Each category includes dedicated PDF guidebooks and online registration"}
             </span>
           </div>
 
@@ -500,7 +647,9 @@ export default function CompetitionDetailClient({
                   {/* Fee Matrix Box */}
                   <div className="mt-4 rounded-xl border border-navy-800 bg-navy-950/70 p-3">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-text-dim block mb-1.5">
-                      Biaya Pendaftaran per Tim:
+                      {language === "id"
+                        ? "Biaya Pendaftaran per Tim:"
+                        : "Registration Fee per Team:"}
                     </span>
                     <div className="grid grid-cols-3 gap-1.5 text-center">
                       <div className="rounded-lg bg-navy-900/80 p-1.5 border border-navy-800">
@@ -518,7 +667,7 @@ export default function CompetitionDetailClient({
                     </div>
                   </div>
 
-                  {/* Accordion: Rincian Babak & Kriteria Penilaian Spesifik Jenjang */}
+                  {/* Accordion: Details & Scoring */}
                   {(cat.stages || cat.scoringCriteria) && (
                     <div className="mt-4 pt-3 border-t border-navy-800/80">
                       <button
@@ -529,7 +678,11 @@ export default function CompetitionDetailClient({
                       >
                         <span className="flex items-center gap-2">
                           <Award className="h-4 w-4 text-gold-400" />
-                          <span>Rincian Babak &amp; Penilaian</span>
+                          <span>
+                            {language === "id"
+                              ? "Rincian Babak & Penilaian"
+                              : "Rounds & Scoring Criteria"}
+                          </span>
                         </span>
                         <ChevronDown
                           className={`h-4 w-4 text-text-dim transition-transform duration-200 ${
@@ -541,12 +694,16 @@ export default function CompetitionDetailClient({
                       {/* Accordion Content */}
                       {expandedCategories[cat.id] && (
                         <div className="mt-3 space-y-4 rounded-xl border border-navy-800 bg-navy-950/90 p-4 text-xs text-text-soft">
-                          {/* Tahapan Babak Spesifik Jenjang */}
+                          {/* Stages */}
                           {cat.stages && cat.stages.length > 0 && (
                             <div>
                               <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
                                 <Calendar className="h-3.5 w-3.5 text-gold-400" />
-                                <span>Alur Babak Kompetisi</span>
+                                <span>
+                                  {language === "id"
+                                    ? "Alur Babak Kompetisi"
+                                    : "Competition Round Stages"}
+                                </span>
                               </div>
                               <div className="space-y-2.5 border-l border-navy-800 pl-3 ml-1">
                                 {cat.stages.map((stg, sIdx) => (
@@ -570,12 +727,16 @@ export default function CompetitionDetailClient({
                             </div>
                           )}
 
-                          {/* Kriteria Penilaian Spesifik Jenjang */}
+                          {/* Scoring criteria */}
                           {cat.scoringCriteria && cat.scoringCriteria.length > 0 && (
                             <div className="pt-3 border-t border-navy-800/80">
                               <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
                                 <Award className="h-3.5 w-3.5 text-gold-400" />
-                                <span>Fokus Kriteria Penilaian</span>
+                                <span>
+                                  {language === "id"
+                                    ? "Fokus Kriteria Penilaian"
+                                    : "Evaluation Rubric Focus"}
+                                </span>
                               </div>
                               <div className="space-y-2">
                                 {cat.scoringCriteria.map((crit, cIdx) => (
@@ -604,7 +765,9 @@ export default function CompetitionDetailClient({
 
                           {/* Guidebook Reminder Note */}
                           <div className="pt-2 text-[11px] text-text-dim italic leading-relaxed border-t border-navy-800/60">
-                            Regulasi teknis lengkap, batas toleransi dimensi, dan instrumen penilaian komprehensif tercantum di Guidebook PDF resmi jenjang ini.
+                            {language === "id"
+                              ? "Regulasi teknis lengkap, batas toleransi dimensi, dan instrumen penilaian komprehensif tercantum di Guidebook PDF resmi jenjang ini."
+                              : "Complete technical parameters, dimension tolerances, and full evaluation rubrics are specified in the official category PDF guidebook."}
                           </div>
                         </div>
                       )}
@@ -612,7 +775,7 @@ export default function CompetitionDetailClient({
                   )}
                 </div>
 
-                {/* Dedicated Action Buttons (MANDATORY R3, R5) */}
+                {/* Dedicated Action Buttons */}
                 <div className="mt-6 pt-4 border-t border-navy-800 flex flex-col gap-2">
                   <button
                     type="button"
@@ -620,7 +783,11 @@ export default function CompetitionDetailClient({
                     className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
                   >
                     <BookOpen className="h-3.5 w-3.5" />
-                    <span>Lihat Guidebook (PDF)</span>
+                    <span>
+                      {language === "id"
+                        ? "Lihat Guidebook (PDF)"
+                        : "View Category Guidebook (PDF)"}
+                    </span>
                   </button>
 
                   <a
@@ -629,7 +796,7 @@ export default function CompetitionDetailClient({
                     rel="noopener noreferrer"
                     className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 py-2.5 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus:outline-none focus:ring-2 focus:ring-gold-400"
                   >
-                    <span>Daftar Sekarang</span>
+                    <span>{t.nav.registerNow}</span>
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 </div>
@@ -647,10 +814,14 @@ export default function CompetitionDetailClient({
               </div>
               <div>
                 <h3 className="text-sm sm:text-base font-bold text-text-main">
-                  Acuan Regulasi &amp; Teknis Resmi IARC XII
+                  {language === "id"
+                    ? "Acuan Regulasi & Teknis Resmi IARC XII"
+                    : "Official IARC XII Regulatory & Technical Reference"}
                 </h3>
                 <p className="mt-1 text-xs text-text-soft leading-relaxed max-w-2xl">
-                  Setiap kategori jenjang memiliki spesifikasi arena, dimensi alat, toleransi mekanik, dan instrumen penilaian yang berbeda. Buka dokumen Guidebook PDF pada masing-masing kartu kategori di atas untuk panduan teknis yang mengikat.
+                  {language === "id"
+                    ? "Setiap kategori jenjang memiliki spesifikasi arena, dimensi alat, toleransi mekanik, dan instrumen penilaian yang berbeda. Buka dokumen Guidebook PDF pada masing-masing kartu kategori di atas untuk panduan teknis yang mengikat."
+                    : "Each category specifies unique arena layouts, device dimensions, mechanical tolerances, and evaluation rubrics. Consult the respective PDF Guidebooks above for binding regulations."}
                 </p>
               </div>
             </div>
@@ -661,7 +832,7 @@ export default function CompetitionDetailClient({
               className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2 text-xs font-bold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
             >
               <BookOpen className="h-4 w-4" />
-              <span>Guidebook Utama (Umum)</span>
+              <span>{t.nav.mainGuidebook}</span>
             </button>
           </div>
         </div>
@@ -675,29 +846,39 @@ export default function CompetitionDetailClient({
             <div className="space-y-2 max-w-2xl">
               <div className="inline-flex items-center gap-2 rounded-full bg-gold-500/10 border border-gold-500/20 px-3 py-0.5 text-xs font-semibold text-gold-400">
                 <ShieldCheck className="h-3.5 w-3.5" />
-                <span>Petunjuk Pendaftaran Resmi</span>
+                <span>
+                  {language === "id"
+                    ? "Petunjuk Pendaftaran Resmi"
+                    : "Official Registration Guidelines"}
+                </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-text-main">
-                Petunjuk Pendaftaran &amp; Verifikasi Berkas
+                {language === "id"
+                  ? "Petunjuk Pendaftaran & Verifikasi Berkas"
+                  : "Registration & Document Verification Guidelines"}
               </h3>
               <p className="text-xs sm:text-sm text-text-soft leading-relaxed">
-                Informasi nomor rekening tujuan pembayaran dan rincian biaya registrasi resmi tercantum langsung di dalam formulir Google Form pendaftaran masing-masing kategori lomba. Unggah bukti pembayaran beserta berkas persyaratan pada formulir tersebut untuk proses verifikasi oleh panitia.
+                {language === "id"
+                  ? "Informasi nomor rekening tujuan pembayaran dan rincian biaya registrasi resmi tercantum langsung di dalam formulir Google Form pendaftaran masing-masing kategori lomba. Unggah bukti pembayaran beserta berkas persyaratan pada formulir tersebut untuk proses verifikasi oleh panitia."
+                  : "Bank account transfer instructions and official entry fees are provided directly inside the registration Google Form for each competition category. Upload transfer receipts and verification documents via the form for committee approval."}
               </p>
             </div>
 
             <div className="w-full sm:w-auto rounded-2xl border border-gold-500/30 bg-navy-950/80 p-5 text-center sm:min-w-[260px] flex flex-col items-center justify-center gap-2">
               <ClipboardCheck className="h-6 w-6 text-gold-400" />
               <span className="text-xs font-bold text-text-main">
-                Formulir Pendaftaran
+                {language === "id" ? "Formulir Pendaftaran" : "Registration Form"}
               </span>
               <p className="text-[11px] text-text-soft max-w-[220px]">
-                Informasi rekening transfer tersedia langsung di Google Form
+                {language === "id"
+                  ? "Informasi rekening transfer tersedia langsung di Google Form"
+                  : "Transfer account details are provided directly in the Google Form"}
               </p>
               <a
                 href="#pendaftaran"
-                className="mt-1 inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500"
+                className="mt-1 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400"
               >
-                <span>Pilih Kategori &amp; Daftar</span>
+                <span>{language === "id" ? "Pilih Kategori & Daftar" : "Select Category & Register"}</span>
                 <ArrowRight className="h-3.5 w-3.5" />
               </a>
             </div>
@@ -705,14 +886,16 @@ export default function CompetitionDetailClient({
 
           <div className="mt-6 pt-6 border-t border-navy-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-text-dim">Kelengkapan Berkas:</span>
+              <span className="text-text-dim">
+                {language === "id" ? "Kelengkapan Berkas:" : "Required Submissions:"}
+              </span>
               <a
                 href="https://its.id/m/TwibbonCompeIARCXII"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
               >
-                <span>Twibbon Resmi</span>
+                <span>{t.footer.downloadTwibbon}</span>
                 <ExternalLink className="h-3 w-3" />
               </a>
               <span className="text-navy-700">•</span>
@@ -722,7 +905,7 @@ export default function CompetitionDetailClient({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
               >
-                <span>Caption Resmi</span>
+                <span>{t.footer.copyCaption}</span>
                 <ExternalLink className="h-3 w-3" />
               </a>
             </div>
@@ -731,7 +914,7 @@ export default function CompetitionDetailClient({
               href="/#kompetisi"
               className="inline-flex items-center gap-1.5 font-bold text-gold-400 hover:text-gold-300 transition"
             >
-              <span>Jelajahi Divisi Lain</span>
+              <span>{language === "id" ? "Jelajahi Divisi Lain" : "Explore Other Divisions"}</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>

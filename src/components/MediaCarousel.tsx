@@ -3,55 +3,37 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
-interface MediaItem {
-  src: string;
-  alt: string;
-  caption: string;
-}
-
-const MEDIA_ITEMS: MediaItem[] = [
-  {
-    src: "/images/dokumentasi-1.jpg",
-    alt: "Dokumentasi IARC Race Robotika",
-    caption: "Atmosfer arena perlombaan robotika di hall DTEO ITS",
-  },
-  {
-    src: "/images/dokumentasi-2.jpg",
-    alt: "Dokumentasi Pengujian Robot",
-    caption: "Peserta melakukan kalibrasi dan uji lintasan robot line follower otonom",
-  },
-  {
-    src: "/images/dokumentasi-3.jpg",
-    alt: "Dokumentasi Expo & Presentasi",
-    caption: "Presentasi purwarupa IoT di hadapan dewan juri akademisi dan industri",
-  },
-  {
-    src: "/images/dokumentasi-4.jpg",
-    alt: "Dokumentasi Penganugerahan Juara",
-    caption: "Penyerahan trophy dan penghargaan resmi kepada tim juara IARC",
-  },
+const MEDIA_SOURCES = [
+  { src: "/images/dokumentasi-1.jpg", alt: "IARC Robotics Arena" },
+  { src: "/images/dokumentasi-2.jpg", alt: "Robot Testing & Calibration" },
+  { src: "/images/dokumentasi-3.jpg", alt: "IoT Expo & Presentation" },
+  { src: "/images/dokumentasi-4.jpg", alt: "Awarding Ceremony" },
 ];
 
 export default function MediaCarousel() {
+  const { language, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % MEDIA_ITEMS.length);
+      setCurrentIndex((prev) => (prev + 1) % MEDIA_SOURCES.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + MEDIA_ITEMS.length) % MEDIA_ITEMS.length);
+    setCurrentIndex((prev) => (prev - 1 + MEDIA_SOURCES.length) % MEDIA_SOURCES.length);
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % MEDIA_ITEMS.length);
+    setCurrentIndex((prev) => (prev + 1) % MEDIA_SOURCES.length);
   };
 
-  const activeMedia = MEDIA_ITEMS[currentIndex];
+  const activeMedia = MEDIA_SOURCES[currentIndex];
+  const activeCaption =
+    t.bento.carouselCaptions[currentIndex] || "Official IARC Documentation";
 
   return (
     <div className="relative flex flex-col h-full overflow-hidden rounded-2xl border border-navy-800 bg-navy-900">
@@ -72,7 +54,7 @@ export default function MediaCarousel() {
             type="button"
             onClick={handlePrev}
             className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-navy-950/80 text-text-main shadow-md transition hover:bg-gold-500 hover:text-navy-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
-            aria-label="Dokumentasi sebelumnya"
+            aria-label={language === "id" ? "Dokumentasi sebelumnya" : "Previous slide"}
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -80,7 +62,7 @@ export default function MediaCarousel() {
             type="button"
             onClick={handleNext}
             className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-navy-950/80 text-text-main shadow-md transition hover:bg-gold-500 hover:text-navy-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
-            aria-label="Dokumentasi selanjutnya"
+            aria-label={language === "id" ? "Dokumentasi selanjutnya" : "Next slide"}
           >
             <ChevronRight className="h-5 w-5" />
           </button>
@@ -88,13 +70,13 @@ export default function MediaCarousel() {
 
         {/* Dots Indicator with accessible touch targets */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10">
-          {MEDIA_ITEMS.map((_, idx) => (
+          {MEDIA_SOURCES.map((_, idx) => (
             <button
               key={idx}
               type="button"
               onClick={() => setCurrentIndex(idx)}
               className="flex h-11 w-7 items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 rounded-full"
-              aria-label={`Lihat dokumentasi ${idx + 1}`}
+              aria-label={`${language === "id" ? "Lihat dokumentasi" : "View documentation"} ${idx + 1}`}
             >
               <span
                 className={`h-1.5 rounded-full transition-all block ${
@@ -109,11 +91,13 @@ export default function MediaCarousel() {
       {/* Caption Bar */}
       <div className="p-4 sm:p-5 text-left flex-1 flex flex-col justify-center">
         <div className="flex items-center justify-between text-xs font-semibold text-gold-400 uppercase tracking-wider mb-1.5">
-          <span>Dokumentasi Resmi IARC</span>
-          <span className="text-text-soft font-mono">{currentIndex + 1} / {MEDIA_ITEMS.length}</span>
+          <span>{language === "id" ? "Dokumentasi Resmi IARC" : "Official IARC Documentation"}</span>
+          <span className="text-text-soft font-mono">
+            {currentIndex + 1} / {MEDIA_SOURCES.length}
+          </span>
         </div>
         <p className="text-xs sm:text-sm text-text-soft leading-relaxed">
-          {activeMedia.caption}
+          {activeCaption}
         </p>
       </div>
     </div>

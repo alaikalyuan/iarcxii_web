@@ -6,9 +6,12 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, BookOpen, ArrowRight } from "lucide-react";
 import { usePdfModal } from "@/context/PdfModalContext";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
   const { openModal } = usePdfModal();
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,11 +24,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Tentang", href: "/#tentang" },
-    { name: "Kompetisi", href: "/#kompetisi" },
-    { name: "Alur Pendaftaran", href: "/#alur" },
-    { name: "Jadwal", href: "/#timeline" },
-    { name: "FAQ", href: "/#faq" },
+    { name: t.nav.about, href: "/#tentang" },
+    { name: t.nav.competitions, href: "/#kompetisi" },
+    { name: t.nav.registrationFlow, href: "/#alur" },
+    { name: t.nav.timeline, href: "/#timeline" },
+    { name: t.nav.faq, href: "/#faq" },
   ];
 
   return (
@@ -62,22 +65,24 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Desktop Action CTAs */}
+        {/* Desktop Action CTAs & Language Switcher */}
         <div className="hidden items-center gap-3 lg:flex">
+          <LanguageSwitcher variant="header" />
+
           <button
             type="button"
             onClick={() => openModal("utama")}
             className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900/90 px-4 py-2 text-xs font-semibold text-gold-400 transition hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
             <BookOpen className="h-3.5 w-3.5" />
-            <span>Guidebook Utama</span>
+            <span>{t.nav.mainGuidebook}</span>
           </button>
 
           <a
             href="/#alur"
             className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
-            <span>Daftar Sekarang</span>
+            <span>{t.nav.registerNow}</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </a>
         </div>
@@ -87,11 +92,11 @@ export default function Navbar() {
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-xl border border-navy-800 bg-navy-900/90 px-3 py-2 text-text-soft transition hover:text-text-main lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
-          aria-label={mobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+          aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          <span className="text-xs font-semibold">Menu</span>
+          <span className="text-xs font-semibold">{t.nav.menu}</span>
         </button>
       </div>
 
@@ -105,7 +110,12 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="border-b border-navy-800 bg-navy-950/95 backdrop-blur-xl lg:hidden overflow-hidden"
           >
-            <div className="space-y-1 px-4 pt-3 pb-6 sm:px-6">
+            <div className="space-y-2 px-4 pt-3 pb-6 sm:px-6">
+              {/* Mobile Language Switcher */}
+              <div className="pb-2 border-b border-navy-800/80">
+                <LanguageSwitcher variant="mobile" />
+              </div>
+
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -124,18 +134,18 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     openModal("utama");
                   }}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900 py-2.5 text-xs font-semibold text-gold-400"
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900 py-2.5 text-xs font-semibold text-gold-400"
                 >
                   <BookOpen className="h-4 w-4" />
-                  <span>Guidebook Utama (PDF)</span>
+                  <span>{t.nav.mainGuidebook}</span>
                 </button>
 
                 <a
                   href="/#alur"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold-500 py-2.5 text-xs font-bold text-navy-950"
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-gold-500 py-2.5 text-xs font-bold text-navy-950"
                 >
-                  <span>Daftar Sekarang</span>
+                  <span>{t.nav.registerNow}</span>
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </div>

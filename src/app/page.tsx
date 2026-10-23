@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import BentoGridSection from "@/components/BentoGridSection";
+import PrizeSection from "@/components/PrizeSection";
 import CompetitionSection from "@/components/CompetitionSection";
 import RegistrationFlowSection from "@/components/RegistrationFlowSection";
 import TimelineSection from "@/components/TimelineSection";
@@ -15,6 +16,7 @@ export default function Home() {
       <main className="flex-1 overflow-x-hidden">
         <HeroSection />
         <BentoGridSection />
+        <PrizeSection />
         <CompetitionSection />
         <RegistrationFlowSection />
         <TimelineSection />

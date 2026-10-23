@@ -5,8 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Hexagon3DVisual from "./Hexagon3DVisual";
 import DecorativeBackground from "./DecorativeBackground";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative min-h-screen min-h-[100dvh] min-h-[92vh] flex flex-col justify-center overflow-hidden pt-20 pb-8 md:pt-28 md:pb-12">
       {/* Decorative Gear, Rhombus, Elipse & Gold-Blue Ambient Glow (from figma_shapes) */}
@@ -24,7 +27,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5 }}
             className="text-xs sm:text-sm font-semibold tracking-wider text-gold-400/90 uppercase drop-shadow-[0_2px_8px_rgba(10,14,24,0.9)]"
           >
-            Department of Automation Electrical Engineering &middot; ITS Surabaya
+            {t.hero.eyebrow}
           </motion.p>
 
           {/* Large Official IARC XII Brand Identity Logo (with Dual Gears from Foto 1) */}
@@ -53,7 +56,9 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-2xl md:text-3xl font-extrabold tracking-wide uppercase text-text-main leading-tight drop-shadow-[0_2px_12px_rgba(10,14,24,0.85)]"
           >
-            Industrial <span className="text-gold-400">Automation</span> &amp; Robotic Competition
+            {t.hero.titlePrefix}
+            <span className="text-gold-400">{t.hero.titleHighlight}</span>
+            {t.hero.titleSuffix}
           </motion.h1>
 
           {/* Single Solid Gold CTA (Clean, No Arrow Clutter per R-08 & R-15) */}
@@ -65,9 +70,9 @@ export default function HeroSection() {
           >
             <a
               href="#kompetisi"
-              className="inline-flex items-center justify-center rounded-lg bg-[#deb458] px-8 py-3.5 text-sm sm:text-base font-bold text-navy-950 shadow-[0_0_25px_rgba(222,180,88,0.3)] transition-all duration-200 hover:bg-[#eac46c] hover:scale-[1.02] active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-gold-400"
+              className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-[#deb458] px-8 py-3.5 text-sm sm:text-base font-bold text-navy-950 shadow-[0_0_25px_rgba(222,180,88,0.3)] transition-all duration-200 hover:bg-[#eac46c] hover:scale-[1.02] active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-gold-400"
             >
-              Explore Competition
+              {t.hero.ctaButton}
             </a>
           </motion.div>
         </div>
