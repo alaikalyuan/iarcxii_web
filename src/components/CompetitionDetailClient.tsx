@@ -209,7 +209,7 @@ export default function CompetitionDetailClient({
                         className={`rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 ${
                           isActive
                             ? theme.trackActive
-                            : "border border-navy-700 bg-navy-900 text-text-soft hover:border-rose-500/40 hover:text-text-main"
+                            : "border border-navy-700 bg-navy-900 text-text-soft hover:border-purple-500/40 hover:text-text-main"
                         }`}
                       >
                         {track.name}
@@ -268,14 +268,14 @@ export default function CompetitionDetailClient({
         <div className="mt-8">
           {/* Automation Challenge: Microcontroller Track Specifications */}
           {isAutomationChallenge && activeTrackId === "iot" && (
-            <div className="rounded-2xl border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
+            <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
                 <Cpu className="h-4 w-4" />
                 <span>Spesifikasi Teknis &amp; Regulasi Track 1: Microcontroller (IoT)</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-rose-400">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
                     3 Acuan Pusat Studi (Pusdi) ITS
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -292,7 +292,7 @@ export default function CompetitionDetailClient({
                 </div>
 
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-rose-400">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
                     Hardware, Plafon Anggaran &amp; Seleksi
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -313,14 +313,14 @@ export default function CompetitionDetailClient({
 
           {/* Automation Challenge: PLC Track Specifications */}
           {isAutomationChallenge && activeTrackId === "plc" && (
-            <div className="rounded-2xl border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
+            <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
                 <Cpu className="h-4 w-4" />
                 <span>Spesifikasi Hardware &amp; Software Resmi Track 2: PLC</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-rose-400">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
                     Perangkat Lunak (Software) Standar
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -337,7 +337,7 @@ export default function CompetitionDetailClient({
                 </div>
 
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-rose-400">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
                     Modul Trainer Hardware ITS
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -358,26 +358,26 @@ export default function CompetitionDetailClient({
 
           {/* Smart Robotics Specifications */}
           {isSmartRobotics && (
-            <div className="rounded-2xl border border-emerald-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-emerald-400 mb-3">
+            <div className="rounded-2xl border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
                 <Bot className="h-4 w-4" />
                 <span>Spesifikasi 4 Jenjang Smart Robotics</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-text-soft">
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-emerald-400 block mb-1">SD (Beginner)</span>
+                  <span className="font-bold text-rose-400 block mb-1">SD (Beginner)</span>
                   <p>Line follower grafis blok (Ardublock). Misi mendorong objek keluar zona rintangan. Babak grup 4 tim per pool.</p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-emerald-400 block mb-1">SMP (Junior)</span>
+                  <span className="font-bold text-rose-400 block mb-1">SMP (Junior)</span>
                   <p>Line follower mikrokontroler mandiri dengan sensor optik. 60 menit trial bersama, kualifikasi waktu top 16 ke babak gugur.</p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-emerald-400 block mb-1">SMA/SMK (Senior)</span>
+                  <span className="font-bold text-rose-400 block mb-1">SMA/SMK (Senior)</span>
                   <p>Gripper Line Follower (max 25x20x25 cm ±5%). Checkpoint (+15), relokasi objek 1 kotak jingga (+10), objek 2 kotak hijau (+10).</p>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-emerald-400 block mb-1">Mahasiswa (Dual Robot)</span>
+                  <span className="font-bold text-rose-400 block mb-1">Mahasiswa (Dual Robot)</span>
                   <p>Sistem kolaborasi R1 (Autonomous LF pemindah kubus) + R2 (Shooter Robot penembak sasaran). Format Best of 3 (BO3).</p>
                 </div>
               </div>
@@ -387,7 +387,7 @@ export default function CompetitionDetailClient({
                   href="https://its.id/m/SmartRoboticsOnline"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-semibold text-emerald-400 hover:underline"
+                  className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
                 >
                   <span>Unduh Lintasan (its.id/m/SmartRoboticsOnline)</span>
                   <ExternalLink className="h-3 w-3" />
@@ -398,14 +398,14 @@ export default function CompetitionDetailClient({
 
           {/* Energy Treasure Specifications */}
           {isEnergyTreasure && (
-            <div className="rounded-2xl border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-amber-400 mb-3">
+            <div className="rounded-2xl border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-sky-400 mb-3">
                 <Zap className="h-4 w-4" />
                 <span>Spesifikasi Navigasi Labirin &amp; Efisiensi Konsumsi Daya</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
                     Mekanisme 3 Tahapan Seleksi
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
@@ -415,11 +415,11 @@ export default function CompetitionDetailClient({
                   </ul>
                 </div>
                 <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
                     Verifikasi Pendaftaran Resmi
                   </h4>
                   <p className="leading-relaxed">
-                    Tautan formulir registrasi resmi telah diverifikasi: <code className="text-amber-400 font-mono">https://its.id/m/FormRegistEnergyTreasureIARCXII</code>.
+                    Tautan formulir registrasi resmi telah diverifikasi: <code className="text-sky-400 font-mono">https://its.id/m/FormRegistEnergyTreasureIARCXII</code>.
                     Pastikan robot line follower dilengkapi sensor pendeteksi jarak/dinding dan pemutus arus darurat.
                   </p>
                 </div>
@@ -429,14 +429,14 @@ export default function CompetitionDetailClient({
 
           {/* Vortex Specifications */}
           {isVortex && (
-            <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
+            <div className="rounded-2xl border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-amber-400 mb-3">
                 <Lightbulb className="h-4 w-4" />
                 <span>Format Kompetisi KTI Vortex &amp; Batasan Plagiarisme</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400 mb-1.5">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
                     Dua Pendekatan Gagasan
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
@@ -445,7 +445,7 @@ export default function CompetitionDetailClient({
                   </ul>
                 </div>
                 <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400 mb-1.5">
+                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
                     Persyaratan Orisinalitas Ketat
                   </h4>
                   <p className="leading-relaxed">

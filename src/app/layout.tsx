@@ -3,6 +3,7 @@ import { Sora, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { PdfModalProvider } from "@/context/PdfModalContext";
 import PdfViewerModal from "@/components/PdfViewerModal";
+import ChatbotWidget from "@/components/ChatbotWidget";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
         <PdfModalProvider>
           {children}
           <PdfViewerModal />
+          <ChatbotWidget />
         </PdfModalProvider>
       </body>
     </html>

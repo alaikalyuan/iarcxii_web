@@ -158,10 +158,10 @@ export default function CompetitionSection() {
                         {/* Jalur 1: IoT (Clickable Card) */}
                         <Link
                           href="/competition/automation-challenge/iot"
-                          className="group/track block rounded-xl bg-navy-900/80 p-3 border border-navy-800/90 transition-all duration-200 hover:border-rose-500/60 hover:bg-navy-900 hover:shadow-md hover:shadow-rose-500/10 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="group/track block rounded-xl bg-navy-900/80 p-3 border border-navy-800/90 transition-all duration-200 hover:border-purple-500/60 hover:bg-navy-900 hover:shadow-md hover:shadow-purple-500/10 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-xs font-bold text-text-main group-hover/track:text-rose-400 transition-colors">
+                            <span className="text-xs font-bold text-text-main group-hover/track:text-purple-400 transition-colors">
                               Microcontroller (IoT)
                             </span>
                             <div className="flex items-center gap-1.5">
@@ -170,7 +170,7 @@ export default function CompetitionSection() {
                               >
                                 5 Jenjang
                               </span>
-                              <ArrowRight className="h-3.5 w-3.5 text-rose-400 transition-transform group-hover/track:translate-x-1" />
+                              <ArrowRight className="h-3.5 w-3.5 text-purple-400 transition-transform group-hover/track:translate-x-1" />
                             </div>
                           </div>
                           <p className="text-[11px] text-text-soft line-clamp-1 mb-2">
@@ -193,10 +193,10 @@ export default function CompetitionSection() {
                         {/* Jalur 2: PLC (Clickable Card) */}
                         <Link
                           href="/competition/automation-challenge/plc"
-                          className="group/track block rounded-xl bg-navy-900/80 p-3 border border-navy-800/90 transition-all duration-200 hover:border-rose-500/60 hover:bg-navy-900 hover:shadow-md hover:shadow-rose-500/10 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                          className="group/track block rounded-xl bg-navy-900/80 p-3 border border-navy-800/90 transition-all duration-200 hover:border-purple-500/60 hover:bg-navy-900 hover:shadow-md hover:shadow-purple-500/10 focus:outline-none focus:ring-2 focus:ring-purple-500"
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
-                            <span className="text-xs font-bold text-text-main group-hover/track:text-rose-400 transition-colors">
+                            <span className="text-xs font-bold text-text-main group-hover/track:text-purple-400 transition-colors">
                               PLC (Industri)
                             </span>
                             <div className="flex items-center gap-1.5">
@@ -205,7 +205,7 @@ export default function CompetitionSection() {
                               >
                                 2 Jenjang
                               </span>
-                              <ArrowRight className="h-3.5 w-3.5 text-rose-400 transition-transform group-hover/track:translate-x-1" />
+                              <ArrowRight className="h-3.5 w-3.5 text-purple-400 transition-transform group-hover/track:translate-x-1" />
                             </div>
                           </div>
                           <p className="text-[11px] text-text-soft line-clamp-1 mb-2">
@@ -286,7 +286,7 @@ export default function CompetitionSection() {
 
                       <Link
                         href="/competition/automation-challenge/plc"
-                        className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-rose-500/40 bg-navy-900 px-4 py-2.5 text-xs font-bold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                        className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-purple-500/40 bg-navy-900 px-4 py-2.5 text-xs font-bold text-purple-300 transition hover:bg-purple-500/10 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
                       >
                         <span>Halaman Jalur PLC</span>
                         <ArrowRight className="h-3.5 w-3.5" />

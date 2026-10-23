@@ -7,22 +7,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "extract-guidebooks": "node scripts/download-and-extract-guidebooks.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
     "framer-motion": "^14.4.0",
     "lucide-react": "^1.59.0",
     "next": "16.4.2",
+    "openai": "^7.43.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4.3.3",
     "@types/node": "^22.0.0",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "pdf-parse": "^2.4.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.0.0"
   }
