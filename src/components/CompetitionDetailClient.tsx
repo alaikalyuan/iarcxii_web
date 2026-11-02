@@ -18,6 +18,7 @@ import {
   ArrowRight,
   ShieldCheck,
   ClipboardCheck,
+  Laptop,
 } from "lucide-react";
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
@@ -480,19 +481,109 @@ export default function CompetitionDetailClient({
                   </p>
                 </div>
               </div>
-              <div className="mt-3 pt-3 border-t border-navy-800 flex items-center justify-between text-xs">
-                <span className="text-text-dim">
-                  {language === "id" ? "Modul Lintasan Resmi Daring:" : "Official Digital Track Layout:"}
-                </span>
-                <a
-                  href="https://its.id/m/SmartRoboticsOnline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
-                >
-                  <span>{language === "id" ? "Unduh Lintasan" : "Download Track File"}</span>
-                  <ExternalLink className="h-3 w-3" />
-                </a>
+              <div className="mt-3 pt-3 border-t border-navy-800 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-text-dim">
+                      {language === "id" ? "Showcase & Web App LF:" : "LF Showcase & Web App:"}
+                    </span>
+                    <a
+                      href="https://ismarintan98.github.io/LF_ITS-Share/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
+                    >
+                      <span>{language === "id" ? "Web App & Panduan" : "Web App & Guide"}</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                  <span className="text-navy-700 hidden sm:inline">•</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-text-dim">
+                      {language === "id" ? "Modul Lintasan Resmi Daring:" : "Official Digital Track Layout:"}
+                    </span>
+                    <a
+                      href="https://its.id/m/SmartRoboticsOnline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
+                    >
+                      <span>{language === "id" ? "Unduh Lintasan" : "Download Track File"}</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Smart Robotics Showcase & Web App Programming Guide Banner */}
+          {isSmartRobotics && (
+            <div className="mt-6 overflow-hidden rounded-2xl border border-rose-500/40 bg-gradient-to-br from-navy-900/90 via-navy-950/95 to-navy-900/90 p-5 sm:p-6 backdrop-blur-sm shadow-xl relative">
+              <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-rose-500/10 blur-3xl pointer-events-none" />
+              <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div className="space-y-3 max-w-2xl">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-xs font-semibold text-rose-300">
+                    <Laptop className="h-3.5 w-3.5" />
+                    <span>
+                      {language === "id"
+                        ? "Showcase & Platform Web App Resmi"
+                        : "Official Showcase & Web App Platform"}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-text-main">
+                      {language === "id"
+                        ? "Showcase & Panduan Pemrograman LF (Web App)"
+                        : "LF Showcase & Web App Programming Guide"}
+                    </h3>
+                    <p className="mt-1.5 text-xs sm:text-sm text-text-soft leading-relaxed">
+                      {language === "id"
+                        ? "Akses website showcase resmi dan panduan robot Line Follower 16 sensor dengan gripper dari tim robotika ITS. Tersedia platform pemrograman blok langsung dari browser web app, download firmware & software, serta aplikasi remote controller HP via Bluetooth."
+                        : "Access the official showcase and programming guide for 16-sensor Line Follower robots with gripper from the ITS robotics team. Features browser-based block coding web app, firmware downloads, and Bluetooth mobile remote controller app."}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-rose-300 border border-navy-800">
+                      {language === "id" ? "Pemrograman Blok via Web App" : "Browser Block Coding"}
+                    </span>
+                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                      {language === "id" ? "16 Sensor Garis & Gripper" : "16 Line Sensors & Gripper"}
+                    </span>
+                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                      {language === "id" ? "Firmware & Aplikasi Remote HP" : "Firmware & Mobile Remote"}
+                    </span>
+                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                      {language === "id" ? "Layar OLED & Sensor ToF" : "OLED Display & ToF Sensors"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 shrink-0">
+                  <a
+                    href="https://ismarintan98.github.io/LF_ITS-Share/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-rose-500 to-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-rose-950/40 transition hover:from-rose-400 hover:to-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
+                  >
+                    <span>
+                      {language === "id"
+                        ? "Buka Web App & Showcase LF"
+                        : "Open LF Web App & Showcase"}
+                    </span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://ismarintan98.github.io/LF_ITS-Share/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-mono text-rose-400/80 hover:text-rose-300 hover:underline flex items-center gap-1"
+                  >
+                    <span>ismarintan98.github.io/LF_ITS-Share</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                </div>
               </div>
             </div>
           )}

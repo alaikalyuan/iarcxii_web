@@ -22,7 +22,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 1: Microcontroller (IoT)",
     level: "SD",
-    driveFileId: "1uQ1cab1J8q-c0y7LHuPGqYbmo9pNAk6G",
+    driveFileId: "1HgXscE4qxnuleO7bpNu-W3HHG9LJJjha",
   },
   {
     id: "ac-iot-smp",
@@ -30,7 +30,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 1: Microcontroller (IoT)",
     level: "SMP",
-    driveFileId: "1eCWiLbaj854c4vDzMbeE8kK6wLObjjF6",
+    driveFileId: "1S9tndYneDhlVF5EVE7_oQp5LUs7fpTea",
   },
   {
     id: "ac-iot-sma",
@@ -38,7 +38,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 1: Microcontroller (IoT)",
     level: "SMA/SMK",
-    driveFileId: "1sQLag3CtjTOqG0Hp2LSeiM2ffC6IgRAj",
+    driveFileId: "11FFJnDza-c5A1mcNOoWV6CR1RKMccrEn",
   },
   {
     id: "ac-iot-mahasiswa",
@@ -46,7 +46,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 1: Microcontroller (IoT)",
     level: "Mahasiswa",
-    driveFileId: "1YBo2zKuqBSvma3KcbQWKaW1zD0ecAUMD",
+    driveFileId: "1RX5g-d4NAGj9Mj5pWWD3kpxmdEY0DlXU",
   },
   {
     id: "ac-iot-college",
@@ -54,7 +54,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 1: Microcontroller (IoT)",
     level: "International",
-    driveFileId: "1cs-v0yp4zXNqJcVQnMEOx4U7rqLwRIZe",
+    driveFileId: "1RX5g-d4NAGj9Mj5pWWD3kpxmdEY0DlXU",
   },
   {
     id: "ac-plc-sma",
@@ -62,7 +62,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 2: PLC",
     level: "SMA/SMK",
-    driveFileId: "11wDZHyCo-r5gM62c-eU448oY9Ay9pk3x",
+    driveFileId: "16oR7A49dKUqqIT4aze36i94dgqUQ1wFW",
   },
   {
     id: "ac-plc-mahasiswa",
@@ -70,7 +70,7 @@ const GUIDEBOOKS = [
     division: "Automation Challenge",
     track: "Track 2: PLC",
     level: "Mahasiswa",
-    driveFileId: "1eAkkfOJ7U8E6rU_lPMbFVOg8adzW5z3b",
+    driveFileId: "1coQGlUYXAxmB65M93sXWCS93m6hAuB7c",
   },
   {
     id: "sr-sd",
@@ -78,7 +78,7 @@ const GUIDEBOOKS = [
     division: "Smart Robotics",
     track: "Line Follower / Mission",
     level: "SD",
-    driveFileId: "1gwJp1EsmaPgV-oWPW57k0VUM5jXVAMn5",
+    driveFileId: "1aDIGw8GW-Qnk28qVPreZ-_5gOw1rYuNx",
   },
   {
     id: "sr-smp",
@@ -86,7 +86,7 @@ const GUIDEBOOKS = [
     division: "Smart Robotics",
     track: "Line Follower / Mission",
     level: "SMP",
-    driveFileId: "1SXfoOAbM4mkzRXBwNfQWH8X91bmraz8l",
+    driveFileId: "1vSzLNsugX7yqUsk8_jSqydGaTLpe-ez2",
   },
   {
     id: "sr-sma",
@@ -94,7 +94,7 @@ const GUIDEBOOKS = [
     division: "Smart Robotics",
     track: "Line Follower / Gripper",
     level: "SMA/SMK",
-    driveFileId: "1x5xDg_yqAeZHoZibnt1J4ToDzjQFWHM-",
+    driveFileId: "1EaCDWjzcJMk1aCl9EqlJaiUhhANQOrCK",
   },
   {
     id: "sr-mahasiswa",
@@ -102,7 +102,7 @@ const GUIDEBOOKS = [
     division: "Smart Robotics",
     track: "Dual Robot Autonomous (R1) & Shooter (R2)",
     level: "Mahasiswa",
-    driveFileId: "1CBZHKGrm7e1O55Tc6k2tvP1i0mW9QWpw",
+    driveFileId: "16BQ6_5-tzjk4ev0zCgDByqs9TtlzUuYD",
   },
   {
     id: "et-sma",
@@ -110,7 +110,7 @@ const GUIDEBOOKS = [
     division: "Energy Treasure",
     track: "Maze Solver Line Follower",
     level: "SMA/SMK",
-    driveFileId: "1b1X3bBQ3ZM1jqWvnQ5j6eMBPz_aRzP1u",
+    driveFileId: "1M8ZKTFb3CUlu_GFMw51yFqYjn2GAxzAt",
   },
   {
     id: "et-mahasiswa",
@@ -118,7 +118,7 @@ const GUIDEBOOKS = [
     division: "Energy Treasure",
     track: "Maze Solver Line Follower",
     level: "Mahasiswa",
-    driveFileId: "1HfvYmff8UDEvPp9FbY3naiIObMO_CBAM",
+    driveFileId: "17TA69X_pn8T4qc7-7YsZKRBaEdsDhGOu",
   },
   {
     id: "kti-sma",
@@ -126,7 +126,7 @@ const GUIDEBOOKS = [
     division: "KTI Vortex",
     track: "Idea & Innovation Challenge",
     level: "SMA/SMK",
-    driveFileId: "1U06MEmMDTWX0aBkGw-OyNULOvUnZVwwq",
+    driveFileId: "1d61pRSlnBKvPNFTA9ymIA3UpQmHzIent",
   },
   {
     id: "kti-mahasiswa",
@@ -134,7 +134,7 @@ const GUIDEBOOKS = [
     division: "KTI Vortex",
     track: "Idea & Innovation Challenge",
     level: "Mahasiswa",
-    driveFileId: "10bcXDOy2u8kNo6o9-bTqadFdzao4kF9i",
+    driveFileId: "1DWBk4L6oLwpO3goD5nOxOE9VKrrWx8BC",
   },
 ];
 
@@ -149,14 +149,34 @@ if (!fs.existsSync(extractDir)) {
 }
 
 async function downloadFile(driveFileId, destPath) {
-  const url = `https://drive.google.com/uc?export=download&id=${driveFileId}`;
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to download ${driveFileId}: ${response.status} ${response.statusText}`);
+  const urls = [
+    `https://drive.usercontent.google.com/download?id=${driveFileId}&export=download`,
+    `https://drive.google.com/uc?export=download&id=${driveFileId}`
+  ];
+
+  let lastErr = null;
+  for (const url of urls) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`);
+      }
+      const buffer = await response.arrayBuffer();
+      if (buffer.byteLength < 500) {
+        throw new Error(`File too small or download interstitial returned (${buffer.byteLength} bytes)`);
+      }
+      fs.writeFileSync(destPath, Buffer.from(buffer));
+      return Buffer.from(buffer);
+    } catch (err) {
+      lastErr = err;
+    }
   }
-  const buffer = await response.arrayBuffer();
-  fs.writeFileSync(destPath, Buffer.from(buffer));
-  return Buffer.from(buffer);
+
+  throw new Error(`Failed to download ${driveFileId}: ${lastErr?.message}`);
 }
 
 function parsePagesFromText(rawText, totalPages) {
@@ -194,7 +214,8 @@ function parsePagesFromText(rawText, totalPages) {
 }
 
 async function run() {
-  console.log(`Starting extraction of ${GUIDEBOOKS.length} guidebooks...`);
+  const force = process.argv.includes("--force");
+  console.log(`Starting extraction of ${GUIDEBOOKS.length} guidebooks (force: ${force})...`);
   const masterIndex = [];
 
   for (const gb of GUIDEBOOKS) {
@@ -202,7 +223,7 @@ async function run() {
     const jsonPath = path.join(extractDir, `${gb.id}.json`);
 
     let buffer;
-    if (fs.existsSync(pdfPath) && fs.statSync(pdfPath).size > 1000) {
+    if (!force && fs.existsSync(pdfPath) && fs.statSync(pdfPath).size > 1000) {
       console.log(`[Cache] Using existing PDF for ${gb.id}`);
       buffer = fs.readFileSync(pdfPath);
     } else {

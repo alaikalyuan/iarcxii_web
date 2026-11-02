@@ -521,6 +521,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
         ],
         softwareSpecs: [
           "Algoritma kontrol PID mandiri tanpa kendali manual nirkabel (otonom penuh)",
+          "Showcase robot & panduan pemrograman via Web App: https://ismarintan98.github.io/LF_ITS-Share/",
           "Lintasan digital resmi dapat diunduh di https://its.id/m/SmartRoboticsOnline",
         ],
         categories: [

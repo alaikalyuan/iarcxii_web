@@ -308,6 +308,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
         ],
         softwareSpecs: [
           "Autonomous PID line tracing algorithm without external wireless control (fully autonomous)",
+          "Robot showcase & web app-based block programming guide: https://ismarintan98.github.io/LF_ITS-Share/",
           "Official digital track layout available at https://its.id/m/SmartRoboticsOnline",
         ],
         categories: [

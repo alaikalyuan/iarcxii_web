@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  ExternalLink,
   Layers,
   Cpu,
   Bot,
@@ -285,6 +286,20 @@ export default function CompetitionSection() {
                               : "Cooperative system: R1 (Autonomous Line Follower) and R2 (Shooter Robot)."}
                           </p>
                         </div>
+                      </div>
+                      <div className="pt-2 border-t border-navy-800/80 flex items-center justify-between text-[11px]">
+                        <span className="text-text-dim">
+                          {language === "id" ? "Web App & Showcase LF:" : "LF Web App & Showcase:"}
+                        </span>
+                        <a
+                          href="https://ismarintan98.github.io/LF_ITS-Share/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
+                        >
+                          <span>{language === "id" ? "Panduan & Web App" : "Guide & Web App"}</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
                       </div>
                     </div>
                   )}
