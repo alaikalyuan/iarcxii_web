@@ -106,9 +106,9 @@ export const GUIDEBOOKS: GuidebookItem[] = [
     division: "Smart Robotics",
     track: "Line Follower / Mission",
     level: "SMP",
-    driveFileId: "1vSzLNsugX7yqUsk8_jSqydGaTLpe-ez2",
-    previewUrl: "https://drive.google.com/file/d/1vSzLNsugX7yqUsk8_jSqydGaTLpe-ez2/preview",
-    downloadUrl: "https://drive.google.com/uc?export=download&id=1vSzLNsugX7yqUsk8_jSqydGaTLpe-ez2",
+    driveFileId: "1C81BTg5-loVe2gYVpbnstELu7Py2mshF",
+    previewUrl: "https://drive.google.com/file/d/1C81BTg5-loVe2gYVpbnstELu7Py2mshF/preview",
+    downloadUrl: "https://drive.google.com/uc?export=download&id=1C81BTg5-loVe2gYVpbnstELu7Py2mshF",
     parentFolderId: "1LicU_6dsaPEqx4Wl_MJXmzeZFQBc_hL3",
   },
   {

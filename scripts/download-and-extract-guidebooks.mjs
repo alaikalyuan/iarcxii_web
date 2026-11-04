@@ -86,7 +86,7 @@ const GUIDEBOOKS = [
     division: "Smart Robotics",
     track: "Line Follower / Mission",
     level: "SMP",
-    driveFileId: "1vSzLNsugX7yqUsk8_jSqydGaTLpe-ez2",
+    driveFileId: "1C81BTg5-loVe2gYVpbnstELu7Py2mshF",
   },
   {
     id: "sr-sma",
