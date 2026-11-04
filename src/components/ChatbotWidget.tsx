@@ -2,20 +2,7 @@
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  MessageSquare,
-  X,
-  Send,
-  RotateCcw,
-  BookOpen,
-  Mail,
-  ExternalLink,
-  Bot,
-  User,
-  AlertCircle,
-  Sparkles,
-  ChevronDown,
-} from "lucide-react";
+import { MessageSquare, X, Send, RotateCcw } from "lucide-react";
 import { siteConfig } from "@/data/siteConfig";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { ChatMessage, ChatApiResponse } from "@/types/chat";
@@ -144,18 +131,11 @@ export default function ChatbotWidget() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 20 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="pointer-events-auto mb-3.5 flex h-[580px] max-h-[82vh] w-[390px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-gold-500/30 bg-navy-950/95 backdrop-blur-2xl shadow-2xl shadow-navy-950/90"
+            className="pointer-events-auto mb-3.5 flex h-[580px] max-h-[82vh] w-[390px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-md border border-gold-500/30 bg-navy-950"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-navy-800 bg-navy-900/90 px-4 py-3">
               <div className="flex items-center gap-2.5">
-                <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gold-500/15 border border-gold-500/30 text-gold-400">
-                  <Bot className="h-5 w-5" />
-                  <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-                  </span>
-                </div>
                 <div>
                   <div className="flex items-center gap-1.5">
                     <h3 className="text-xs font-bold text-text-main font-heading tracking-wide">
@@ -172,7 +152,7 @@ export default function ChatbotWidget() {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg text-text-dim hover:bg-navy-800 hover:text-gold-400 transition"
+                  className="flex h-8 w-8 items-center justify-center rounded-md text-text-dim hover:bg-navy-800 hover:text-gold-400 transition"
                   title={t.chatbot.resetTooltip}
                   aria-label={t.chatbot.resetTooltip}
                 >
@@ -181,7 +161,7 @@ export default function ChatbotWidget() {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg text-text-dim hover:bg-navy-800 hover:text-text-main transition"
+                  className="flex h-8 w-8 items-center justify-center rounded-md text-text-dim hover:bg-navy-800 hover:text-text-main transition"
                   aria-label={language === "id" ? "Tutup jendela chat" : "Close chat window"}
                 >
                   <X className="h-4 w-4" />
@@ -203,23 +183,17 @@ export default function ChatbotWidget() {
                       isUser ? "justify-end" : "justify-start"
                     }`}
                   >
-                    {!isUser && (
-                      <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-gold-400 mt-0.5">
-                        <Bot className="h-3.5 w-3.5" />
-                      </div>
-                    )}
 
                     <div
-                      className={`max-w-[85%] rounded-xl px-3.5 py-2.5 leading-relaxed ${
+                      className={`max-w-[85%] rounded-md px-3.5 py-2.5 leading-relaxed ${
                         isUser
-                          ? "bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-medium rounded-tr-none shadow-md"
-                          : "bg-navy-900/90 border border-navy-800 text-text-soft rounded-tl-none"
+                          ? "bg-gold-500 text-navy-950 font-medium"
+                          : "bg-navy-900/90 border border-navy-800 text-text-soft"
                       }`}
                     >
                       {/* Out of topic warning badge */}
                       {isOutOfTopic && (
                         <div className="mb-2 flex items-center gap-1 text-[11px] font-semibold text-amber-400">
-                          <AlertCircle className="h-3.5 w-3.5" />
                           <span>
                             {language === "id"
                               ? "Di luar topik perlombaan IARC"
@@ -277,7 +251,7 @@ export default function ChatbotWidget() {
                                 </h3>
                               ),
                               table: ({ children }) => (
-                                <div className="overflow-x-auto my-2 rounded-lg border border-navy-700 bg-navy-950/80 shadow-inner">
+                                <div className="overflow-x-auto my-2 rounded-md border border-navy-700 bg-navy-950/80">
                                   <table className="min-w-full text-[10px] text-left border-collapse">
                                     {children}
                                   </table>
@@ -299,7 +273,7 @@ export default function ChatbotWidget() {
                                 </tr>
                               ),
                               th: ({ children }) => (
-                                <th className="px-2.5 py-1.5 font-bold uppercase tracking-wider text-[9px] text-gold-400">
+                                <th className="px-2.5 py-1.5 font-bold text-[9px] text-gold-400">
                                   {children}
                                 </th>
                               ),
@@ -319,7 +293,7 @@ export default function ChatbotWidget() {
                                 </a>
                               ),
                               blockquote: ({ children }) => (
-                                <blockquote className="border-l-2 border-gold-500/60 pl-2.5 my-2 italic text-text-dim text-[11px] bg-navy-950/40 py-1 rounded-r">
+                                <blockquote className="my-2 italic text-text-dim text-[11px]">
                                   {children}
                                 </blockquote>
                               ),
@@ -351,8 +325,7 @@ export default function ChatbotWidget() {
                       {/* Citations Badges */}
                       {msg.citations && msg.citations.length > 0 && (
                         <div className="mt-2.5 pt-2 border-t border-navy-800/80 space-y-1">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim flex items-center gap-1">
-                            <BookOpen className="h-3 w-3 text-gold-400" />
+                          <p className="text-[10px] font-semibold text-text-dim flex items-center gap-1">
                             <span>
                               {language === "id"
                                 ? "Referensi Dokumen Resmi:"
@@ -378,7 +351,6 @@ export default function ChatbotWidget() {
                                     ? `(Hlm. ${c.pageNumber})`
                                     : `(p. ${c.pageNumber})`}
                                 </span>
-                                <ExternalLink className="h-2.5 w-2.5 opacity-60" />
                               </button>
                             ))}
                           </div>
@@ -387,9 +359,8 @@ export default function ChatbotWidget() {
 
                       {/* CS Fallback Card */}
                       {isNeedCs && (
-                        <div className="mt-3 rounded-lg border border-red-500/30 bg-red-950/25 p-2.5 space-y-2">
+                        <div className="mt-3 rounded-md border border-red-500/30 bg-red-950/25 p-2.5 space-y-2">
                           <div className="flex items-center gap-1.5 text-[11px] font-semibold text-red-300">
-                            <AlertCircle className="h-3.5 w-3.5 text-red-400" />
                             <span>
                               {language === "id"
                                 ? "Butuh Bantuan Panitia CS"
@@ -406,7 +377,6 @@ export default function ChatbotWidget() {
                               href={`mailto:${siteConfig.email}?subject=Tanya%20IARC%20XII`}
                               className="inline-flex items-center justify-center gap-1.5 rounded bg-navy-900 px-2.5 py-1.5 text-[10px] font-medium text-gold-400 border border-navy-700 hover:border-gold-400 transition"
                             >
-                              <Mail className="h-3 w-3" />
                               <span>Email: {siteConfig.email}</span>
                             </a>
                             <a
@@ -415,19 +385,12 @@ export default function ChatbotWidget() {
                               rel="noopener noreferrer"
                               className="inline-flex items-center justify-center gap-1.5 rounded bg-navy-900 px-2.5 py-1.5 text-[10px] font-medium text-purple-400 border border-navy-700 hover:border-purple-400 transition"
                             >
-                              <ExternalLink className="h-3 w-3" />
                               <span>Instagram: @iarc.its</span>
                             </a>
                           </div>
                         </div>
                       )}
                     </div>
-
-                    {isUser && (
-                      <div className="flex-shrink-0 h-6 w-6 rounded-full bg-navy-800 border border-navy-700 flex items-center justify-center text-text-soft mt-0.5">
-                        <User className="h-3.5 w-3.5" />
-                      </div>
-                    )}
                   </div>
                 );
               })}
@@ -435,11 +398,7 @@ export default function ChatbotWidget() {
               {/* Loading indicator */}
               {isLoading && (
                 <div className="flex gap-2.5 justify-start">
-                  <div className="flex-shrink-0 h-6 w-6 rounded-full bg-gold-500/15 border border-gold-500/30 flex items-center justify-center text-gold-400 mt-0.5">
-                    <Bot className="h-3.5 w-3.5" />
-                  </div>
-                  <div className="rounded-xl rounded-tl-none border border-navy-800 bg-navy-900/90 px-3.5 py-2.5 text-text-dim flex items-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5 text-gold-400 animate-spin" />
+                  <div className="rounded-md border border-navy-800 bg-navy-900/90 px-3.5 py-2.5 text-text-dim flex items-center gap-2">
                     <span className="text-[11px]">
                       {language === "id"
                         ? "Memeriksa regulasi & guidebook..."
@@ -465,7 +424,7 @@ export default function ChatbotWidget() {
                       type="button"
                       onClick={() => handleSend(q)}
                       disabled={isLoading}
-                      className="rounded-full border border-navy-800 bg-navy-900/90 px-2.5 py-1 text-[10px] text-text-soft hover:border-gold-500/50 hover:text-gold-400 transition disabled:opacity-50"
+                      className="rounded-md border border-navy-800 bg-navy-900 px-2.5 py-1 text-[10px] text-text-soft hover:border-gold-500/50 hover:text-gold-400 transition disabled:opacity-50"
                     >
                       {q}
                     </button>
@@ -490,12 +449,12 @@ export default function ChatbotWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={t.chatbot.inputPlaceholder}
                   disabled={isLoading}
-                  className="flex-1 rounded-lg border border-navy-700 bg-navy-950 px-3 py-2 text-xs text-text-main placeholder:text-text-dim focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 disabled:opacity-50"
+                  className="flex-1 rounded-md border border-navy-700 bg-navy-950 px-3 py-2 text-xs text-text-main placeholder:text-text-dim focus:border-gold-500 focus:outline-none focus:ring-1 focus:ring-gold-500 disabled:opacity-50"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 hover:opacity-90 disabled:opacity-40 transition font-bold"
+                  className="flex h-8 w-8 items-center justify-center rounded-md bg-gold-500 text-navy-950 hover:bg-gold-400 disabled:opacity-40 transition font-bold"
                   aria-label={t.chatbot.sendTooltip}
                 >
                   <Send className="h-3.5 w-3.5" />
@@ -518,14 +477,13 @@ export default function ChatbotWidget() {
               initial={{ opacity: 0, scale: 0.85, x: 10 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               exit={{ opacity: 0, scale: 0.85, x: 10 }}
-              className="relative hidden sm:flex items-center gap-2 rounded-2xl border border-gold-500/30 bg-navy-900/95 px-3.5 py-2 text-xs text-text-soft shadow-xl backdrop-blur-md"
+              className="relative hidden sm:flex items-center gap-2 rounded-md border border-gold-500/30 bg-navy-900 px-3.5 py-2 text-xs text-text-soft"
             >
               <button
                 type="button"
                 onClick={() => setIsOpen(true)}
                 className="flex items-center gap-1.5 text-left hover:text-gold-400 transition"
               >
-                <Sparkles className="h-3.5 w-3.5 text-gold-400 flex-shrink-0" />
                 <span className="text-[11px] font-medium text-text-main">
                   {language === "id" ? (
                     <>
@@ -546,8 +504,6 @@ export default function ChatbotWidget() {
               >
                 <X className="h-3 w-3" />
               </button>
-              {/* Little speech pointer arrow */}
-              <div className="absolute -right-1.5 top-1/2 -translate-y-1/2 h-3 w-3 rotate-45 border-r border-t border-gold-500/30 bg-navy-900/95"></div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -556,12 +512,10 @@ export default function ChatbotWidget() {
         <motion.button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.94 }}
-          className={`group relative flex items-center justify-center rounded-full p-3.5 sm:px-4 sm:py-3.5 font-semibold shadow-2xl transition-all focus:outline-none focus:ring-2 focus:ring-gold-400 ${
+          className={`group relative flex items-center justify-center rounded-md p-3.5 sm:px-4 sm:py-3.5 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-gold-400 ${
             isOpen
-              ? "bg-navy-800 text-text-main border border-navy-700 shadow-navy-950/80"
-              : "bg-gradient-to-r from-gold-500 via-amber-500 to-amber-600 text-navy-950 shadow-gold-500/30 hover:shadow-gold-500/50"
+              ? "bg-navy-800 text-text-main border border-navy-700"
+              : "bg-gold-500 text-navy-950 hover:bg-gold-400"
           }`}
           aria-label={
             isOpen
@@ -577,11 +531,7 @@ export default function ChatbotWidget() {
             <X className="h-5 w-5" />
           ) : (
             <div className="flex items-center gap-2">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-navy-950 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-navy-950"></span>
-              </span>
-              <MessageSquare className="h-5 w-5 fill-current" />
+              <MessageSquare className="h-5 w-5" aria-hidden="true" />
               <span className="text-xs font-bold tracking-wide hidden sm:inline font-heading">
                 {language === "id" ? "Tanya Bot" : "Ask Bot"}
               </span>

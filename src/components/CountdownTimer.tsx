@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Clock } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface TimeLeft {
@@ -72,31 +71,27 @@ export default function CountdownTimer({
   ];
 
   return (
-    <div className="flex flex-col items-start w-full">
-      <div className="mb-2 flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-gold-400">
-        <Clock className="h-3.5 w-3.5" />
-        <span>
-          {language === "id"
-            ? `Batas Penutupan ${effectiveBatchName}`
-            : `Closing Deadline: ${effectiveBatchName}`}
-        </span>
-      </div>
+    <div className="w-full rounded-md border border-navy-800 bg-navy-900 p-4 sm:p-5">
+      <p className="mb-3 text-sm font-semibold text-gold-400">
+        {language === "id"
+          ? `Batas penutupan ${effectiveBatchName}`
+          : `Closing deadline: ${effectiveBatchName}`}
+      </p>
 
-      <div className="grid grid-cols-4 gap-2 sm:gap-3 w-full">
-        {units.map((unit) => (
-          <div
-            key={unit.label}
-            className="flex min-w-0 sm:min-w-[76px] flex-col items-center justify-center rounded-xl border border-gold-500/20 bg-navy-900/90 p-2 sm:p-2.5 backdrop-blur-sm shadow-md"
-          >
-            <span className="font-mono text-xl sm:text-2xl font-bold text-text-main">
-              {mounted ? String(unit.value).padStart(2, "0") : "--"}
-            </span>
-            <span className="text-[10px] sm:text-[11px] font-medium text-text-dim uppercase tracking-wider">
-              {unit.label}
-            </span>
-          </div>
-        ))}
-      </div>
+      {mounted && timeLeft.isExpired ? (
+        <p className="text-sm text-text-soft">{t.flow.countdownClosed}</p>
+      ) : (
+        <dl className="grid grid-cols-4 gap-2 border-t border-navy-700 pt-3 sm:gap-4">
+          {units.map((unit) => (
+            <div key={unit.label} className="min-w-0">
+              <dd className="font-mono text-2xl font-bold text-text-main sm:text-3xl">
+                {mounted ? String(unit.value).padStart(2, "0") : "--"}
+              </dd>
+              <dt className="mt-0.5 text-xs text-text-dim">{unit.label}</dt>
+            </div>
+          ))}
+        </dl>
+      )}
     </div>
   );
 }

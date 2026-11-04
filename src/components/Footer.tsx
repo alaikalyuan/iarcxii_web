@@ -39,32 +39,32 @@ export default function Footer() {
 
           {/* Col 2: Navigasi Cepat */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
+            <h4 className="text-sm font-bold text-text-main mb-3">
               {t.footer.navHeading}
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="text-xs">
               <li>
-                <a href="/#tentang" className="hover:text-gold-400 transition">
+                <a href="/#tentang" className="inline-flex min-h-[44px] items-center hover:text-gold-400 transition">
                   {t.nav.about}
                 </a>
               </li>
               <li>
-                <a href="/#kompetisi" className="hover:text-gold-400 transition">
+                <a href="/#kompetisi" className="inline-flex min-h-[44px] items-center hover:text-gold-400 transition">
                   {t.nav.competitions}
                 </a>
               </li>
               <li>
-                <a href="/#alur" className="hover:text-gold-400 transition">
+                <a href="/#alur" className="inline-flex min-h-[44px] items-center hover:text-gold-400 transition">
                   {t.nav.registrationFlow}
                 </a>
               </li>
               <li>
-                <a href="/#timeline" className="hover:text-gold-400 transition">
+                <a href="/#timeline" className="inline-flex min-h-[44px] items-center hover:text-gold-400 transition">
                   {t.nav.timeline}
                 </a>
               </li>
               <li>
-                <a href="/#faq" className="hover:text-gold-400 transition">
+                <a href="/#faq" className="inline-flex min-h-[44px] items-center hover:text-gold-400 transition">
                   {t.nav.faq}
                 </a>
               </li>
@@ -73,15 +73,15 @@ export default function Footer() {
 
           {/* Col 3: Dokumen & Berkas */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
+            <h4 className="text-sm font-bold text-text-main mb-3">
               {t.footer.docsHeading}
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="text-xs">
               <li>
                 <button
                   type="button"
                   onClick={() => openModal("utama")}
-                  className="inline-flex items-center gap-1.5 text-gold-400 hover:underline"
+                  className="inline-flex min-h-[44px] items-center gap-1.5 text-gold-400 hover:underline"
                 >
                   <BookOpen className="h-3.5 w-3.5" />
                   <span>{t.footer.mainGuidebook}</span>
@@ -92,7 +92,7 @@ export default function Footer() {
                   href={currentSiteConfig.twibbonUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:text-gold-400 transition"
+                  className="inline-flex min-h-[44px] items-center gap-1 hover:text-gold-400 transition"
                 >
                   <span>{t.footer.downloadTwibbon}</span>
                   <ExternalLink className="h-3 w-3 text-text-dim" />
@@ -103,7 +103,7 @@ export default function Footer() {
                   href={currentSiteConfig.captionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 hover:text-gold-400 transition"
+                  className="inline-flex min-h-[44px] items-center gap-1 hover:text-gold-400 transition"
                 >
                   <span>{t.footer.copyCaption}</span>
                   <ExternalLink className="h-3 w-3 text-text-dim" />
@@ -114,13 +114,13 @@ export default function Footer() {
 
           {/* Col 4: Kontak & Media Sosial */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-text-main mb-3">
+            <h4 className="text-sm font-bold text-text-main mb-3">
               {t.footer.contactHeading}
             </h4>
             <div className="space-y-3 text-xs">
               <a
                 href={`mailto:${currentSiteConfig.email}`}
-                className="flex items-center gap-2 hover:text-gold-400 transition"
+                className="flex min-h-[44px] items-center gap-2 hover:text-gold-400 transition"
               >
                 <Mail className="h-3.5 w-3.5 text-gold-400" />
                 <span>{currentSiteConfig.email}</span>
@@ -131,7 +131,7 @@ export default function Footer() {
                   href={currentSiteConfig.socials.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-navy-800 bg-navy-900 text-text-soft transition hover:border-gold-500/50 hover:text-gold-400"
+                  className="flex h-11 w-11 items-center justify-center rounded-md border border-navy-700 text-text-soft transition hover:border-gold-500/50 hover:text-gold-400"
                   aria-label="Instagram IARC ITS"
                 >
                   <svg className="h-4 w-4 fill-currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@ export default function Footer() {
                   href={currentSiteConfig.socials.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-navy-800 bg-navy-900 text-text-soft transition hover:border-blue-400/50 hover:text-blue-400"
+                  className="flex h-11 w-11 items-center justify-center rounded-md border border-navy-700 text-text-soft transition hover:border-blue-400/50 hover:text-blue-400"
                   aria-label="LinkedIn IARC ITS"
                 >
                   <svg className="h-4 w-4 fill-currentColor" viewBox="0 0 24 24">
@@ -153,7 +153,7 @@ export default function Footer() {
 
               {/* Secondary Language Switcher in Footer */}
               <div className="pt-2">
-                <span className="block text-[10px] font-semibold uppercase tracking-wider text-text-dim mb-1.5">
+                <span className="block text-xs font-semibold text-text-dim mb-1.5">
                   {t.footer.switchLanguage}
                 </span>
                 <LanguageSwitcher variant="footer" />

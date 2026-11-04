@@ -133,16 +133,13 @@ export default function TimelineSection() {
       <DecorativeBackground variant="section-d" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-8 md:mb-12 text-center">
-          <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
-            {t.timeline.sectionBadge}
-          </p>
-          <h2 className="mt-2 text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl md:text-5xl">
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white sm:text-4xl md:text-5xl">
             {t.timeline.sectionTitle}
           </h2>
 
           {/* Track Switcher Tabs */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3" role="tablist">
+          <div className="mt-6 flex flex-wrap items-center gap-3" role="tablist">
             {timelineTracks.map((track) => {
               const isActive = track.id === activeTrackId;
               return (

@@ -14,16 +14,13 @@ export const enTranslations: TranslationDictionary = {
     menu: "Menu",
   },
   hero: {
-    eyebrow: "Department of Automation Electrical Engineering · ITS Surabaya",
     titlePrefix: "Industrial ",
     titleHighlight: "Automation",
     titleSuffix: " & Robotic Competition",
     ctaButton: "Explore Competitions",
   },
   bento: {
-    sectionBadge: "About & Philosophy",
-    sectionTitle: "Innovation Architecture & Ecosystem of IARC XII",
-    aboutTitlePrefix: "ABOUT ",
+    aboutTitlePrefix: "About ",
     aboutTitleHighlight: "IARC",
     aboutSubtitle: "Industrial Automation & Robotics Competition",
     aboutParagraph1:
@@ -91,9 +88,7 @@ export const enTranslations: TranslationDictionary = {
     ],
   },
   prizes: {
-    sectionBadge: "Recognition & Awards",
-    sectionTitle: "Champion & Participant Award Packages",
-    sectionSubtitle: "Coaching cash prizes, official ITS trophies, and national certifications supporting the next generation of engineers.",
+    sectionTitle: "Prizes and Awards",
     totalPrizeLabel: "Total Prize Pool",
     totalPrizeSub: "Cumulative coaching funds and competition support facilities across all competition divisions.",
     firstPlaceTitle: "1st Place",
@@ -109,8 +104,7 @@ export const enTranslations: TranslationDictionary = {
     officialCertificationNotice: "Official certificates are issued directly by the Department of Automation Electrical Engineering ITS and can be cited for academic admissions and professional portfolios.",
   },
   competitions: {
-    sectionBadge: "Competition Divisions",
-    sectionTitle: "4 Core Competition Divisions",
+    sectionTitle: "Competition Divisions",
     levelFilters: {
       Semua: "All Levels",
       SD: "Elementary",
@@ -125,7 +119,6 @@ export const enTranslations: TranslationDictionary = {
     targetLevelsPrefix: "Levels: ",
   },
   flow: {
-    sectionBadge: "Step-by-Step Guide",
     sectionTitle: "IARC XII Registration Flow",
     countdownPrefix: "Registration Closes In:",
     countdownDays: "Days",
@@ -149,13 +142,11 @@ export const enTranslations: TranslationDictionary = {
     step4Title: "Registration Fee Payment",
     step4Desc:
       "Submit team registration fees according to active batch rates. Official committee account details are provided directly inside the Google Form.",
-    step4Notice: "Account details and transfer instructions are stated in the Google Form.",
     step5Title: "Document Verification & Open Training Access",
     step5Desc:
       "The committee verifies submissions within 24 hours. Verified teams receive email confirmations and official IARC XII Open Training WhatsApp links.",
   },
   timeline: {
-    sectionBadge: "Timeline & Schedule",
     sectionTitle: "IARC XII Event Timeline",
     trackA: "Smart Robotics · PLC · Energy Treasure",
     trackB: "Microcontroller & Vortex",
@@ -164,8 +155,7 @@ export const enTranslations: TranslationDictionary = {
     statusUpcoming: "Upcoming",
   },
   faq: {
-    sectionBadge: "Help & Information Center",
-    sectionTitle: "Frequently Asked Questions (FAQ)",
+    sectionTitle: "Frequently Asked Questions",
   },
   footer: {
     aboutText:
@@ -197,11 +187,10 @@ export const enTranslations: TranslationDictionary = {
     weightPrefix: "Weight: ",
   },
   chatbot: {
-    badge: "Official Virtual Assistant",
     title: "IARC AI Assistant",
     subtitle: "Official Guidebook Help Center (16 Guidebooks)",
     welcomeMessage:
-      "Hello! I am the official virtual assistant for **IARC XII** 🤖.\n\nI can help answer your questions regarding competition branches, schedules, registration fees, and technical rules across all **16 official Guidebooks**.",
+      "Hello! I am the official virtual assistant for **IARC XII**.\n\nI can help answer your questions regarding competition branches, schedules, registration fees, and technical rules across all **16 official Guidebooks**.",
     inputPlaceholder: "Ask a question about IARC XII...",
     sendTooltip: "Send Question",
     resetTooltip: "Reset Conversation",

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { getFaqs } from "@/data/faq";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,66 +17,45 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-12 md:py-16 bg-navy-950 relative overflow-hidden">
+    <section id="faq" className="relative overflow-hidden bg-navy-950 py-14 md:py-20">
       <DecorativeBackground variant="section-e" />
       <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-6 md:mb-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-wider text-gold-400">
-            {t.faq.sectionBadge}
-          </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-text-main sm:text-3xl md:text-4xl">
-            {t.faq.sectionTitle}
-          </h2>
-        </div>
+        <h2 className="text-3xl font-bold text-text-main md:text-4xl">{t.faq.sectionTitle}</h2>
 
-        {/* Accordion List */}
-        <div className="space-y-3">
+        <div className="mt-8 space-y-3">
           {faqs.map((faq) => {
             const isOpen = openId === faq.id;
+            const panelId = `${faq.id}-panel`;
             return (
               <div
                 key={faq.id}
-                className={`overflow-hidden rounded-2xl border transition-all ${
-                  isOpen
-                    ? "border-gold-500/40 bg-navy-900/90 shadow-md shadow-gold-500/5"
-                    : "border-navy-800 bg-navy-900/60 hover:border-navy-700"
-                }`}
+                className={`rounded-md border bg-navy-900 ${isOpen ? "border-gold-500/40" : "border-navy-800"}`}
               >
                 <button
                   type="button"
                   onClick={() => toggleFaq(faq.id)}
                   aria-expanded={isOpen}
-                  className="flex min-h-[44px] w-full items-center justify-between gap-4 rounded-2xl p-4 sm:p-5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                  aria-controls={panelId}
+                  className="flex min-h-[44px] w-full items-center justify-between gap-4 rounded-md px-4 py-4 text-left sm:px-5 transition-colors hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition ${
-                        isOpen
-                          ? "bg-gold-500/20 text-gold-400"
-                          : "bg-navy-800 text-text-dim"
-                      }`}
-                    >
-                      <HelpCircle className="h-4 w-4" />
-                    </div>
-                    <span className="text-sm sm:text-base font-semibold text-text-main">
-                      {faq.question}
-                    </span>
-                  </div>
+                  <span
+                    className={`text-sm font-semibold sm:text-base ${
+                      isOpen ? "text-gold-400" : "text-text-main"
+                    }`}
+                  >
+                    {faq.question}
+                  </span>
                   <ChevronDown
                     className={`h-4 w-4 shrink-0 text-text-dim transition-transform duration-200 ${
                       isOpen ? "rotate-180 text-gold-400" : ""
                     }`}
+                    aria-hidden="true"
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-0">
-                    <div className="border-t border-navy-800/80 pt-3">
-                      <p className="text-xs sm:text-sm leading-relaxed text-text-soft">
-                        {faq.answer}
-                      </p>
-                    </div>
+                  <div id={panelId} className="px-4 pb-5 pr-10 sm:px-5">
+                    <p className="text-sm leading-relaxed text-text-soft">{faq.answer}</p>
                   </div>
                 )}
               </div>
