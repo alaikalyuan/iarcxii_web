@@ -14,10 +14,26 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
       { criterion: "Presentation & Technical Defense", weight: "15 Points", note: "Clarity of verbal presentation and technical depth during jury Q&A." },
     ],
     stages: [
-      { name: "Team Registration", date: "Sep - Nov 2026", description: "Online team registration and guidebook download" },
-      { name: "Proposal / Ladder Submission", date: "Dec 11, 2026", description: "Submission deadline for IoT technical proposals or CX-Programmer logic" },
-      { name: "Finalist Announcement", date: "Dec 16 - 30, 2026", description: "Announcement of top finalist teams qualifying for the offline ITS round" },
-      { name: "Offline Final & Expo", date: "Jan 9 - 10, 2027", description: "On-site prototype defense, live CX-Programmer PLC wiring, and awards ceremony at ITS" },
+      {
+        name: "Team Registration",
+        date: "Sep 25 - Dec 13, 2026",
+        description: "PLC batches: Sep 25 - Oct 18, Oct 19 - Nov 15, Nov 16 - Dec 13. Microcontroller (IoT) batches: Sep 25 - Oct 16, Oct 17 - Nov 7, Nov 8 - Nov 27",
+      },
+      {
+        name: "IoT Proposal & PLC Preliminary",
+        date: "Dec 11 & Dec 26 - 27, 2026",
+        description: "IoT proposal deadline Dec 11, 2026; PLC technical meeting Dec 20, online preliminary Dec 26 - 27 via Zoom",
+      },
+      {
+        name: "Finalist Announcement",
+        date: "Dec 16 & Dec 30, 2026",
+        description: "IoT: Dec 16 (Elementary/Junior High 5 teams, Senior High and University 10 teams); PLC: Dec 30",
+      },
+      {
+        name: "Offline Final at ITS",
+        date: "Jan 9 - 10, 2027",
+        description: "IoT: final TM Dec 18, final Jan 9 - 10. PLC: TM Jan 3, Senior High semifinal/final Jan 9, University final Jan 10",
+      },
     ],
     tracks: [
       {
@@ -28,7 +44,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           "Participants design smart automation systems using microcontrollers addressing 3 ITS Study Centers: Renewable Energy, Disaster Mitigation & Climate Change, or Appropriate Technology.",
         hardwareSpecs: [
           "Open to any microcontroller platform (ESP32, ESP8266, STM32, Arduino, Raspberry Pi Pico)",
-          "Prototype component budget cap of max IDR 500,000 accompanied by an official budget plan (RAB)",
+          "Prototype component budget plan (RAB) cap: max IDR 300,000 (Senior High) and IDR 750,000 (University); Elementary/Junior High use the ESP32 trainer kit provided by the committee",
           "Must feature active IoT connectivity (Wi-Fi, Bluetooth, LoRa, or MQTT)",
           "Safe circuit design with overcurrent and reverse-polarity voltage protection",
         ],
@@ -40,7 +56,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           {
             ...base[0].tracks[0].categories[0],
             name: "Elementary / Equivalent (Beginner)",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher from the same school",
+            teamRequirement: "Maximum 3 students (may come from different schools) plus 1 advisory teacher",
             highlights: [
               "Introductory sensor logic and automated actuators",
               "Concept proposal submission and video explanation",
@@ -60,26 +76,56 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
               {
                 name: "Final Round: Day 1 Bootcamp",
                 date: "Jan 9, 2027",
-                description: "Onsite mentoring and final prototype assembly at ITS campus.",
+                description: "Microcontroller Bootcamp: briefing and hands-on basics of microcontrollers, sensors, actuators, programming, and IoT.",
               },
               {
                 name: "Final Round: Day 2 Expo & Defense",
                 date: "Jan 10, 2027",
-                description: "Live prototype demonstration and jury defense followed by awarding.",
+                description: "Microcontroller Challenge: solve the chosen case study with the committee-provided trainer kit.",
               },
             ],
             scoringCriteria: [
-              { criterion: "Innovation", weight: "35%", note: "Novelty of concept, solution creativity, and originality." },
-              { criterion: "Explanatory Video", weight: "25%", note: "Clarity in conveying device functionality and practical value." },
-              { criterion: "Theme Alignment", weight: "20%", note: "Relevance to selected ITS Research Center focus areas." },
-              { criterion: "Impact & Sustainability", weight: "15%", note: "Practical benefit for community and environmental welfare." },
-              { criterion: "Format Compliance", weight: "10%", note: "Adherence to guidebook proposal formatting requirements." },
+              {
+                criterion: "Proposal: Format & Language Compliance",
+                weight: "15%",
+                note: "Writing structure (margins, font, spacing), proposal neatness, and correct language per guidelines.",
+              },
+              {
+                criterion: "Proposal: Ideas, Solutions & Innovation",
+                weight: "20%",
+                note: "Novelty, problem-solving creativity, clarity of the solution design, and suitable module/component selection for the case study.",
+              },
+              {
+                criterion: "Proposal: Theme Alignment",
+                weight: "15%",
+                note: "Alignment with the case study and the chosen sub-theme (Energy, Disaster Mitigation, or Appropriate Technology).",
+              },
+              {
+                criterion: "Video: Visual & Audio Quality",
+                weight: "10%",
+                note: "Image sharpness, clear audio without noise, and 16:9 format.",
+              },
+              {
+                criterion: "Video: Clarity of Presentation",
+                weight: "15%",
+                note: "Fluency, articulation, and delivery style.",
+              },
+              {
+                criterion: "Video: Demonstration & Concept Visualization",
+                weight: "15%",
+                note: "Use of props, diagrams, or illustrations showing how the device works.",
+              },
+              {
+                criterion: "Video: Content Completeness & Creativity",
+                weight: "10%",
+                note: "Coverage of mandatory points (team intro, innovation, case study link, concept) and engaging presentation.",
+              },
             ],
           },
           {
             ...base[0].tracks[0].categories[1],
             name: "Junior High / Equivalent (Junior)",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher from the same school",
+            teamRequirement: "Maximum 3 students (may come from different schools) plus 1 advisory teacher",
             highlights: [
               "Sensor data telemetry and automated actuator control",
               "Direct alignment with 1 of 3 ITS Research Study Centers",
@@ -103,17 +149,47 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
               },
             ],
             scoringCriteria: [
-              { criterion: "Innovation", weight: "30%", note: "Novelty of idea, creative problem solving, and originality." },
-              { criterion: "Explanatory Video", weight: "25%", note: "Ability to explain ideas and their relation to the chosen theme." },
-              { criterion: "Theme Alignment", weight: "20%", note: "Alignment with theme targets and real contribution to global or national issues." },
-              { criterion: "Impact & Sustainability", weight: "15%", note: "Potential benefits for society, environment, or industry." },
-              { criterion: "Format Compliance", weight: "10%", note: "Adherence to guidebook layout and formatting rules." },
+              {
+                criterion: "Proposal: Format & Language Compliance",
+                weight: "15%",
+                note: "Writing structure (margins, font, spacing), proposal neatness, and correct language per guidelines.",
+              },
+              {
+                criterion: "Proposal: Ideas, Solutions & Innovation",
+                weight: "20%",
+                note: "Novelty, problem-solving creativity, clarity of the solution design, and suitable module/component selection for the case study.",
+              },
+              {
+                criterion: "Proposal: Theme Alignment",
+                weight: "15%",
+                note: "Alignment with the case study and the chosen sub-theme (Energy, Disaster Mitigation, or Appropriate Technology).",
+              },
+              {
+                criterion: "Video: Visual & Audio Quality",
+                weight: "10%",
+                note: "Image sharpness, clear audio without noise, and 16:9 format.",
+              },
+              {
+                criterion: "Video: Clarity of Presentation",
+                weight: "15%",
+                note: "Fluency, articulation, and delivery style.",
+              },
+              {
+                criterion: "Video: Demonstration & Concept Visualization",
+                weight: "15%",
+                note: "Use of props, diagrams, or illustrations showing how the device works.",
+              },
+              {
+                criterion: "Video: Content Completeness & Creativity",
+                weight: "10%",
+                note: "Coverage of mandatory points (team intro, innovation, case study link, concept) and engaging presentation.",
+              },
             ],
           },
           {
             ...base[0].tracks[0].categories[2],
             name: "Senior High / Vocational (Senior)",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher from the same school",
+            teamRequirement: "Maximum 3 students (may come from different schools) plus 1 advisory teacher",
             highlights: [
               "Advanced telemetry IoT dashboard and automated control",
               "Component budget cap with strict Bill of Materials (RAB)",
@@ -123,7 +199,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
               {
                 name: "Preliminary Round (Online)",
                 date: "Deadline Dec 11, 2026",
-                description: "Case study selection, proposal submission, and video explanation. Top 5 teams advance to finals.",
+                description: "Case study selection, proposal submission, and video explanation. Top 10 teams advance to finals.",
               },
               {
                 name: "Technical Meeting",
@@ -147,7 +223,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           {
             ...base[0].tracks[0].categories[3],
             name: "University & College (National & International)",
-            teamRequirement: "Maximum 3 active undergraduate/diploma students plus 1 faculty advisor",
+            teamRequirement: "Maximum 3 active undergraduate/diploma students from the same university plus 1 faculty advisor",
             highlights: [
               "Industrial-grade IoT telemetry and intelligent edge automation",
               "Public exhibition booth and presentation before academic and industrial judges",
@@ -200,44 +276,61 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           {
             ...base[0].tracks[1].categories[0],
             name: "Senior High / Vocational (Senior)",
-            teamRequirement: "Exactly 2 active students from the same high school or vocational school",
+            teamRequirement: "Exactly 2 active students from the same school plus 1 advisory teacher",
             highlights: [
               "Ladder diagram design with CX-Programmer for Omron CP2E-N",
               "Timed problem sets reflecting automated factory packaging",
-              "Top 10 teams advance to the live trainer final round at ITS",
+              "Online preliminary (60 min): Top 8 to semifinal, Top 3 to the final at ITS",
             ],
             stages: [
               {
-                name: "Online Technical Meeting",
-                date: "Dec 20, 2026",
-                description: "Briefing on rules, CX-Programmer simulation setups, and live Zoom screening procedures.",
-              },
-              {
                 name: "Online Preliminary Round",
-                date: "Dec 26, 2026",
-                description: "Live Zoom session: timer-based ladder diagram design for industrial case studies. Top 10 teams qualify.",
+                date: "Dec 26 - 27, 2026",
+                description: "60-minute ladder logic problem on Zoom breakout rooms using 2 devices (rear camera and screen share). Top 8 teams advance to the semifinal, announced Dec 30, 2026.",
               },
               {
-                name: "Final Technical Meeting",
-                date: "Jan 3, 2027",
-                description: "Technical briefing for finalists regarding the physical Omron CP2E-N trainer hardware.",
+                name: "Offline Semifinal (ITS)",
+                date: "Jan 9, 2027",
+                description: "Department of Automation Electrical Engineering ITS. 15-minute trainer familiarization and 60-minute problem. Top 3 teams advance to the Final.",
               },
               {
-                name: "Offline Final Round (ITS)",
-                date: "Jan 9 - 10, 2027",
-                description: "Direct wiring and ladder programming on physical PLC trainer kits and Haiwell HMI in Surabaya.",
+                name: "Offline Final (ITS)",
+                date: "Jan 9, 2027",
+                description: "60-minute industrial case study, program transfer to the hardware trainer, and a presentation to the jury to decide the champions.",
               },
             ],
             scoringCriteria: [
-              { criterion: "System Functionality & Ladder Accuracy", weight: "50%", note: "Logic accuracy matching timing charts and state transitions." },
-              { criterion: "Program Structure & Safety Logic", weight: "25%", note: "Interlocking, emergency stop handling, and code readability." },
-              { criterion: "Execution Speed & Completion Time", weight: "25%", note: "Time taken to complete and successfully verify the industrial sequence." },
+              {
+                criterion: "Program Runs per Task Description",
+                weight: "60 - 70 Points",
+                note: "Ladder logic runs as described (+70 in Preliminary, +60 in Semifinal).",
+              },
+              {
+                criterion: "I/O Address & Comment",
+                weight: "10 Points",
+                note: "Main addresses and comments match the task description.",
+              },
+              {
+                criterion: "Upload & PLC Trainer Simulation",
+                weight: "10 Points",
+                note: "Program successfully uploaded and simulated on the PLC device (Semifinal).",
+              },
+              {
+                criterion: "On-Time File Submission",
+                weight: "10 Points",
+                note: "Program file submitted to the jury before the contest time ends.",
+              },
+              {
+                criterion: "Fast Submission Bonus",
+                weight: "10 Points",
+                note: "Extra points for the 2 fastest teams to submit their program file.",
+              },
             ],
           },
           {
             ...base[0].tracks[1].categories[1],
             name: "University & College (Undergraduate)",
-            teamRequirement: "Exactly 2 active undergraduate/diploma students from the same university",
+            teamRequirement: "Exactly 2 active undergraduate/diploma students from the same university plus 1 faculty advisor",
             highlights: [
               "Comprehensive factory automation logic and Haiwell HMI integration",
               "Ethernet IP/Modbus TCP communication between PLC and HMI screen",
@@ -245,14 +338,9 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
             ],
             stages: [
               {
-                name: "Preliminary Round Technical Meeting",
-                date: "Dec 20, 2026",
-                description: "Explanation of online preliminary exam rules, CX-Programmer setup, and Zoom monitoring rules.",
-              },
-              {
                 name: "Online Preliminary Round",
-                date: "Dec 27, 2026",
-                description: "Live ladder logic coding on Zoom under proctored conditions. Top 10 teams advance.",
+                date: "Dec 26 - 27, 2026",
+                description: "60-minute PLC programming problem on Zoom breakout rooms using 2 devices (corner camera and screen share). Finalists announced Dec 30, 2026.",
               },
               {
                 name: "Final Technical Meeting",
@@ -260,16 +348,37 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
                 description: "Briefing covering Omron CP2E-N hardware I/O layout and Haiwell B7-H/W HMI configuration.",
               },
               {
-                name: "Offline Finals (ITS Surabaya)",
-                date: "Jan 9 - 10, 2027",
-                description: "Complex manufacturing case study: ladder programming and dynamic HMI screen design on physical modules.",
+                name: "Offline Final (ITS Surabaya)",
+                date: "Jan 10, 2027",
+                description: "Real industrial control case study (Omron CP2E-N and Haiwell Cloud HMI), 60 minutes, program transfer to the trainer, and jury presentation. No semifinal round.",
               },
             ],
             scoringCriteria: [
-              { criterion: "PLC Logic & System Functionality", weight: "40%", note: "Total compliance with automated sequence and condition tables." },
-              { criterion: "HMI Design & SCADA Usability", weight: "30%", note: "Intuitive operator screens, alarm indicators, and tag mapping." },
-              { criterion: "Safety Interlocks & Robustness", weight: "15%", note: "Emergency stop handling and fault tolerance." },
-              { criterion: "Completion Speed", weight: "15%", note: "Speed of program completion and error-free commissioning." },
+              {
+                criterion: "Program Runs per Task Description",
+                weight: "70 Points",
+                note: "Ladder logic and HMI integration run fully as described in the industrial case.",
+              },
+              {
+                criterion: "Upload & Trainer Hardware Simulation",
+                weight: "10 Points",
+                note: "Program uploaded via Ethernet and simulated on the Omron CP2E-N and Haiwell HMI modules.",
+              },
+              {
+                criterion: "I/O Address & Comment",
+                weight: "10 Points",
+                note: "Main addresses and comments match the task description.",
+              },
+              {
+                criterion: "On-Time File Submission",
+                weight: "10 Points",
+                note: "Submit NAMA TIM_FINAL.zip before the contest time ends.",
+              },
+              {
+                criterion: "Fast Submission Bonus",
+                weight: "10 Points",
+                note: "Extra points for the 2 fastest teams to submit their program file.",
+              },
             ],
           },
         ],
@@ -288,10 +397,26 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
       { criterion: "Retrials & Touch Penalties", weight: "10 Points", note: "Point deductions if the robot leaves the track or is manually reset." },
     ],
     stages: [
-      { name: "Team Registration", date: "Sep - Dec 2026", description: "Online registration and download of official digital track layouts" },
-      { name: "Technical Meeting", date: "Dec 20, 2026", description: "Briefing on preliminary rules and online sensor calibration" },
-      { name: "Online Preliminaries", date: "Dec 26 - 27, 2026", description: "Upload of unedited robot run videos on the standardized test arena" },
-      { name: "Offline Final Race", date: "Jan 9 - 10, 2027", description: "Head-to-head elimination tournament in the DTEO ITS Hall" },
+      {
+        name: "Team Registration",
+        date: "Sep 25 - Dec 13, 2026",
+        description: "Batch 1: Sep 25 - Oct 18, Batch 2: Oct 19 - Nov 15, Batch 3: Nov 16 - Dec 13",
+      },
+      {
+        name: "Online Stage 1 (University)",
+        date: "By Dec 13, 2026",
+        description: "Demonstration video of the Line Follower and Shooter robots; 16 qualified teams announced Dec 26, 2026",
+      },
+      {
+        name: "Technical Meeting",
+        date: "Jan 3, 2027",
+        description: "Technical match briefing; final deadline for team member and name changes",
+      },
+      {
+        name: "Offline Day 1 & Day 2",
+        date: "Jan 9 - 10, 2027",
+        description: "On-site matches at the Department of Automation Electrical Engineering ITS",
+      },
     ],
     tracks: [
       {
@@ -301,13 +426,13 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
         description:
           "Robots navigate white lines on dark tracks, crossing intersections, bridges, and ramps, while completing specialized missions such as moving or shooting targets.",
         hardwareSpecs: [
-          "Elementary: Arduino / Ardublock visual block-based line follower robot",
-          "Junior High: Microcontroller-based line follower with photodiode / optical sensor array",
+          "Elementary: committee-provided robot (ESP32, 5-channel TCRT5000 sensor), programmed on-site with Blockly/Ardublock",
+          "Junior High: Microcontroller-based line follower with 1 gripper (max 25x25x20 cm, 2 kg, 8 sensors)",
           "Senior High: Line follower equipped with motorized gripper mechanism (max 25x20x25 cm)",
           "University: Dual-robot system (R1 Autonomous Line Follower + R2 Shooter Robot)",
         ],
         softwareSpecs: [
-          "Autonomous PID line tracing algorithm without external wireless control (fully autonomous)",
+          "Fully autonomous line follower without manual control (the University Shooter Robot may be manual/RC)",
           "Robot showcase & web app-based block programming guide: https://ismarintan98.github.io/LF_ITS-Share/",
           "Official digital track layout available at https://its.id/m/SmartRoboticsOnline",
         ],
@@ -315,7 +440,7 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           {
             ...base[1].tracks[0].categories[0],
             name: "Elementary / Equivalent",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher",
+            teamRequirement: "Maximum 2 elementary students plus 1 advisor (optional)",
             highlights: [
               "Introductory line follower based on graphical interface or microcontroller",
               "Mission to push obstacle objects out of point zones",
@@ -336,58 +461,158 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           {
             ...base[1].tracks[0].categories[1],
             name: "Junior High / Equivalent",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher",
+            teamRequirement: "Maximum 2 junior high students plus 1 advisor (optional)",
             highlights: [
-              "Intermediate obstacle track with bridges, crossings, and ramps",
-              "Autonomous obstacle clearing and precision line tracking",
-              "Live elimination tournament at ITS Hall",
+              "Autonomous line follower carrying an object with 1 gripper (max 8 cm) from the start line",
+              "Robot max 25x25x20 cm, 2 kg, 8 sensors, battery max 12 V",
+              "Fastest qualification times: top 16 advance; Day 2 on-site programming (no AI assistance)",
             ],
             stages: [
-              { name: "Day 1: Group Stage", date: "Day 1", description: "Round robin group stage matches to determine leaderboard ranking." },
-              { name: "Day 2: Elimination Rounds", date: "Day 2", description: "Direct head-to-head knockout tournament leading to the final podium." },
+              {
+                name: "Day 1: Trial & Qualification Round",
+                date: "Day 1",
+                description: "45-minute trial. Qualification in Arena 1 decides the 16 fastest teams for the Round of 16 (8 minutes per match, 5-minute cut-off time).",
+              },
+              {
+                name: "Day 2: Trial & Round of 16",
+                date: "Day 2",
+                description: "30-minute trial. Round of 16 in Arena 2 (new track layout) with on-site programming and an object release mission at the drop point.",
+              },
+              {
+                name: "Day 2: Quarter Final to Grand Final",
+                date: "Day 2",
+                description: "Single elimination in Arena 2 with the main drop point mission and an optional bonus object mission.",
+              },
             ],
             scoringCriteria: [
-              { criterion: "Navigation Speed", weight: "40%", note: "Fastest completion time across all track segments." },
-              { criterion: "Checkpoint Completion", weight: "40%", note: "Accuracy in clearing obstacles without derailment." },
-              { criterion: "Penalty Deductions", weight: "20%", note: "Deductions for sensor line loss or track resets." },
+              {
+                criterion: "Qualification Round",
+                weight: "Points ÷ Time",
+                note: "Robot carries the object from start to finish. Score = Total Points ÷ Total Time; the top 16 teams advance to the Round of 16.",
+              },
+              {
+                criterion: "Round of 16",
+                weight: "100 Points",
+                note: "Main mission: grip the object at start, place it at the drop point, then reach the finish. Run time 1 - 300 seconds (max. 5 minutes).",
+              },
+              {
+                criterion: "Quarter Final - Grand Final",
+                weight: "80 + 20 Points",
+                note: "Main mission 80 points; optional bonus mission (pick up a bonus object and release it at the drop point) 20 points. Run time 1 - 300 seconds.",
+              },
+              {
+                criterion: "Time Penalties",
+                weight: "+5 Seconds",
+                note: "Starting before the signal (+5 s) and an invalid retry (+5 s).",
+              },
             ],
           },
           {
             ...base[1].tracks[0].categories[2],
             name: "Senior High / Vocational",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher",
+            teamRequirement: "Exactly 2 active students from the same school plus 1 advisory teacher (optional)",
             highlights: [
               "Autonomous line follower with integrated mechanical gripper",
               "Pick-and-place precision cube placement in target boxes",
               "Strict dimensional and electrical inspection before matches",
             ],
             stages: [
-              { name: "Day 1: Qualifying Rounds", date: "Day 1", description: "Initial seeded heats across the standardized competition arena." },
-              { name: "Day 2: Finals & Awarding", date: "Day 2", description: "Championship bracket matches and award ceremony." },
+              {
+                name: "Day 1: Preliminary Round",
+                date: "Day 1",
+                description: "Offline obstacle arena. Each team runs 2 races to accumulate route, checkpoint, and object transfer scores (max 100 points).",
+              },
+              {
+                name: "Day 2: Round of 16 & Quarter Final",
+                date: "Day 2",
+                description: "Knockout 1 vs 1, one race per team, max 50 points per race; 30-minute configuration time for the new arena.",
+              },
+              {
+                name: "Day 2: Semifinal, 3rd Place & Final",
+                date: "Day 2",
+                description: "Semifinal is 1 race. 3rd place and Final are 2 matches each with accumulated points (a third match if tied).",
+              },
             ],
             scoringCriteria: [
-              { criterion: "Gripper Mission Accuracy", weight: "45%", note: "Precise picking and placement of target payload." },
-              { criterion: "Track Speed", weight: "35%", note: "Overall elapsed time through the course." },
-              { criterion: "Technical Compliance", weight: "20%", note: "Weight, dimensions, and battery voltage regulation." },
+              {
+                criterion: "Arena Checkpoints",
+                weight: "15 Points",
+                note: "The robot passes 5 red-line checkpoints (3 points each).",
+              },
+              {
+                criterion: "Object 1 Transfer (Orange Box)",
+                weight: "10 Points",
+                note: "The gripper picks up object 1 and places it in the orange box (at least 50% of the object base inside).",
+              },
+              {
+                criterion: "Object 2 Transfer (Green Box)",
+                weight: "10 Points",
+                note: "The gripper picks up object 2 and places it correctly in the green target box.",
+              },
+              {
+                criterion: "Complete Missions & Finish Line",
+                weight: "15 Points",
+                note: "The robot reaches the finish line after completing all track missions.",
+              },
+              {
+                criterion: "Total Score & Tiebreaker",
+                weight: "50 Pts / Race",
+                note: "Max 50 points per race (Day 1 = 2 races = 100 pts). Ties are broken by fastest time.",
+              },
             ],
           },
           {
             ...base[1].tracks[0].categories[3],
             name: "University & College (Undergraduate)",
-            teamRequirement: "Maximum 3 undergraduate/diploma students plus 1 advisor",
+            teamRequirement: "Exactly 2 active undergraduate/diploma students from the same institution plus 1 faculty advisor (optional)",
             highlights: [
               "Advanced Dual-Robot system: R1 Line Follower + R2 Shooter Robot",
               "Tactical coordination between autonomous navigation and projectile launching",
               "Premier robotics showdown at ITS Surabaya",
             ],
             stages: [
-              { name: "Day 1: Battle Heats", date: "Day 1", description: "Dual-robot coordination heats on the dual arena." },
-              { name: "Day 2: Grand Finals", date: "Day 2", description: "High-intensity head-to-head championship matches." },
+              {
+                name: "Stage 1 (Online)",
+                date: "Online",
+                description: "Administrative screening and submission of a demonstration video of the Autonomous Line Follower and Shooter robots. Top 16 teams advance.",
+              },
+              {
+                name: "Stage 2 Day 1: Seeding",
+                date: "Day 1",
+                description: "Non-elimination seeding round for the 16 teams (3 matches each) to determine bracket positions.",
+              },
+              {
+                name: "Stage 2 Day 2: Knockout",
+                date: "Day 2",
+                description: "Single elimination Best of 3 (first to 2 race wins) from the Round of 16 through the Final.",
+              },
             ],
             scoringCriteria: [
-              { criterion: "Autonomous Line Navigation (R1)", weight: "35%", note: "Speed and agility of the lead line follower robot." },
-              { criterion: "Target Shooting Precision (R2)", weight: "45%", note: "Successful hits into target bowls and enemy zones." },
-              { criterion: "Coordination & Rules", weight: "20%", note: "Seamless inter-robot cooperation and penalty avoidance." },
+              {
+                criterion: "Stage 1: Line Follower",
+                weight: "30 Points",
+                note: "Looping speed (max 5 minutes), path consistency, and autonomous operation.",
+              },
+              {
+                criterion: "Stage 1: Shooter Robot",
+                weight: "30 Points",
+                note: "Accuracy and stability when shooting 3 targets, plus clarity of the visual verification.",
+              },
+              {
+                criterion: "Regulation Compliance & Administration",
+                weight: "40 Points",
+                note: "Dimensions, weight, and components (25 pts) plus completeness of forms and demonstration video (15 pts).",
+              },
+              {
+                criterion: "Stage 2 Match: Block Mission",
+                weight: "+10 Points",
+                note: "The autonomous robot pushes the block out in the match arena (optional).",
+              },
+              {
+                criterion: "Stage 2 Match: Shooter Mission",
+                weight: "+10 - 20 Points",
+                note: "Ball hits the opponent autonomous robot (+20 pts) or lands in the Target Bowl (+10 pts).",
+              },
             ],
           },
         ],
@@ -406,10 +631,21 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
       { criterion: "Algorithm Originality", weight: "10 Points", note: "Evaluation of the team maze-solving logic and algorithm structure." },
     ],
     stages: [
-      { name: "Registration", date: "Sep - Dec 2026", description: "Team registration through official online forms" },
-      { name: "Technical Meeting", date: "Dec 20, 2026", description: "Briefing on dimensions, sensor tolerances, and maze parameters" },
-      { name: "Online Preliminaries", date: "Dec 26 - 27, 2026", description: "Pre-qualification maze-solving runs" },
-      { name: "On-Site Programming & Finals", date: "Jan 9 - 10, 2027", description: "On-site programming on the undisclosed secret maze layout at ITS" },
+      {
+        name: "Registration",
+        date: "Sep 25 - Dec 13, 2026",
+        description: "Batch 1: Sep 25 - Oct 18, Batch 2: Oct 19 - Nov 15, Batch 3: Nov 16 - Dec 13",
+      },
+      {
+        name: "Technical Meeting",
+        date: "Jan 3, 2027",
+        description: "Technical briefing; final deadline for team member and name changes",
+      },
+      {
+        name: "On-Site Programming & Finals",
+        date: "Jan 9 - 10, 2027",
+        description: "Pre-Qualification, Qualification, Round of 16 through the Final at the Department of Automation Electrical Engineering ITS",
+      },
     ],
     tracks: [
       {
@@ -419,50 +655,101 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
         description:
           "Robots are tested on their ability to read maze intersections, map the shortest path, and minimize milliampere power consumption.",
         hardwareSpecs: [
-          "Autonomous line follower with ultrasonic or optical wall/distance sensors",
-          "Must include power telemetry indicator and manual emergency cutoff switch",
+          "Autonomous maze-solver line follower, max 25x25x20 cm, max 8 line follower sensors; any microcontroller",
+          "Must provide space for a wattmeter (82x50x23 mm) between the battery and robot electronics with XT60 connectors",
+          "Lithium battery max 12.6 V when full; scrutineering covers dimensions, wattmeter, and battery voltage",
         ],
         softwareSpecs: [
           "Autonomous maze solving algorithm (e.g. Wall Following, Tremaux, or Flood-fill)",
-          "Wireless external remote controls are strictly prohibited",
+          "Remote controls are prohibited; each session consists of Searching (max 3 minutes) and Race (max 2 minutes)",
         ],
         categories: [
           {
             ...base[2].tracks[0].categories[0],
             name: "Senior High / Vocational",
-            teamRequirement: "Maximum 3 students plus 1 advisory teacher",
+            teamRequirement: "Maximum 2 students from the same institution plus 1 advisory teacher (required)",
             highlights: [
               "3 progressive stages: Pre-qualification, Route Qualification, and Secret Maze Onsite",
               "Secret maze arena revealed on event day",
               "Combined evaluation of speed and power consumption resistance",
             ],
             stages: [
-              { name: "Stage 1: Pre-Qualification", date: "Day 1", description: "Baseline testing on the initial track to establish seedings." },
-              { name: "Stage 2: On-Site Programming", date: "Day 1 / 2", description: "Secret track revealed on event day; runtime and power monitoring commence." },
-              { name: "Stage 3: Final Run", date: "Day 2", description: "Final track configuration; accumulated scores decide champions." },
+              {
+                name: "Stage 1: Pre-Qualification & Qualification",
+                date: "Day 1",
+                description: "Autonomous runs on the initial track. Pre-Qualification sets the qualifying quota, Qualification sets seeding. Not accumulated into the final score.",
+              },
+              {
+                name: "Stage 2: On-Site Programming (Round of 16)",
+                date: "Day 1 / 2",
+                description: "Top 16 teams from Qualification play single elimination; 8 winners advance. New arena revealed on event day. 2 m x 2 m arena. Each team gets 2 sessions of max 5 minutes (Searching max 3 + Race max 2).",
+              },
+              {
+                name: "Stage 3: On-Site Programming (Quarter Final - Final)",
+                date: "Day 2",
+                description: "8 teams play single elimination: quarter final, semifinal, final. Each round is decided by the accumulated score of two sessions.",
+              },
             ],
             scoringCriteria: [
-              { criterion: "Track Runtime", weight: "50%", note: "Time score based on remaining countdown time vs total time." },
-              { criterion: "Energy Efficiency", weight: "50%", note: "Power score based on consumed vs maximum allowed energy." },
+              {
+                criterion: "Run Time Speed",
+                weight: "Parameter",
+                note: "Score = Allocated Run Time − Actual Run Time (seconds). Robot does not finish: Stage Score = 0.",
+              },
+              {
+                criterion: "Energy Efficiency",
+                weight: "Parameter",
+                note: "Based on accumulated energy (Wh) read from the wattmeter. Exceeding the maximum limit: Energy Score = 0.",
+              },
+              {
+                criterion: "Final Score Accumulation",
+                weight: "Stage 2 + 3",
+                note: "Final Score = Stage 2 Score + Stage 3 Score. Stage 1 only decides qualification and seeding.",
+              },
             ],
           },
           {
             ...base[2].tracks[0].categories[1],
             name: "University & College (Undergraduate)",
-            teamRequirement: "Maximum 3 active undergraduate/diploma students plus 1 advisor",
+            teamRequirement: "Maximum 2 active undergraduate/diploma students from the same institution plus 1 faculty advisor (required)",
             highlights: [
               "High-complexity maze grid with dynamic junction loops",
               "Deep algorithmic evaluation of flood-fill and path optimization",
               "Strict milliampere telemetry monitoring during final runs",
             ],
             stages: [
-              { name: "Stage 1: Seeding Runs", date: "Day 1", description: "Initial maze runs establishing tournament bracket seeds." },
-              { name: "Stage 2: Algorithmic Challenge", date: "Day 1 / 2", description: "On-site programming on secret complex maze configurations." },
-              { name: "Stage 3: Championship Defense", date: "Day 2", description: "Final run with power monitoring and jury evaluation." },
+              {
+                name: "Stage 1: Pre-Qualification & Qualification",
+                date: "Day 1",
+                description: "Autonomous runs on the initial track. Pre-Qualification sets the qualifying quota, Qualification sets seeding. Not accumulated into the final score.",
+              },
+              {
+                name: "Stage 2: On-Site Programming (Round of 16)",
+                date: "Day 1 / 2",
+                description: "Top 16 teams from Qualification play single elimination; 8 winners advance. New arena revealed on event day. 3 m x 3 m arena with obstacles; 30-minute programming time. Each team gets 2 sessions of max 5 minutes (Searching max 3 + Race max 2).",
+              },
+              {
+                name: "Stage 3: On-Site Programming (Quarter Final - Final)",
+                date: "Day 2",
+                description: "8 teams play single elimination: quarter final, semifinal, final. Each round is decided by the accumulated score of two sessions.",
+              },
             ],
             scoringCriteria: [
-              { criterion: "Elapsed Runtime", weight: "50%", note: "Shortest route traversal time." },
-              { criterion: "Milliampere Power Efficiency", weight: "50%", note: "Measured energy consumption per run." },
+              {
+                criterion: "Run Time Speed",
+                weight: "Parameter",
+                note: "Score = Allocated Run Time − Actual Run Time (seconds). Robot does not finish: Stage Score = 0.",
+              },
+              {
+                criterion: "Energy Efficiency",
+                weight: "Parameter",
+                note: "Based on accumulated energy (Wh) read from the wattmeter. Exceeding the maximum limit: Energy Score = 0.",
+              },
+              {
+                criterion: "Final Score Accumulation",
+                weight: "Stage 2 + 3",
+                note: "Final Score = Stage 2 Score + Stage 3 Score. Stage 1 only decides qualification and seeding.",
+              },
             ],
           },
         ],
@@ -525,7 +812,28 @@ export function buildCompetitionsEn(base: CompetitionDivision[]): CompetitionDiv
           },
           {
             ...base[3].tracks[0].categories[1],
-            name: "University & College (National & International)",
+            name: "University (National)",
+            teamRequirement: "1 to 3 active undergraduate/diploma students from the same university",
+            highlights: [
+              "Tackling problem statements from 4 ITS flagship research areas",
+              "Sharp case analysis (30%), Feasibility & Prototype (30%), Originality (15%)",
+              "Academic presentation before ITS faculty examination panel",
+            ],
+            stages: [
+              { name: "Preliminary Stage (Online)", date: "Submission Period", description: "Select 1 of 4 case topics, submit research paper in PDF. Top 10 advance to Final." },
+              { name: "Final: Vortex Idea Challenge", date: "Offline ITS", description: "On-site problem solving in 120 minutes followed by 3MT pitch and jury defense." },
+              { name: "Final: Vortex Innovation Challenge", date: "Offline ITS", description: "Booth setup, live prototype demonstration, and technical defense." },
+            ],
+            scoringCriteria: [
+              { criterion: "Preliminary: Idea Challenge", weight: "100 Points", note: "Originality of Ideas (35%), Relevance (20%), Concept Feasibility (20%), Structure (15%), Format (10%)." },
+              { criterion: "Preliminary: Innovation Challenge", weight: "100 Points", note: "Problem Urgency (30%), Solution & Feasibility (30%), Methodology (15%), Originality (15%), Format (10%)." },
+              { criterion: "Final: Idea Challenge (3MT)", weight: "100 Points", note: "Spontaneity (25%), Verbal Communication (25%), Jury Defense (25%), Concept Quality (20%), Rules (5%)." },
+              { criterion: "Final: Innovation Challenge (Booth)", weight: "100 Points", note: "Problem Urgency (30%), Verbal Presentation (25%), Jury Q&A (25%), Prototype Quality (15%), Rules (5%)." },
+            ],
+          },
+          {
+            ...base[3].tracks[0].categories[2],
+            name: "International College",
             teamRequirement: "1 to 3 active undergraduate/diploma students from the same university",
             highlights: [
               "Tackling problem statements from 4 ITS flagship research areas",
