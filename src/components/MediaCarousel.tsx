@@ -36,7 +36,7 @@ export default function MediaCarousel() {
     t.bento.carouselCaptions[currentIndex] || "Official IARC Documentation";
 
   return (
-    <div className="relative flex flex-col h-full overflow-hidden rounded-2xl border border-navy-800 bg-navy-900">
+    <div className="relative flex flex-col h-full overflow-hidden rounded-md bg-navy-900">
       {/* Image Display */}
       <div className="relative h-56 sm:h-64 md:h-72 w-full overflow-hidden bg-navy-950">
         <Image
@@ -44,9 +44,8 @@ export default function MediaCarousel() {
           alt={activeMedia.alt}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover transition-transform duration-700 hover:scale-105"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-transparent to-black/20" />
 
         {/* Navigation Buttons (Tappable min 44x44px per R-03 and antislop-layoutmobile) */}
         <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
@@ -90,7 +89,7 @@ export default function MediaCarousel() {
 
       {/* Caption Bar */}
       <div className="p-4 sm:p-5 text-left flex-1 flex flex-col justify-center">
-        <div className="flex items-center justify-between text-xs font-semibold text-gold-400 uppercase tracking-wider mb-1.5">
+        <div className="mb-1.5 flex items-center justify-between text-sm font-semibold text-gold-400">
           <span>{language === "id" ? "Dokumentasi Resmi IARC" : "Official IARC Documentation"}</span>
           <span className="text-text-soft font-mono">
             {currentIndex + 1} / {MEDIA_SOURCES.length}

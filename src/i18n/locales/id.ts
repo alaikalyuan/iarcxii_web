@@ -14,16 +14,13 @@ export const idTranslations: TranslationDictionary = {
     menu: "Menu",
   },
   hero: {
-    eyebrow: "Department of Automation Electrical Engineering · ITS Surabaya",
     titlePrefix: "Industrial ",
     titleHighlight: "Automation",
     titleSuffix: " & Robotic Competition",
     ctaButton: "Jelajahi Kompetisi",
   },
   bento: {
-    sectionBadge: "Tentang & Filosofi Acara",
-    sectionTitle: "Arsitektur Inovasi & Ekosistem IARC XII",
-    aboutTitlePrefix: "ABOUT ",
+    aboutTitlePrefix: "Tentang ",
     aboutTitleHighlight: "IARC",
     aboutSubtitle: "Industrial Automation & Robotics Competition",
     aboutParagraph1:
@@ -91,9 +88,7 @@ export const idTranslations: TranslationDictionary = {
     ],
   },
   prizes: {
-    sectionBadge: "Apresiasi & Prestasi",
-    sectionTitle: "Paket Penghargaan Juara & Peserta",
-    sectionSubtitle: "Total apresiasi dana pembinaan, trophy resmi ITS, dan sertifikasi nasional untuk mendorong inovator teknologi masa depan.",
+    sectionTitle: "Hadiah dan Penghargaan",
     totalPrizeLabel: "Total Hadiah Pembinaan",
     totalPrizeSub: "Akumulasi dana pembinaan tunai dan fasilitas pendukung kompetisi untuk seluruh cabang lomba.",
     firstPlaceTitle: "Juara 1",
@@ -109,8 +104,7 @@ export const idTranslations: TranslationDictionary = {
     officialCertificationNotice: "Sertifikat resmi diterbitkan langsung oleh Departemen Teknik Elektro Otomasi ITS dan dapat digunakan sebagai bukti prestasi portofolio akademik maupun profesional.",
   },
   competitions: {
-    sectionBadge: "Cabang Perlombaan",
-    sectionTitle: "4 Divisi Kompetisi Utama",
+    sectionTitle: "Divisi Kompetisi",
     levelFilters: {
       Semua: "Semua",
       SD: "SD",
@@ -125,7 +119,6 @@ export const idTranslations: TranslationDictionary = {
     targetLevelsPrefix: "Tingkat: ",
   },
   flow: {
-    sectionBadge: "Panduan Lengkap",
     sectionTitle: "Alur Pendaftaran Peserta IARC XII",
     countdownPrefix: "Pendaftaran Ditutup Dalam:",
     countdownDays: "Hari",
@@ -149,13 +142,11 @@ export const idTranslations: TranslationDictionary = {
     step4Title: "Pembayaran Biaya Pendaftaran",
     step4Desc:
       "Lakukan pembayaran biaya pendaftaran tim sesuai nominal gelombang aktif. Rekening tujuan resmi panitia tertera langsung pada Google Form.",
-    step4Notice: "Nomor rekening dan petunjuk transfer tercantum di Google Form.",
     step5Title: "Verifikasi Berkas & Akses Open Training",
     step5Desc:
       "Panitia memverifikasi berkas dalam 1x24 jam. Tim lolos verifikasi menerima email konfirmasi dan tautan grup WhatsApp Open Training IARC XII.",
   },
   timeline: {
-    sectionBadge: "Linimasa & Jadwal",
     sectionTitle: "Jadwal Pelaksanaan IARC XII",
     trackA: "Smart Robotics · PLC · Energy Treasure",
     trackB: "Microcontroller & Vortex",
@@ -164,8 +155,7 @@ export const idTranslations: TranslationDictionary = {
     statusUpcoming: "Mendatang",
   },
   faq: {
-    sectionBadge: "Pusat Informasi & Jawaban",
-    sectionTitle: "Pertanyaan yang Sering Diajukan (FAQ)",
+    sectionTitle: "Pertanyaan Umum",
   },
   footer: {
     aboutText:
@@ -197,11 +187,10 @@ export const idTranslations: TranslationDictionary = {
     weightPrefix: "Bobot: ",
   },
   chatbot: {
-    badge: "Asisten Virtual Resmi",
     title: "IARC AI Assistant",
     subtitle: "Pusat Bantuan Resmi 16 Guidebook IARC XII",
     welcomeMessage:
-      "Halo! Saya asisten virtual resmi **IARC XII** 🤖.\n\nSaya siap membantu Anda menjawab pertanyaan seputar cabang lomba, jadwal, biaya pendaftaran, serta regulasi teknis dari seluruh **16 Guidebook resmi**.",
+      "Halo! Saya asisten virtual resmi **IARC XII**.\n\nSaya siap membantu Anda menjawab pertanyaan seputar cabang lomba, jadwal, biaya pendaftaran, serta regulasi teknis dari seluruh **16 Guidebook resmi**.",
     inputPlaceholder: "Ketik pertanyaan seputar IARC XII...",
     sendTooltip: "Kirim Pertanyaan",
     resetTooltip: "Mulai Ulang Percakapan",

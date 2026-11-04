@@ -8,10 +8,7 @@ import {
   ExternalLink,
   Maximize2,
   Minimize2,
-  FileText,
   ChevronDown,
-  Sparkles,
-  Smartphone,
 } from "lucide-react";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { GUIDEBOOKS, getGuidebookById } from "@/data/guidebooks";
@@ -106,7 +103,7 @@ export default function PdfViewerModal() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={closeModal}
-            className="fixed inset-0 bg-navy-950/80 backdrop-blur-md touch-none overscroll-none"
+            className="fixed inset-0 bg-navy-950/90 touch-none overscroll-none"
           />
 
           {/* Modal Container */}
@@ -115,7 +112,7 @@ export default function PdfViewerModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 12 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className={`relative flex flex-col w-full overflow-hidden rounded-2xl border border-gold-500/30 bg-navy-900 shadow-2xl transition-all duration-300 z-10 overscroll-contain ${
+            className={`relative flex flex-col w-full overflow-hidden rounded-md border border-gold-500/30 bg-navy-900 transition-all duration-300 z-10 overscroll-contain ${
               isFullscreen
                 ? "fixed inset-0 h-[100dvh] w-screen rounded-none border-none"
                 : "max-w-5xl h-[90dvh] sm:h-[88vh]"
@@ -130,9 +127,8 @@ export default function PdfViewerModal() {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   aria-expanded={isDropdownOpen}
                   aria-haspopup="listbox"
-                  className="inline-flex items-center gap-2 rounded-xl border border-navy-700 bg-navy-900 px-3.5 py-2 text-left text-sm font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+                  className="inline-flex items-center gap-2 rounded-md border border-navy-700 bg-navy-900 px-3.5 py-2 text-left text-sm font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
                 >
-                  <FileText className="h-4 w-4 text-gold-400 shrink-0" />
                   <span className="max-w-[180px] truncate sm:max-w-[280px] md:max-w-[360px]">
                     {activeDoc.title}
                   </span>
@@ -152,9 +148,9 @@ export default function PdfViewerModal() {
                     />
                     <div
                       role="listbox"
-                      className="absolute left-0 mt-2 z-30 max-h-72 w-80 max-w-[calc(100vw-2rem)] sm:w-96 overflow-y-auto rounded-xl border border-gold-500/30 bg-navy-950 p-2 shadow-2xl"
+                      className="absolute left-0 mt-2 z-30 max-h-72 w-80 max-w-[calc(100vw-2rem)] sm:w-96 overflow-y-auto rounded-md border border-gold-500/30 bg-navy-950 p-2"
                     >
-                      <div className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-text-dim border-b border-navy-800 mb-1">
+                      <div className="px-3 py-1.5 text-[11px] font-bold text-text-dim border-b border-navy-800 mb-1">
                         Pilih Dokumen Guidebook (16 Dokumen)
                       </div>
                       {GUIDEBOOKS.map((doc) => {
@@ -169,7 +165,7 @@ export default function PdfViewerModal() {
                               setActiveDoc(doc.id);
                               setIsDropdownOpen(false);
                             }}
-                            className={`flex w-full items-start gap-2.5 rounded-lg px-3 py-2 text-left text-xs transition ${
+                            className={`flex w-full items-start gap-2.5 rounded-md px-3 py-2 text-left text-xs transition ${
                               isSelected
                                 ? "bg-gold-500/15 text-gold-400 font-semibold"
                                 : "text-text-soft hover:bg-navy-800 hover:text-text-main"
@@ -202,7 +198,7 @@ export default function PdfViewerModal() {
                   target="_blank"
                   rel="noopener noreferrer"
                   download
-                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-md border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-gold-500/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-gold-500"
                   title="Unduh file PDF langsung"
                   aria-label="Unduh file PDF langsung"
                 >
@@ -215,7 +211,7 @@ export default function PdfViewerModal() {
                   href={activeDoc.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-lg border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-blue-400/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center gap-1.5 rounded-md border border-navy-700 bg-navy-900 px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs font-semibold text-text-main transition hover:border-blue-400/50 hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   title="Buka dokumen di tab baru Google Drive"
                   aria-label="Buka dokumen di tab baru Google Drive"
                 >
@@ -227,7 +223,7 @@ export default function PdfViewerModal() {
                 <button
                   type="button"
                   onClick={() => setIsFullscreen(!isFullscreen)}
-                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-gold-500/50 hover:text-text-main focus:outline-none focus:ring-2 focus:ring-gold-500"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-md border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-gold-500/50 hover:text-text-main focus:outline-none focus:ring-2 focus:ring-gold-500"
                   title={isFullscreen ? "Keluar Layar Penuh" : "Layar Penuh"}
                   aria-label={isFullscreen ? "Keluar Layar Penuh" : "Layar Penuh"}
                 >
@@ -242,7 +238,7 @@ export default function PdfViewerModal() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-lg border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  className="inline-flex min-h-[36px] min-w-[36px] items-center justify-center rounded-md border border-navy-700 bg-navy-900 p-2 text-text-soft transition hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
                   title="Tutup Viewer (Esc)"
                   aria-label="Tutup Viewer"
                 >
@@ -264,17 +260,15 @@ export default function PdfViewerModal() {
                 </span>
               </div>
               <div className="flex items-center gap-1.5 text-text-dim">
-                <Sparkles className="h-3 w-3 text-gold-400" />
                 <span>Google Drive Cloud Preview</span>
               </div>
             </div>
 
             {/* Mobile Touch / Scroll Assistance Banner (Option A) */}
             {showMobileBanner ? (
-              <div className="sm:hidden border-b border-gold-500/20 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 p-3 shadow-inner">
+              <div className="sm:hidden border-b border-gold-500/20 bg-navy-900 p-3">
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-gold-400">
-                    <Smartphone className="h-4 w-4 shrink-0 text-gold-400 animate-pulse" />
                     <span>Dokumen sulit digulir di HP?</span>
                   </div>
                   <button
@@ -295,9 +289,8 @@ export default function PdfViewerModal() {
                     href={activeDoc.previewUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 px-3 py-2 text-xs font-bold text-white shadow-md transition active:scale-95"
+                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-md bg-blue-600 hover:bg-blue-500 active:bg-blue-700 px-3 py-2 text-xs font-bold text-white transition"
                   >
-                    <ExternalLink className="h-4 w-4 shrink-0" />
                     <span>Buka di Tab Baru</span>
                   </a>
                   <a
@@ -305,9 +298,8 @@ export default function PdfViewerModal() {
                     target="_blank"
                     rel="noopener noreferrer"
                     download
-                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-lg border border-gold-500/40 bg-gold-500/15 hover:bg-gold-500/25 active:bg-gold-500/30 px-3 py-2 text-xs font-bold text-gold-300 shadow-md transition active:scale-95"
+                    className="inline-flex min-h-[42px] items-center justify-center gap-1.5 rounded-md border border-gold-500/40 bg-gold-500/15 hover:bg-gold-500/25 active:bg-gold-500/30 px-3 py-2 text-xs font-bold text-gold-300 transition"
                   >
-                    <Download className="h-4 w-4 shrink-0" />
                     <span>Unduh PDF</span>
                   </a>
                 </div>

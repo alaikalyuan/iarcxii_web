@@ -2,37 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  BookOpen,
-  ExternalLink,
-  ChevronRight,
-  ChevronDown,
-  Cpu,
-  Bot,
-  Zap,
-  Lightbulb,
-  CheckCircle2,
-  Calendar,
-  Award,
-  Layers,
-  ArrowRight,
-  ShieldCheck,
-  ClipboardCheck,
-  Laptop,
-} from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
 import { getCompetitionBySlug } from "@/data/competitions";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
-
-const DIVISION_ICONS = {
-  "automation-challenge": Cpu,
-  "smart-robotics": Bot,
-  "energy-treasure": Zap,
-  vortex: Lightbulb,
-};
 
 interface CompetitionDetailClientProps {
   division: CompetitionDivision;
@@ -51,8 +27,6 @@ export default function CompetitionDetailClient({
   const division =
     getCompetitionBySlug(initialDivision.slug, language) || initialDivision;
 
-  const Icon =
-    DIVISION_ICONS[division.slug as keyof typeof DIVISION_ICONS] || Layers;
   const theme = getDivisionTheme(division.slug);
 
   // Active track state for multi-track divisions like Automation Challenge
@@ -93,11 +67,11 @@ export default function CompetitionDetailClient({
           <Link href="/" className="hover:text-gold-400 transition-colors">
             {language === "id" ? "Beranda" : "Home"}
           </Link>
-          <ChevronRight className="h-3.5 w-3.5" />
+          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
           <Link href="/#kompetisi" className="hover:text-gold-400 transition-colors">
             {t.nav.competitions}
           </Link>
-          <ChevronRight className="h-3.5 w-3.5" />
+          <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
           {isAutomationChallenge && currentTrack ? (
             <>
               <Link
@@ -106,7 +80,7 @@ export default function CompetitionDetailClient({
               >
                 {division.name}
               </Link>
-              <ChevronRight className="h-3.5 w-3.5" />
+              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
               <span className={`font-semibold ${theme.text}`}>{currentTrack.name}</span>
             </>
           ) : (
@@ -115,20 +89,11 @@ export default function CompetitionDetailClient({
         </nav>
 
         {/* Hero Header Card with Division Secondary Glow */}
-        <div className="relative overflow-hidden rounded-3xl border border-navy-800 bg-gradient-to-br from-navy-900/90 via-navy-950/90 to-navy-900/90 p-6 sm:p-8 md:p-10 backdrop-blur-md shadow-2xl">
-          <div
-            className={`absolute -right-16 -top-16 h-64 w-64 rounded-full ${theme.heroBgGlow} blur-3xl pointer-events-none`}
-          />
-          <div className="absolute -left-16 -bottom-16 h-64 w-64 rounded-full bg-gold-500/10 blur-3xl pointer-events-none" />
+        <div className="relative overflow-hidden rounded-md border border-navy-800 bg-navy-900 p-6 sm:p-8 md:p-10">
 
           <div className="relative z-10">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex items-start gap-4">
-                <div
-                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border ${theme.iconBox} shadow-lg`}
-                >
-                  <Icon className="h-7 w-7" />
-                </div>
                 <div>
                   <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-text-main">
                     {division.name}
@@ -146,17 +111,15 @@ export default function CompetitionDetailClient({
                 <button
                   type="button"
                   onClick={() => openModal("utama")}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-gold-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
-                  <BookOpen className="h-4 w-4" />
                   <span>{t.nav.mainGuidebook}</span>
                 </button>
                 <a
                   href="#pendaftaran"
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md bg-gold-500 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 transition hover:bg-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                 >
                   <span>{t.nav.registerNow}</span>
-                  <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
             </div>
@@ -179,7 +142,7 @@ export default function CompetitionDetailClient({
               ).map((lvl) => (
                 <span
                   key={lvl}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-semibold ${theme.badge}`}
+                  className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${theme.badge}`}
                 >
                   {t.competitions.levelFilters[lvl] || lvl}
                 </span>
@@ -217,7 +180,7 @@ export default function CompetitionDetailClient({
                       <Link
                         key={track.id}
                         href={trackUrl}
-                        className={`min-h-[44px] inline-flex items-center rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+                        className={`min-h-[44px] inline-flex items-center rounded-md px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                           isActive
                             ? theme.trackActive
                             : "border border-navy-700 bg-navy-900 text-text-soft hover:border-purple-500/40 hover:text-text-main"
@@ -233,7 +196,7 @@ export default function CompetitionDetailClient({
                       key={track.id}
                       type="button"
                       onClick={() => setActiveTrackId(track.id)}
-                      className={`min-h-[44px] rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
+                      className={`min-h-[44px] rounded-md px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                         isActive
                           ? theme.trackActive
                           : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
@@ -250,14 +213,9 @@ export default function CompetitionDetailClient({
 
         {/* Active Track Header & Description */}
         {currentTrack && (
-          <div className="mt-6 rounded-2xl border border-navy-800/80 bg-navy-900/60 p-5 backdrop-blur-sm">
+          <div className="mt-6 rounded-md border border-navy-800/80 bg-navy-900/60 p-5">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
-                <span
-                  className={`inline-block rounded-md px-2.5 py-0.5 text-[11px] font-bold ${theme.badge} mb-1`}
-                >
-                  Active Track
-                </span>
                 <h3 className="text-lg sm:text-xl font-bold text-text-main">
                   {currentTrack.name}
                 </h3>
@@ -280,9 +238,8 @@ export default function CompetitionDetailClient({
         <div className="mt-8">
           {/* Automation Challenge: Microcontroller Track Specifications */}
           {isAutomationChallenge && activeTrackId === "iot" && (
-            <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+            <div className="rounded-md border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6">
               <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
-                <Cpu className="h-4 w-4" />
                 <span>
                   {language === "id"
                     ? "Spesifikasi Teknis & Regulasi Track 1: Microcontroller (IoT)"
@@ -290,8 +247,8 @@ export default function CompetitionDetailClient({
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-purple-400">
                     {language === "id" ? "3 Acuan Pusat Studi (Pusdi) ITS" : "3 Flagship ITS Study Centers"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -322,8 +279,8 @@ export default function CompetitionDetailClient({
                   </ul>
                 </div>
 
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-purple-400">
                     {language === "id" ? "Hardware, Plafon Anggaran & Seleksi" : "Hardware, Budget Ceiling & Evaluation"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -357,9 +314,8 @@ export default function CompetitionDetailClient({
 
           {/* Automation Challenge: PLC Track Specifications */}
           {isAutomationChallenge && activeTrackId === "plc" && (
-            <div className="rounded-2xl border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+            <div className="rounded-md border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6">
               <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
-                <Cpu className="h-4 w-4" />
                 <span>
                   {language === "id"
                     ? "Spesifikasi Hardware & Software Resmi Track 2: PLC"
@@ -367,8 +323,8 @@ export default function CompetitionDetailClient({
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-purple-400">
                     {language === "id" ? "Perangkat Lunak (Software) Standar" : "Standard Software Toolchain"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -393,8 +349,8 @@ export default function CompetitionDetailClient({
                   </ul>
                 </div>
 
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-purple-400">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-purple-400">
                     {language === "id" ? "Modul Trainer Hardware ITS" : "Official ITS Hardware Trainers"}
                   </h4>
                   <ul className="space-y-1.5 list-disc list-inside text-text-soft">
@@ -430,9 +386,8 @@ export default function CompetitionDetailClient({
 
           {/* Smart Robotics Specifications */}
           {isSmartRobotics && (
-            <div className="rounded-2xl border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+            <div className="rounded-md border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6">
               <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
-                <Bot className="h-4 w-4" />
                 <span>
                   {language === "id"
                     ? "Spesifikasi 4 Jenjang Smart Robotics"
@@ -440,7 +395,7 @@ export default function CompetitionDetailClient({
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-text-soft">
-                <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
+                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
                   <span className="font-bold text-rose-400 block mb-1">
                     {language === "id" ? "SD (Beginner)" : "Elementary (Beginner)"}
                   </span>
@@ -450,7 +405,7 @@ export default function CompetitionDetailClient({
                       : "Block programming line follower (Ardublock). Mission to push objects outside hazard zones."}
                   </p>
                 </div>
-                <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
+                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
                   <span className="font-bold text-rose-400 block mb-1">
                     {language === "id" ? "SMP (Junior)" : "Junior High (Junior)"}
                   </span>
@@ -460,7 +415,7 @@ export default function CompetitionDetailClient({
                       : "Optical sensor line follower with microcontroller. 60 min trial, top 16 advance to knockouts."}
                   </p>
                 </div>
-                <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
+                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
                   <span className="font-bold text-rose-400 block mb-1">
                     {language === "id" ? "SMA/SMK (Senior)" : "Senior High (Senior)"}
                   </span>
@@ -470,7 +425,7 @@ export default function CompetitionDetailClient({
                       : "Gripper line follower (max 25x20x25 cm). Point checkpoints (+15) and cube relocation."}
                   </p>
                 </div>
-                <div className="rounded-xl bg-navy-950/60 p-3.5 border border-navy-800">
+                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
                   <span className="font-bold text-rose-400 block mb-1">
                     {language === "id" ? "Mahasiswa (Dual Robot)" : "University (Dual Robot)"}
                   </span>
@@ -494,7 +449,6 @@ export default function CompetitionDetailClient({
                       className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
                     >
                       <span>{language === "id" ? "Web App & Panduan" : "Web App & Guide"}</span>
-                      <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>
                   <span className="text-navy-700 hidden sm:inline">•</span>
@@ -509,7 +463,6 @@ export default function CompetitionDetailClient({
                       className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
                     >
                       <span>{language === "id" ? "Unduh Lintasan" : "Download Track File"}</span>
-                      <ExternalLink className="h-3 w-3" />
                     </a>
                   </div>
                 </div>
@@ -519,18 +472,9 @@ export default function CompetitionDetailClient({
 
           {/* Smart Robotics Showcase & Web App Programming Guide Banner */}
           {isSmartRobotics && (
-            <div className="mt-6 overflow-hidden rounded-2xl border border-rose-500/40 bg-gradient-to-br from-navy-900/90 via-navy-950/95 to-navy-900/90 p-5 sm:p-6 backdrop-blur-sm shadow-xl relative">
-              <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-rose-500/10 blur-3xl pointer-events-none" />
+            <div className="mt-6 overflow-hidden rounded-md border border-rose-500/40 bg-navy-900 p-5 sm:p-6 relative">
               <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl">
-                  <div className="inline-flex items-center gap-2 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-xs font-semibold text-rose-300">
-                    <Laptop className="h-3.5 w-3.5" />
-                    <span>
-                      {language === "id"
-                        ? "Showcase & Platform Web App Resmi"
-                        : "Official Showcase & Web App Platform"}
-                    </span>
-                  </div>
                   <div>
                     <h3 className="text-lg sm:text-xl font-extrabold text-text-main">
                       {language === "id"
@@ -545,16 +489,16 @@ export default function CompetitionDetailClient({
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-1">
-                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-rose-300 border border-navy-800">
+                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-rose-300 border border-navy-800">
                       {language === "id" ? "Pemrograman Blok via Web App" : "Browser Block Coding"}
                     </span>
-                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
                       {language === "id" ? "16 Sensor Garis & Gripper" : "16 Line Sensors & Gripper"}
                     </span>
-                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
                       {language === "id" ? "Firmware & Aplikasi Remote HP" : "Firmware & Mobile Remote"}
                     </span>
-                    <span className="rounded-lg bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
+                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
                       {language === "id" ? "Layar OLED & Sensor ToF" : "OLED Display & ToF Sensors"}
                     </span>
                   </div>
@@ -565,14 +509,13 @@ export default function CompetitionDetailClient({
                     href="https://ismarintan98.github.io/LF_ITS-Share/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-rose-500 to-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-rose-950/40 transition hover:from-rose-400 hover:to-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white transition hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
                   >
                     <span>
                       {language === "id"
                         ? "Buka Web App & Showcase LF"
                         : "Open LF Web App & Showcase"}
                     </span>
-                    <ExternalLink className="h-4 w-4" />
                   </a>
                   <a
                     href="https://ismarintan98.github.io/LF_ITS-Share/"
@@ -581,7 +524,6 @@ export default function CompetitionDetailClient({
                     className="text-[11px] font-mono text-rose-400/80 hover:text-rose-300 hover:underline flex items-center gap-1"
                   >
                     <span>ismarintan98.github.io/LF_ITS-Share</span>
-                    <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
               </div>
@@ -590,9 +532,8 @@ export default function CompetitionDetailClient({
 
           {/* Energy Treasure Specifications */}
           {isEnergyTreasure && (
-            <div className="rounded-2xl border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+            <div className="rounded-md border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6">
               <div className="flex items-center gap-2 text-sm font-bold text-sky-400 mb-3">
-                <Zap className="h-4 w-4" />
                 <span>
                   {language === "id"
                     ? "Spesifikasi Navigasi Labirin & Efisiensi Konsumsi Daya"
@@ -600,8 +541,8 @@ export default function CompetitionDetailClient({
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
+                <div className="rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-sky-400 mb-1.5">
                     {language === "id" ? "Mekanisme 3 Tahapan Seleksi" : "3-Stage Selection Mechanics"}
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
@@ -631,8 +572,8 @@ export default function CompetitionDetailClient({
                     </li>
                   </ul>
                 </div>
-                <div className="rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-sky-400 mb-1.5">
+                <div className="rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-sky-400 mb-1.5">
                     {language === "id" ? "Persyaratan Robot Fisik" : "Physical Robot Requirements"}
                   </h4>
                   <p className="leading-relaxed">
@@ -647,9 +588,8 @@ export default function CompetitionDetailClient({
 
           {/* Vortex Specifications */}
           {isVortex && (
-            <div className="rounded-2xl border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6 backdrop-blur-sm">
+            <div className="rounded-md border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6">
               <div className="flex items-center gap-2 text-sm font-bold text-amber-400 mb-3">
-                <Lightbulb className="h-4 w-4" />
                 <span>
                   {language === "id"
                     ? "Format Kompetisi KTI Vortex & Batasan Plagiarisme"
@@ -657,8 +597,8 @@ export default function CompetitionDetailClient({
                 </span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-amber-400 mb-1.5">
                     {language === "id" ? "Dua Pendekatan Gagasan" : "Two Paper Approaches"}
                   </h4>
                   <ul className="space-y-1 list-disc list-inside">
@@ -676,8 +616,8 @@ export default function CompetitionDetailClient({
                     </li>
                   </ul>
                 </div>
-                <div className="space-y-2 rounded-xl bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs uppercase tracking-wider text-amber-400 mb-1.5">
+                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
+                  <h4 className="font-bold text-text-main text-xs text-amber-400 mb-1.5">
                     {language === "id" ? "Persyaratan Orisinalitas Ketat" : "Strict Originality Rules"}
                   </h4>
                   <p className="leading-relaxed">
@@ -710,7 +650,7 @@ export default function CompetitionDetailClient({
             {currentTrack.categories.map((cat) => (
               <div
                 key={cat.id}
-                className={`group flex flex-col justify-between rounded-2xl border border-navy-800 bg-navy-900/80 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 ${theme.cardHoverBorder} hover:bg-navy-900/95 hover:shadow-xl ${theme.cardGlow} hover:-translate-y-1`}
+                className={`group flex flex-col justify-between rounded-md border border-navy-800 bg-navy-900/80 p-5 sm:p-6 transition-all duration-300 ${theme.cardHoverBorder} hover:bg-navy-900/95`}
               >
                 <div>
                   <h4
@@ -726,32 +666,29 @@ export default function CompetitionDetailClient({
                   {/* Highlights Bullet Points */}
                   <div className="my-3 space-y-1.5">
                     {cat.highlights.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-text-soft">
-                        <CheckCircle2
-                          className={`h-3.5 w-3.5 ${theme.bulletDot} shrink-0 mt-0.5`}
-                        />
+                      <div key={idx} className="text-xs leading-relaxed text-text-soft">
                         <span>{item}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Fee Matrix Box */}
-                  <div className="mt-4 rounded-xl border border-navy-800 bg-navy-950/70 p-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-text-dim block mb-1.5">
+                  <div className="mt-4 rounded-md border border-navy-800 bg-navy-950/70 p-3">
+                    <span className="text-[10px] font-bold text-text-dim block mb-1.5">
                       {language === "id"
                         ? "Biaya Pendaftaran per Tim:"
                         : "Registration Fee per Team:"}
                     </span>
                     <div className="grid grid-cols-3 gap-1.5 text-center">
-                      <div className="rounded-lg bg-navy-900/80 p-1.5 border border-navy-800">
+                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
                         <span className="text-[9px] text-text-dim block">Batch 1</span>
                         <span className={`text-xs font-bold ${theme.text}`}>{cat.fees.batch1}</span>
                       </div>
-                      <div className="rounded-lg bg-navy-900/80 p-1.5 border border-navy-800">
+                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
                         <span className="text-[9px] text-text-dim block">Batch 2</span>
                         <span className="text-xs font-bold text-text-main">{cat.fees.batch2}</span>
                       </div>
-                      <div className="rounded-lg bg-navy-900/80 p-1.5 border border-navy-800">
+                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
                         <span className="text-[9px] text-text-dim block">Batch 3</span>
                         <span className="text-xs font-bold text-text-soft">{cat.fees.batch3}</span>
                       </div>
@@ -765,10 +702,9 @@ export default function CompetitionDetailClient({
                         type="button"
                         onClick={() => toggleCategoryAccordion(cat.id)}
                         aria-expanded={!!expandedCategories[cat.id]}
-                        className="flex w-full items-center justify-between gap-2 rounded-xl border border-navy-700/80 bg-navy-950/60 px-3.5 py-2.5 text-xs font-semibold text-text-soft transition hover:border-gold-500/40 hover:text-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
+                        className="flex w-full items-center justify-between gap-2 rounded-md border border-navy-700/80 bg-navy-950/60 px-3.5 py-2.5 text-xs font-semibold text-text-soft transition hover:border-gold-500/40 hover:text-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
                       >
                         <span className="flex items-center gap-2">
-                          <Award className="h-4 w-4 text-gold-400" />
                           <span>
                             {language === "id"
                               ? "Rincian Babak & Penilaian"
@@ -784,12 +720,11 @@ export default function CompetitionDetailClient({
 
                       {/* Accordion Content */}
                       {expandedCategories[cat.id] && (
-                        <div className="mt-3 space-y-4 rounded-xl border border-navy-800 bg-navy-950/90 p-4 text-xs text-text-soft">
+                        <div className="mt-3 space-y-4 rounded-md border border-navy-800 bg-navy-950/90 p-4 text-xs text-text-soft">
                           {/* Stages */}
                           {cat.stages && cat.stages.length > 0 && (
                             <div>
-                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
-                                <Calendar className="h-3.5 w-3.5 text-gold-400" />
+                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] mb-2.5">
                                 <span>
                                   {language === "id"
                                     ? "Alur Babak Kompetisi"
@@ -821,8 +756,7 @@ export default function CompetitionDetailClient({
                           {/* Scoring criteria */}
                           {cat.scoringCriteria && cat.scoringCriteria.length > 0 && (
                             <div className="pt-3 border-t border-navy-800/80">
-                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] uppercase tracking-wider mb-2.5">
-                                <Award className="h-3.5 w-3.5 text-gold-400" />
+                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] mb-2.5">
                                 <span>
                                   {language === "id"
                                     ? "Fokus Kriteria Penilaian"
@@ -833,7 +767,7 @@ export default function CompetitionDetailClient({
                                 {cat.scoringCriteria.map((crit, cIdx) => (
                                   <div
                                     key={cIdx}
-                                    className="flex items-start justify-between gap-2 rounded-lg bg-navy-900/70 p-2.5 border border-navy-800"
+                                    className="flex items-start justify-between gap-2 rounded-md bg-navy-900/70 p-2.5 border border-navy-800"
                                   >
                                     <div>
                                       <span className="font-semibold text-text-main text-xs block">
@@ -871,9 +805,8 @@ export default function CompetitionDetailClient({
                   <button
                     type="button"
                     onClick={() => openModal(cat.guidebookDocId)}
-                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
                   >
-                    <BookOpen className="h-3.5 w-3.5" />
                     <span>
                       {language === "id"
                         ? "Lihat Guidebook (PDF)"
@@ -885,10 +818,9 @@ export default function CompetitionDetailClient({
                     href={cat.registrationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 py-2.5 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus:outline-none focus:ring-2 focus:ring-gold-400"
+                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md bg-gold-500 py-2.5 text-xs font-bold text-navy-950 transition hover:bg-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
                   >
                     <span>{t.nav.registerNow}</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 </div>
               </div>
@@ -897,12 +829,9 @@ export default function CompetitionDetailClient({
         </div>
 
         {/* Official Regulation Reference Callout */}
-        <div className="mt-12 rounded-2xl border border-navy-800 bg-navy-900/60 p-5 sm:p-6 backdrop-blur-sm">
+        <div className="mt-12 rounded-md border border-navy-800 bg-navy-900/60 p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3.5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold-500/10 border border-gold-500/20 text-gold-400">
-                <BookOpen className="h-5 w-5" />
-              </div>
               <div>
                 <h3 className="text-sm sm:text-base font-bold text-text-main">
                   {language === "id"
@@ -920,9 +849,8 @@ export default function CompetitionDetailClient({
             <button
               type="button"
               onClick={() => openModal("utama")}
-              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-xl border border-gold-500/40 bg-navy-900 px-4 py-2 text-xs font-bold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900 px-4 py-2 text-xs font-bold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
             >
-              <BookOpen className="h-4 w-4" />
               <span>{t.nav.mainGuidebook}</span>
             </button>
           </div>
@@ -931,18 +859,10 @@ export default function CompetitionDetailClient({
         {/* Registration Guidance & Verification Section */}
         <div
           id="panduan-pendaftaran"
-          className="mt-12 rounded-3xl border border-gold-500/30 bg-gradient-to-r from-navy-900 via-navy-950 to-navy-900 p-6 sm:p-8 backdrop-blur-md shadow-xl"
+          className="mt-12 rounded-md border border-gold-500/30 bg-navy-900 p-6 sm:p-8"
         >
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full bg-gold-500/10 border border-gold-500/20 px-3 py-0.5 text-xs font-semibold text-gold-400">
-                <ShieldCheck className="h-3.5 w-3.5" />
-                <span>
-                  {language === "id"
-                    ? "Petunjuk Pendaftaran Resmi"
-                    : "Official Registration Guidelines"}
-                </span>
-              </div>
               <h3 className="text-xl sm:text-2xl font-bold text-text-main">
                 {language === "id"
                   ? "Petunjuk Pendaftaran & Verifikasi Berkas"
@@ -955,8 +875,7 @@ export default function CompetitionDetailClient({
               </p>
             </div>
 
-            <div className="w-full sm:w-auto rounded-2xl border border-gold-500/30 bg-navy-950/80 p-5 text-center sm:min-w-[260px] flex flex-col items-center justify-center gap-2">
-              <ClipboardCheck className="h-6 w-6 text-gold-400" />
+            <div className="w-full sm:w-auto rounded-md border border-gold-500/30 bg-navy-950/80 p-5 text-center sm:min-w-[260px] flex flex-col items-center justify-center gap-2">
               <span className="text-xs font-bold text-text-main">
                 {language === "id" ? "Formulir Pendaftaran" : "Registration Form"}
               </span>
@@ -967,10 +886,9 @@ export default function CompetitionDetailClient({
               </p>
               <a
                 href="#pendaftaran"
-                className="mt-1 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-400"
+                className="mt-1 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-md bg-gold-500 px-4 py-2 text-xs font-bold text-navy-950 transition hover:bg-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
               >
                 <span>{language === "id" ? "Pilih Kategori & Daftar" : "Select Category & Register"}</span>
-                <ArrowRight className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
@@ -987,7 +905,6 @@ export default function CompetitionDetailClient({
                 className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
               >
                 <span>{t.footer.downloadTwibbon}</span>
-                <ExternalLink className="h-3 w-3" />
               </a>
               <span className="text-navy-700">•</span>
               <a
@@ -997,7 +914,6 @@ export default function CompetitionDetailClient({
                 className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
               >
                 <span>{t.footer.copyCaption}</span>
-                <ExternalLink className="h-3 w-3" />
               </a>
             </div>
 
@@ -1006,7 +922,6 @@ export default function CompetitionDetailClient({
               className="inline-flex items-center gap-1.5 font-bold text-gold-400 hover:text-gold-300 transition"
             >
               <span>{language === "id" ? "Jelajahi Divisi Lain" : "Explore Other Divisions"}</span>
-              <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>

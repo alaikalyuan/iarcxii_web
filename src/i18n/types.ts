@@ -14,7 +14,6 @@ export interface NavTranslations {
 }
 
 export interface HeroTranslations {
-  eyebrow: string;
   titlePrefix: string;
   titleHighlight: string;
   titleSuffix: string;
@@ -22,8 +21,6 @@ export interface HeroTranslations {
 }
 
 export interface BentoTranslations {
-  sectionBadge: string;
-  sectionTitle: string;
   aboutTitlePrefix: string;
   aboutTitleHighlight: string;
   aboutSubtitle: string;
@@ -58,9 +55,7 @@ export interface BentoTranslations {
 }
 
 export interface PrizeTranslations {
-  sectionBadge: string;
   sectionTitle: string;
-  sectionSubtitle: string;
   totalPrizeLabel: string;
   totalPrizeSub: string;
   firstPlaceTitle: string;
@@ -77,7 +72,6 @@ export interface PrizeTranslations {
 }
 
 export interface CompetitionTranslations {
-  sectionBadge: string;
   sectionTitle: string;
   levelFilters: Record<string, string>;
   openStatus: string;
@@ -87,7 +81,6 @@ export interface CompetitionTranslations {
 }
 
 export interface FlowTranslations {
-  sectionBadge: string;
   sectionTitle: string;
   countdownPrefix: string;
   countdownDays: string;
@@ -107,13 +100,11 @@ export interface FlowTranslations {
   step3ActionCaption: string;
   step4Title: string;
   step4Desc: string;
-  step4Notice: string;
   step5Title: string;
   step5Desc: string;
 }
 
 export interface TimelineTranslations {
-  sectionBadge: string;
   sectionTitle: string;
   trackA: string;
   trackB: string;
@@ -123,7 +114,6 @@ export interface TimelineTranslations {
 }
 
 export interface FaqTranslations {
-  sectionBadge: string;
   sectionTitle: string;
 }
 
@@ -158,7 +148,6 @@ export interface CompetitionDetailTranslations {
 }
 
 export interface ChatbotTranslations {
-  badge: string;
   title: string;
   subtitle: string;
   welcomeMessage: string;

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, BookOpen, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -35,7 +35,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-300 ${
         isScrolled
-          ? "border-b border-navy-800/80 bg-navy-950/85 backdrop-blur-md py-3 shadow-lg"
+          ? "border-b border-navy-800 bg-navy-950 py-3"
           : "bg-transparent py-5"
       }`}
     >
@@ -48,7 +48,7 @@ export default function Navbar() {
             width={160}
             height={46}
             priority
-            className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
+            className="h-9 w-auto object-contain"
           />
         </Link>
 
@@ -58,7 +58,7 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              className="rounded-md px-2 py-1.5 text-xs font-semibold uppercase tracking-wider text-text-soft transition hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:text-gold-400"
+              className="rounded-md px-2 py-1.5 text-sm font-medium text-text-soft transition hover:text-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:text-gold-400"
             >
               {link.name}
             </a>
@@ -72,18 +72,16 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => openModal("utama")}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900/90 px-4 py-2 text-xs font-semibold text-gold-400 transition hover:border-gold-400 hover:bg-gold-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+            className="inline-flex min-h-[44px] items-center rounded-md border border-gold-500/50 px-4 py-2 text-sm font-semibold text-gold-400 transition-colors hover:bg-gold-500/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
-            <BookOpen className="h-3.5 w-3.5" />
-            <span>{t.nav.mainGuidebook}</span>
+            {t.nav.mainGuidebook}
           </button>
 
           <a
             href="/#alur"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-4 py-2 text-xs font-bold text-navy-950 shadow-md transition hover:from-gold-400 hover:to-gold-500 hover:shadow-gold-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+            className="inline-flex min-h-[44px] items-center rounded-md bg-gold-500 px-4 py-2 text-sm font-bold text-navy-950 transition-colors hover:bg-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           >
-            <span>{t.nav.registerNow}</span>
-            <ArrowRight className="h-3.5 w-3.5" />
+            {t.nav.registerNow}
           </a>
         </div>
 
@@ -91,7 +89,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-xl border border-navy-800 bg-navy-900/90 px-3 py-2 text-text-soft transition hover:text-text-main lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+          className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-md border border-navy-700 px-3 py-2 text-text-soft transition hover:text-text-main lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
           aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
           aria-expanded={mobileMenuOpen}
         >
@@ -108,7 +106,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="border-b border-navy-800 bg-navy-950/95 backdrop-blur-xl lg:hidden overflow-hidden"
+            className="border-b border-navy-800 bg-navy-950 lg:hidden overflow-hidden"
           >
             <div className="space-y-2 px-4 pt-3 pb-6 sm:px-6">
               {/* Mobile Language Switcher */}
@@ -121,7 +119,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-soft hover:bg-navy-900 hover:text-gold-400"
+                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-text-soft hover:bg-navy-900 hover:text-gold-400"
                 >
                   {link.name}
                 </a>
@@ -134,19 +132,17 @@ export default function Navbar() {
                     setMobileMenuOpen(false);
                     openModal("utama");
                   }}
-                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-gold-500/30 bg-navy-900 py-2.5 text-xs font-semibold text-gold-400"
+                  className="flex min-h-[44px] w-full items-center justify-center rounded-md border border-gold-500/50 py-2.5 text-sm font-semibold text-gold-400"
                 >
-                  <BookOpen className="h-4 w-4" />
-                  <span>{t.nav.mainGuidebook}</span>
+                  {t.nav.mainGuidebook}
                 </button>
 
                 <a
                   href="/#alur"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-gold-500 py-2.5 text-xs font-bold text-navy-950"
+                  className="flex min-h-[44px] w-full items-center justify-center rounded-md bg-gold-500 py-2.5 text-sm font-bold text-navy-950"
                 >
-                  <span>{t.nav.registerNow}</span>
-                  <ArrowRight className="h-4 w-4" />
+                  {t.nav.registerNow}
                 </a>
               </div>
             </div>
