@@ -20,7 +20,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
           "Peserta merancang sistem otomasi pintar berbasis mikrokontroler yang mengacu pada 3 Pusat Studi (Pusdi) ITS: Energi Terbarukan, Mitigasi Bencana & Perubahan Iklim, atau Teknologi Tepat Guna.",
         hardwareSpecs: [
           "Bebas menggunakan mikrokontroler apa pun (ESP32, ESP8266, STM32, Arduino, Raspberry Pi Pico)",
-          "Plafon anggaran komponen purwarupa maksimal Rp 500.000 disertai Rencana Anggaran Biaya (RAB) resmi",
+          "Plafon Rencana Anggaran Biaya (RAB) komponen purwarupa: maksimal Rp 300.000 (SMA/SMK) dan Rp 750.000 (Mahasiswa); SD/SMP memakai trainer kit ESP32 dari panitia",
           "Wajib memiliki konektivitas IoT (Wi-Fi, Bluetooth, LoRa, atau MQTT)",
           "Desain sirkuit aman dengan proteksi arus dan tegangan",
         ],
@@ -33,7 +33,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-iot-sd",
             name: "SD / Sederajat (Beginner)",
             level: "SD",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing dari institusi yang sama",
+            teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-sd",
             registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
             fees: {
@@ -70,29 +70,39 @@ export const COMPETITIONS: CompetitionDivision[] = [
             ],
             scoringCriteria: [
               {
-                criterion: "Inovasi",
-                weight: "30%",
-                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas karya.",
-              },
-              {
-                criterion: "Video Penjelasan",
-                weight: "25%",
-                note: "Menjelaskan ide, inovasi yang dibawakan, serta keterkaitannya dengan tema pilihan.",
-              },
-              {
-                criterion: "Keterkaitan dengan Tema",
-                weight: "20%",
-                note: "Keselarasan karya dengan target tema (Energi, Mitigasi Bencana, Teknologi Tepat Guna) dan kontribusi nyata solutif.",
-              },
-              {
-                criterion: "Dampak & Berkelanjutan",
+                criterion: "Proposal: Kesesuaian Format & Tata Bahasa",
                 weight: "15%",
-                note: "Potensi manfaat karya bagi masyarakat, lingkungan, atau industri serta peluang keberlanjutan.",
+                note: "Sistematika penulisan (margin, font, spasi), kerapian proposal, serta bahasa dan ejaan sesuai pedoman.",
               },
               {
-                criterion: "Kesesuaian Format",
+                criterion: "Proposal: Gagasan, Solusi & Inovasi",
+                weight: "20%",
+                note: "Kebaruan ide, kreativitas pemecahan masalah, kejelasan rancangan solusi, dan pemilihan modul/komponen yang tepat sesuai study case.",
+              },
+              {
+                criterion: "Proposal: Keterkaitan dengan Tema",
+                weight: "15%",
+                note: "Keselarasan karya dengan study case dan subtema yang dipilih (Energi, Mitigasi Bencana, atau Teknologi Tepat Guna).",
+              },
+              {
+                criterion: "Video: Kualitas Visual & Audio",
                 weight: "10%",
-                note: "Kesesuaian terhadap tata cara dan format penulisan, sistematika naskah, serta bahasa pedoman.",
+                note: "Ketajaman gambar, audio jernih tanpa noise, dan format 16:9.",
+              },
+              {
+                criterion: "Video: Kejelasan Pemaparan",
+                weight: "15%",
+                note: "Kelancaran, artikulasi, dan gaya penyampaian ide.",
+              },
+              {
+                criterion: "Video: Peragaan & Visualisasi Konsep",
+                weight: "15%",
+                note: "Penggunaan alat peraga, diagram, atau ilustrasi cara kerja alat.",
+              },
+              {
+                criterion: "Video: Kelengkapan Isi & Kreativitas",
+                weight: "10%",
+                note: "Pemenuhan poin wajib (perkenalan tim, inovasi, keterkaitan study case, konsep) dan daya tarik penyajian.",
               },
             ],
           },
@@ -100,7 +110,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-iot-smp",
             name: "SMP / Sederajat (Junior)",
             level: "SMP",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing dari institusi yang sama",
+            teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-smp",
             registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
             fees: {
@@ -132,29 +142,39 @@ export const COMPETITIONS: CompetitionDivision[] = [
             ],
             scoringCriteria: [
               {
-                criterion: "Inovasi",
-                weight: "30%",
-                note: "Tingkat kebaruan ide, kreativitas solusi, dan orisinalitas karya.",
-              },
-              {
-                criterion: "Video Penjelasan",
-                weight: "25%",
-                note: "Menjelaskan ide, inovasi yang dibawakan, serta keterkaitannya dengan tema yang sudah dipilih.",
-              },
-              {
-                criterion: "Keterkaitan dengan Tema",
-                weight: "20%",
-                note: "Keselarasan karya dengan target tema dan kontribusi nyata dalam menjawab isu global atau nasional.",
-              },
-              {
-                criterion: "Dampak & Berkelanjutan",
+                criterion: "Proposal: Kesesuaian Format & Tata Bahasa",
                 weight: "15%",
-                note: "Potensi manfaat karya bagi masyarakat, lingkungan, atau industri serta keberlanjutan jangka panjang.",
+                note: "Sistematika penulisan (margin, font, spasi), kerapian proposal, serta bahasa dan ejaan sesuai pedoman.",
               },
               {
-                criterion: "Kesesuaian Format",
+                criterion: "Proposal: Gagasan, Solusi & Inovasi",
+                weight: "20%",
+                note: "Kebaruan ide, kreativitas pemecahan masalah, kejelasan rancangan solusi, dan pemilihan modul/komponen yang tepat sesuai study case.",
+              },
+              {
+                criterion: "Proposal: Keterkaitan dengan Tema",
+                weight: "15%",
+                note: "Keselarasan karya dengan study case dan subtema yang dipilih (Energi, Mitigasi Bencana, atau Teknologi Tepat Guna).",
+              },
+              {
+                criterion: "Video: Kualitas Visual & Audio",
                 weight: "10%",
-                note: "Kesesuaian tata cara dan format penulisan, sistematika penyusunan karya, serta kaidah ejaan pedoman.",
+                note: "Ketajaman gambar, audio jernih tanpa noise, dan format 16:9.",
+              },
+              {
+                criterion: "Video: Kejelasan Pemaparan",
+                weight: "15%",
+                note: "Kelancaran, artikulasi, dan gaya penyampaian ide.",
+              },
+              {
+                criterion: "Video: Peragaan & Visualisasi Konsep",
+                weight: "15%",
+                note: "Penggunaan alat peraga, diagram, atau ilustrasi cara kerja alat.",
+              },
+              {
+                criterion: "Video: Kelengkapan Isi & Kreativitas",
+                weight: "10%",
+                note: "Pemenuhan poin wajib (perkenalan tim, inovasi, keterkaitan study case, konsep) dan daya tarik penyajian.",
               },
             ],
           },
@@ -162,7 +182,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-iot-sma",
             name: "SMA / SMK / MA (Senior)",
             level: "SMA/SMK",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing dari institusi yang sama",
+            teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-sma",
             registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
             fees: {
@@ -172,7 +192,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             },
             highlights: [
               "Sistem otomasi terintegrasi IoT dengan telemetry data real-time",
-              "Kelayakan teknis, efisiensi energi, dan batasan plafon Rp 500k",
+              "Kelayakan teknis, efisiensi energi, dan batasan plafon RAB Rp 300.000",
               "Top 10 tim diundang sesi pameran dan pengujian langsung di ITS",
             ],
                         stages: [
@@ -224,7 +244,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-iot-mahasiswa",
             name: "Perguruan Tinggi (Mahasiswa Nasional)",
             level: "Mahasiswa",
-            teamRequirement: "Maksimal 3 mahasiswa aktif (D3/D4/S1) dari kampus yang sama ditambah 1 dosen",
+            teamRequirement: "Maksimal 3 mahasiswa aktif (D3/D4/S1) dari kampus yang sama ditambah 1 dosen pembimbing",
             guidebookDocId: "ac-iot-mahasiswa",
             registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
             fees: {
@@ -367,7 +387,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-plc-sma",
             name: "SMA / SMK (Senior)",
             level: "SMA/SMK",
-            teamRequirement: "Tepat 2 siswa aktif dari institusi sekolah yang sama",
+            teamRequirement: "Tepat 2 siswa aktif dari sekolah yang sama ditambah 1 guru pembimbing",
             guidebookDocId: "ac-plc-sma",
             registrationUrl: "https://its.id/m/FormRegistPLCIARCXII",
             fees: {
@@ -376,24 +396,24 @@ export const COMPETITIONS: CompetitionDivision[] = [
               batch3: "Rp 200.000",
             },
             highlights: [
-              "Penyisihan daring via Zoom dengan studi kasus industri 90 menit",
+              "Penyisihan daring via Zoom 60 menit; Top 8 ke semifinal dan Top 3 ke final",
               "Babak final luring di ITS menggunakan trainer kit Omron CP2E-N",
               "Penilaian ketepatan program (+70), address/comment (+10), waktu (+20)",
             ],
                         stages: [
               {
                 name: "Babak Penyisihan (Daring)",
-                date: "9 Jan 2027",
-                description: "Pengerjaan soal logika ladder logic selama 60 menit melalui Zoom breakout room dengan sistem 2 kamera (kamera belakang ruangan dan share screen).",
+                date: "26 - 27 Des 2026",
+                description: "Soal ladder logic 60 menit via Zoom breakout room dengan 2 perangkat (kamera belakang dan share screen). 8 tim terbaik (Top 8) lolos ke semifinal, diumumkan 30 Des 2026.",
               },
               {
                 name: "Babak Semifinal (Luring ITS)",
-                date: "23 Jan 2027",
+                date: "9 Jan 2027",
                 description: "Departemen Teknik Elektro Otomasi ITS. Sesi penyesuaian trainer 15 menit dan pengerjaan soal 60 menit. Top 3 tim terbaik melaju ke Final.",
               },
               {
                 name: "Babak Final (Luring ITS)",
-                date: "24 Jan 2027",
+                date: "9 Jan 2027",
                 description: "Pengerjaan soal studi kasus industri 60 menit, transfer program ke modul trainer hardware, dan sesi presentasi di hadapan dewan juri untuk penentuan Juara.",
               },
             ],
@@ -401,27 +421,27 @@ export const COMPETITIONS: CompetitionDivision[] = [
               {
                 criterion: "Program Berjalan Sesuai Soal",
                 weight: "60 - 70 Poin",
-                note: "Logika dan eksekusi instruksi ladder logic berjalan sempurna (+70 pada Penyisihan & Final, +60 pada Semifinal).",
+                note: "Logika dan eksekusi instruksi ladder berjalan sesuai deskripsi soal (+70 pada Penyisihan, +60 pada Semifinal).",
               },
               {
                 criterion: "Address & Comment I/O",
                 weight: "10 Poin",
-                note: "Pemberian address dan comment utama yang sesuai dengan deskripsi tugas.",
+                note: "Pemberian address dan comment utama yang sesuai dengan deskripsi soal.",
               },
               {
                 criterion: "Upload & Simulasi Trainer PLC",
                 weight: "10 Poin",
-                note: "Program berhasil ditransfer dan disimulasikan secara valid pada modul trainer PLC (Babak Semifinal & Final).",
+                note: "Program berhasil di-upload dan disimulasikan pada perangkat PLC (Babak Semifinal).",
               },
               {
                 criterion: "Pengumpulan Berkas Tepat Waktu",
                 weight: "10 Poin",
-                note: "Mengumpulkan file program kepada dewan juri sebelum waktu perlombaan 60 menit berakhir.",
+                note: "Mengumpulkan file program kepada dewan juri sebelum waktu perlombaan berakhir.",
               },
               {
                 criterion: "Bonus Kecepatan Pengumpulan",
                 weight: "10 Poin",
-                note: "Tambahan nilai bagi 2 peserta tercepat yang mengumpulkan berkas program ke dewan juri.",
+                note: "Tambahan nilai bagi 2 peserta tercepat yang mengumpulkan file program ke dewan juri.",
               },
             ],
           },
@@ -429,7 +449,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "ac-plc-mahasiswa",
             name: "Perguruan Tinggi (Mahasiswa)",
             level: "Mahasiswa",
-            teamRequirement: "Tepat 2 mahasiswa aktif (D3/D4/S1) dari perguruan tinggi yang sama",
+            teamRequirement: "Tepat 2 mahasiswa aktif (D3/D4/S1) dari perguruan tinggi yang sama ditambah 1 dosen pembimbing",
             guidebookDocId: "ac-plc-mahasiswa",
             registrationUrl: "https://its.id/m/FormRegistPLCIARCXII",
             fees: {
@@ -445,12 +465,12 @@ export const COMPETITIONS: CompetitionDivision[] = [
                         stages: [
               {
                 name: "Babak Penyisihan (Daring)",
-                date: "9 Jan 2027",
-                description: "Pengerjaan soal software pemrograman PLC 60 menit via Zoom breakout room dengan sistem 2 kamera (kamera sudut ruangan dan share screen). Peserta terbaik langsung melaju ke Final.",
+                date: "26 - 27 Des 2026",
+                description: "Pengerjaan soal software pemrograman PLC 60 menit via Zoom breakout room dengan sistem 2 kamera (kamera sudut ruangan dan share screen). Finalis diumumkan 30 Des 2026 dan melaju langsung ke Final.",
               },
               {
                 name: "Babak Final (Luring ITS)",
-                date: "23 - 24 Jan 2027",
+                date: "10 Jan 2027",
                 description: "Departemen Teknik Elektro Otomasi ITS. Studi kasus kontrol industri nyata (Omron CP2E-N & Haiwell Cloud HMI), waktu 60 menit, transfer program ke trainer, dan presentasi juri. (Tanpa babak semifinal).",
               },
             ],
@@ -492,10 +512,26 @@ export const COMPETITIONS: CompetitionDivision[] = [
       { criterion: "Kecepatan dan Efisiensi Pengerjaan", weight: "10 Poin", note: "Bonus kecepatan bagi peserta tercepat yang programnya diverifikasi benar" },
     ],
     stages: [
-      { name: "Pendaftaran & Verifikasi", date: "Sep - Des 2026", description: "Pendaftaran tim melalui formulir online dan konfirmasi administrasi" },
-      { name: "Technical Meeting", date: "20 Des 2026", description: "Pengarahan aturan teknis, simulasi soal, dan verifikasi software CX-Programmer" },
-      { name: "Babak Penyisihan Daring", date: "26 - 27 Des 2026", description: "Pengerjaan studi kasus secara simultan di bawah pengawasan kamera Zoom" },
-      { name: "Babak Final Luring", date: "9 - 10 Jan 2027", description: "Implementasi langsung pada hardware trainer Omron CP2E-N & HMI di kampus ITS" },
+      {
+        name: "Pendaftaran Tim",
+        date: "25 Sep - 13 Des 2026",
+        description: "PLC: Batch 1 25 Sep - 18 Okt, Batch 2 19 Okt - 15 Nov, Batch 3 16 Nov - 13 Des. Microcontroller (IoT): 25 Sep - 16 Okt, 17 Okt - 7 Nov, 8 - 27 Nov",
+      },
+      {
+        name: "Proposal IoT & Penyisihan PLC",
+        date: "11 Des & 26 - 27 Des 2026",
+        description: "Pengumpulan proposal IoT 11 Des 2026; PLC: Technical Meeting 20 Des, penyisihan daring 26 - 27 Des via Zoom",
+      },
+      {
+        name: "Pengumuman Finalis",
+        date: "16 & 30 Des 2026",
+        description: "IoT: 16 Des (SD/SMP 5 tim, SMA dan Mahasiswa 10 tim); PLC: 30 Des",
+      },
+      {
+        name: "Final Luring ITS",
+        date: "9 - 10 Jan 2027",
+        description: "IoT: TM final 18 Des, final 9 - 10 Jan. PLC: TM 3 Jan, semifinal/final SMA 9 Jan, final Mahasiswa 10 Jan",
+      },
     ],
   },
   {
@@ -514,13 +550,13 @@ export const COMPETITIONS: CompetitionDivision[] = [
         description:
           "Robot bernavigasi menyusuri garis putih pada lintasan gelap, melewati persimpangan, jembatan, tanjakan, dan menyelesaikan misi khusus memindahkan atau menembakkan target.",
         hardwareSpecs: [
-          "SD: Robot Line Follower berbasis blok Arduino/Ardublock",
-          "SMP: Line follower mikrokontroler mandiri dengan sensor fotodiode/optik",
+          "SD: Robot disediakan panitia (ESP32, sensor TCRT5000 5 kanal), diprogram dengan Blockly/Ardublock saat onsite",
+          "SMP: Line follower mikrokontroler dengan 1 gripper (maks 25x25x20 cm, 2 kg, 8 sensor)",
           "SMA/SMK: Line follower dilengkapi mekanisme gripper capit (dimensi max 25x20x25 cm)",
           "Mahasiswa: Sistem dual-robot (R1 Autonomous Line Follower + R2 Shooter Robot)",
         ],
         softwareSpecs: [
-          "Algoritma kontrol PID mandiri tanpa kendali manual nirkabel (otonom penuh)",
+          "Robot line follower otonom penuh tanpa kendali manual (Robot Shooter Mahasiswa boleh manual/RC)",
           "Showcase robot & panduan pemrograman via Web App: https://ismarintan98.github.io/LF_ITS-Share/",
           "Lintasan digital resmi dapat diunduh di https://its.id/m/SmartRoboticsOnline",
         ],
@@ -529,7 +565,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "sr-sd",
             name: "SD / Sederajat",
             level: "SD",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing",
+            teamRequirement: "Maksimal 2 siswa SD ditambah 1 pendamping (opsional)",
             guidebookDocId: "sr-sd",
             registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
             fees: {
@@ -586,7 +622,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "sr-smp",
             name: "SMP / Sederajat",
             level: "SMP",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing",
+            teamRequirement: "Maksimal 2 siswa SMP ditambah 1 pendamping (opsional)",
             guidebookDocId: "sr-smp",
             registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
             fees: {
@@ -596,19 +632,19 @@ export const COMPETITIONS: CompetitionDivision[] = [
             },
             highlights: [
               "Line follower otonom pembawa muatan objek dari garis start",
-              "Waktu trial lintasan bersama selama 60 menit sebelum race",
+              "Trial bersama 45 menit di Day 1 dan 30 menit di Day 2; robot maks 25x25x20 cm, 2 kg, 8 sensor, 1 gripper",
               "Kualifikasi pencatatan waktu tercepat top 16 menuju babak eliminasi",
             ],
                         stages: [
               {
                 name: "Day 1: Trial & Babak Kualifikasi",
                 date: "Hari Pertama",
-                description: "Masa trial 60 menit. Babak Kualifikasi di Arena 1 untuk menentukan 16 tim catatan waktu tercepat ke Babak 16 Besar (alokasi 8 menit per match, COT 5 menit).",
+                description: "Masa trial 45 menit. Babak Kualifikasi di Arena 1 untuk menentukan 16 tim catatan waktu tercepat ke Babak 16 Besar (alokasi 8 menit per match, COT 5 menit).",
               },
               {
                 name: "Day 2: Trial & Babak 16 Besar",
                 date: "Hari Kedua",
-                description: "Masa trial 30-40 menit. Babak 16 Besar di Arena 2 (konfigurasi lintasan baru) sistem Onsite Program dengan misi khusus pelepasan objek di drop point.",
+                description: "Masa trial 30 menit. Babak 16 Besar di Arena 2 (konfigurasi lintasan baru) sistem Onsite Program dengan misi khusus pelepasan objek di drop point.",
               },
               {
                 name: "Day 2: Quarter Final hingga Grand Final",
@@ -618,24 +654,24 @@ export const COMPETITIONS: CompetitionDivision[] = [
             ],
             scoringCriteria: [
               {
-                criterion: "Babak Kualifikasi (100 Poin)",
-                weight: "100 Poin",
-                note: "Start & navigasi (20 pt), mendorong objek hingga Checkpoint 1 (30 pt), finish berbeban bersama objek (50 pt) + waktu tercepat.",
+                criterion: "Babak Kualifikasi",
+                weight: "Poin ÷ Waktu",
+                note: "Robot membawa objek dari start hingga finish. Skor = Total Poin ÷ Total Waktu; 16 tim terbaik lolos ke Babak 16 Besar.",
               },
               {
-                criterion: "Babak 16 Besar (100 Poin)",
+                criterion: "Babak 16 Besar",
                 weight: "100 Poin",
-                note: "Mendorong ke drop point (30 pt), pelepasan objek di zona drop (40 pt), dan finish robot tanpa beban (30 pt).",
+                note: "Misi utama: mencapit objek dari start, meletakkan di drop point, lalu mencapai finish. Waktu tempuh 1 - 300 detik (maks. 5 menit).",
               },
               {
-                criterion: "Babak Final (100 Poin)",
-                weight: "100 Poin",
-                note: "Mendorong ke drop point (25 pt), pelepasan objek (25 pt), garis finish (20 pt), dan objek khusus (ambil +15 pt, bawa finish +15 pt).",
+                criterion: "Quarter Final - Grand Final",
+                weight: "80 + 20 Poin",
+                note: "Misi utama 80 poin; misi bonus opsional (mengambil objek bonus dan melepas di drop point) 20 poin. Waktu tempuh 1 - 300 detik.",
               },
               {
-                criterion: "Penalti Misi Khusus",
-                weight: "Pengurangan",
-                note: "Objek meleset di luar batas drop point (-10 pt), objek khusus jatuh sebelum finish (hangus 15 pt), objek terbawa finish (0 pt pelepasan).",
+                criterion: "Penalti Waktu",
+                weight: "+5 Detik",
+                note: "Mendahului start sebelum aba-aba (+5 detik) dan retry tidak sah (+5 detik).",
               },
             ],
           },
@@ -643,7 +679,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "sr-sma",
             name: "SMA / SMK / MA",
             level: "SMA/SMK",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing",
+            teamRequirement: "Tepat 2 siswa aktif dari sekolah yang sama ditambah 1 guru pendamping (opsional)",
             guidebookDocId: "sr-sma",
             registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
             fees: {
@@ -668,9 +704,9 @@ export const COMPETITIONS: CompetitionDivision[] = [
                 description: "Format knock-out 1 vs 1. Setiap race diikuti 2 tim di lintasan masing-masing dengan batas maksimal 50 poin per race.",
               },
               {
-                name: "Day 2: Semifinal & Grand Final",
+                name: "Day 2: Semifinal, Juara 3 & Final",
                 date: "Hari Kedua",
-                description: "Babak Semifinal dan Final (2 kali pertandingan; jika poin seri dilakukan race ketiga) untuk menentukan Juara.",
+                description: "Semifinal 1 race. Perebutan Juara 3 dan Final masing-masing 2 pertandingan dengan poin diakumulasi (jika seri dilakukan pertandingan ketiga).",
               },
             ],
             scoringCriteria: [
@@ -705,7 +741,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "sr-mahasiswa",
             name: "Perguruan Tinggi (Mahasiswa)",
             level: "Mahasiswa",
-            teamRequirement: "Maksimal 3 mahasiswa aktif (D3/D4/S1) ditambah 1 pembimbing",
+            teamRequirement: "Tepat 2 mahasiswa aktif (D3/D4/S1) dari institusi yang sama ditambah 1 dosen pendamping (opsional)",
             guidebookDocId: "sr-mahasiswa",
             registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
             fees: {
@@ -773,10 +809,26 @@ export const COMPETITIONS: CompetitionDivision[] = [
       { criterion: "Jumlah Retrial / Penalti Sentuh Tangan", weight: "10 Poin", note: "Pengurangan poin apabila robot keluar garis atau direset manual peserta" },
     ],
     stages: [
-      { name: "Pendaftaran Tim", date: "Sep - Des 2026", description: "Pendaftaran online dan pengunduhan modul lintasan digital resmi" },
-      { name: "Technical Meeting", date: "20 Des 2026", description: "Penjelasan tata tertib babak penyisihan dan kalibrasi sensor online" },
-      { name: "Penyisihan Daring", date: "26 - 27 Des 2026", description: "Pengunggahan unedited video running robot pada arena uji standar panitia" },
-      { name: "Final Race Offline", date: "9 - 10 Jan 2027", description: "Balapan langsung head-to-head sistem gugur di Hall Teknik Elektro Otomasi ITS" },
+      {
+        name: "Pendaftaran Tim",
+        date: "25 Sep - 13 Des 2026",
+        description: "Batch 1: 25 Sep - 18 Okt, Batch 2: 19 Okt - 15 Nov, Batch 3: 16 Nov - 13 Des",
+      },
+      {
+        name: "Penyisihan Tahap 1 Daring (Mahasiswa)",
+        date: "Maks. 13 Des 2026",
+        description: "Pengumpulan video demonstrasi Robot Line Follower dan Robot Shooter; pengumuman 16 tim lolos pada 26 Des 2026",
+      },
+      {
+        name: "Technical Meeting",
+        date: "3 Jan 2027",
+        description: "Penjelasan teknis pertandingan; batas akhir perubahan anggota dan nama tim",
+      },
+      {
+        name: "Day 1 & Day 2 Luring",
+        date: "9 - 10 Jan 2027",
+        description: "Pertandingan luring di Departemen Teknik Elektro Otomasi ITS",
+      },
     ],
   },
   {
@@ -795,19 +847,20 @@ export const COMPETITIONS: CompetitionDivision[] = [
         description:
           "Robot diuji kemampuannya membaca persimpangan labirin, memetakan rute tercepat, dan meminimalisir konsumsi daya miliampere selama proses pemecahan rute jalan buntu.",
         hardwareSpecs: [
-          "Robot line follower autonomous dengan sensor jarak / dinding ultrasonik atau optik",
-          "Wajib dilengkapi indikator daya dan sakelar pemutus darurat mandiri",
+          "Robot maze solver line follower autonomous maks 25x25x20 cm dengan maks 8 sensor line follower; mikrokontroler bebas",
+          "Wajib menyediakan ruang wattmeter (82x50x23 mm) di antara baterai dan elektronik robot dengan konektor XT60",
+          "Baterai lithium maks 12,6 V saat penuh; scrutineering meliputi dimensi, wattmeter, dan tegangan baterai",
         ],
         softwareSpecs: [
           "Algoritma maze solving mandiri (misal: Wall Following, Tremaux, atau Flood-fill)",
-          "Dilarang menggunakan remote control nirkabel eksternal",
+          "Dilarang remote control; setiap sesi terdiri dari Searching (maks 3 menit) dan Race (maks 2 menit)",
         ],
         categories: [
           {
             id: "et-sma",
             name: "SMA / SMK / MA",
             level: "SMA/SMK",
-            teamRequirement: "Maksimal 3 siswa ditambah 1 guru pembimbing",
+            teamRequirement: "Maksimal 2 siswa dari institusi yang sama ditambah 1 guru pendamping (wajib)",
             guidebookDocId: "et-sma",
             registrationUrl: "https://its.id/m/FormRegistEnergyTreasureIARCXII",
             fees: {
@@ -824,34 +877,34 @@ export const COMPETITIONS: CompetitionDivision[] = [
               {
                 name: "Tahap 1: Pra Kualifikasi & Kualifikasi",
                 date: "Hari Pertama",
-                description: "Robot autonomous melintasi track awal. Pra Kualifikasi menentukan kuota tim lolos, Kualifikasi menetapkan seeding urutan (tidak memengaruhi skor akhir).",
+                description: "Robot autonomous melintasi track awal. Pra Kualifikasi menentukan kuota tim lolos, Kualifikasi menetapkan seeding. Hasil tidak diakumulasikan ke skor akhir.",
               },
               {
-                name: "Tahap 2: On Site Programming",
+                name: "Tahap 2: On Site Programming (16 Besar)",
                 date: "Hari Pertama / Kedua",
-                description: "Arena/lintasan baru diberikan pada hari-H. Seluruh tim lolos bertanding menyusuri track baru; pencatatan waktu dan konsumsi daya dimulai.",
+                description: "16 tim peringkat teratas Kualifikasi bertanding sistem gugur; 8 pemenang lanjut. Arena baru diumumkan hari-H. Arena 2 m x 2 m. Tiap tim 2 sesi maks 5 menit (Searching maks 3 menit + Race maks 2 menit).",
               },
               {
-                name: "Tahap 3: On Site Programming",
+                name: "Tahap 3: On Site Programming (Perempat Final - Final)",
                 date: "Hari Kedua",
-                description: "Konfigurasi lintasan baru berikutnya tanpa eliminasi tim. Hasil skor diakumulasikan langsung dengan Tahap 2 untuk menentukan Juara.",
+                description: "8 tim bertanding sistem gugur: perempat final, semifinal, final. Pemenang tiap babak ditentukan dari akumulasi skor dua sesi.",
               },
             ],
             scoringCriteria: [
               {
-                criterion: "Waktu Tempuh Lintasan",
-                weight: "50%",
-                note: "Skor Waktu = (Sisa Waktu Countdown ÷ Waktu Countdown Total) × 100. Jika robot tidak finish, Skor Waktu = 0.",
+                criterion: "Kecepatan Waktu Tempuh",
+                weight: "Parameter",
+                note: "Skor = Alokasi Waktu Tempuh − Waktu Tempuh Aktual (detik). Robot tidak finish: Skor Tahap = 0.",
               },
               {
-                criterion: "Efisiensi Konsumsi Energi",
-                weight: "50%",
-                note: "Skor Energi = ((Energi Maksimal − Energi Terpakai) ÷ Energi Maksimal) × 100. Melebihi energi maksimum mendapat nilai 0.",
+                criterion: "Efisiensi Energi",
+                weight: "Parameter",
+                note: "Berdasarkan akumulasi energi (Wh) yang terbaca di wattmeter. Melebihi batas maksimum: Skor Energi = 0.",
               },
               {
                 criterion: "Akumulasi Skor Akhir",
                 weight: "Tahap 2 + 3",
-                note: "Skor Tahap = (50% × Skor Waktu) + (50% × Skor Energi). Pemenang Juara 1, 2, dan 3 ditentukan murni dari total Skor Tahap 2 + Skor Tahap 3.",
+                note: "Skor Akhir = Skor Tahap 2 + Skor Tahap 3. Tahap 1 hanya menentukan kelolosan dan urutan seeding.",
               },
             ],
           },
@@ -859,7 +912,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             id: "et-mahasiswa",
             name: "Perguruan Tinggi (Mahasiswa)",
             level: "Mahasiswa",
-            teamRequirement: "Maksimal 3 mahasiswa aktif (D3/D4/S1) ditambah 1 dosen",
+            teamRequirement: "Maksimal 2 mahasiswa aktif (D3/D4/S1) dari institusi yang sama ditambah 1 dosen pendamping (wajib)",
             guidebookDocId: "et-mahasiswa",
             registrationUrl: "https://its.id/m/FormRegistEnergyTreasureIARCXII",
             fees: {
@@ -869,41 +922,41 @@ export const COMPETITIONS: CompetitionDivision[] = [
             },
             highlights: [
               "Studi kasus labirin multi-junction dinamis dengan rintangan jalan buntu",
-              "Tahapan On-site programming di tempat tanpa eliminasi langsung",
+              "Tahap 2 dan 3 sistem gugur (16 Besar hingga Final) dengan on-site programming",
               "Akumulasi skor tertinggi gabungan efisiensi konsumsi daya dan waktu tempuh",
             ],
                         stages: [
               {
                 name: "Tahap 1: Pra Kualifikasi & Kualifikasi",
                 date: "Hari Pertama",
-                description: "Pengujian autonomous di arena awal untuk menentukan kuota tim lolos dan penempatan urutan seeding bracket pertandingan.",
+                description: "Robot autonomous melintasi track awal. Pra Kualifikasi menentukan kuota tim lolos, Kualifikasi menetapkan seeding. Hasil tidak diakumulasikan ke skor akhir.",
               },
               {
-                name: "Tahap 2: On Site Programming",
+                name: "Tahap 2: On Site Programming (16 Besar)",
                 date: "Hari Pertama / Kedua",
-                description: "Tantangan lintasan baru yang diumumkan di hari-H. Seluruh tim berlomba mengoptimalkan kecepatan dan efisiensi konsumsi daya robot.",
+                description: "16 tim peringkat teratas Kualifikasi bertanding sistem gugur; 8 pemenang lanjut. Arena baru diumumkan hari-H. Arena 3 m x 3 m dengan obstacle; waktu programming 30 menit. Tiap tim 2 sesi maks 5 menit (Searching maks 3 menit + Race maks 2 menit).",
               },
               {
-                name: "Tahap 3: On Site Programming",
+                name: "Tahap 3: On Site Programming (Perempat Final - Final)",
                 date: "Hari Kedua",
-                description: "Kompetisi lanjutan pada konfigurasi lintasan baru hari-H tanpa eliminasi tim dari Tahap 2.",
+                description: "8 tim bertanding sistem gugur: perempat final, semifinal, final. Pemenang tiap babak ditentukan dari akumulasi skor dua sesi.",
               },
             ],
             scoringCriteria: [
               {
-                criterion: "Waktu Tempuh Lintasan",
-                weight: "50%",
-                note: "Dihitung berdasarkan rumus: (Sisa Waktu Countdown ÷ Waktu Countdown Total) × 100.",
+                criterion: "Kecepatan Waktu Tempuh",
+                weight: "Parameter",
+                note: "Skor = Alokasi Waktu Tempuh − Waktu Tempuh Aktual (detik). Robot tidak finish: Skor Tahap = 0.",
               },
               {
-                criterion: "Efisiensi Konsumsi Energi",
-                weight: "50%",
-                note: "Dihitung berdasarkan rumus: ((Energi Maksimal − Energi Terpakai) ÷ Energi Maksimal) × 100.",
+                criterion: "Efisiensi Energi",
+                weight: "Parameter",
+                note: "Berdasarkan akumulasi energi (Wh) yang terbaca di wattmeter. Melebihi batas maksimum: Skor Energi = 0.",
               },
               {
                 criterion: "Akumulasi Skor Akhir",
                 weight: "Tahap 2 + 3",
-                note: "Penentuan peringkat Juara 1, 2, dan 3 didasarkan pada akumulasi total perolehan Skor Tahap 2 ditambah Skor Tahap 3.",
+                note: "Skor Akhir = Skor Tahap 2 + Skor Tahap 3. Tahap 1 hanya menentukan kelolosan dan urutan seeding.",
               },
             ],
           },
@@ -917,10 +970,21 @@ export const COMPETITIONS: CompetitionDivision[] = [
       { criterion: "Orisinalitas Algoritma Pemetaan", weight: "10 Poin", note: "Evaluasi logika algoritma pemecahan labirin yang diterapkan tim" },
     ],
     stages: [
-      { name: "Pendaftaran", date: "Sep - Des 2026", description: "Pendaftaran tim melalui formulir resmi panitia" },
-      { name: "Technical Meeting", date: "20 Des 2026", description: "Pengarahan aturan teknis dimensi robot, toleransi sensor, dan format labirin" },
-      { name: "Babak Penyisihan Daring", date: "26 - 27 Des 2026", description: "Pengujian seleksi pra-kualifikasi awal pemetaan labirin" },
-      { name: "On-Site Programming & Final", date: "9 - 10 Jan 2027", description: "Pemrograman on-site pada layout labirin rahasia di kampus ITS" },
+      {
+        name: "Pendaftaran",
+        date: "25 Sep - 13 Des 2026",
+        description: "Batch 1: 25 Sep - 18 Okt, Batch 2: 19 Okt - 15 Nov, Batch 3: 16 Nov - 13 Des",
+      },
+      {
+        name: "Technical Meeting",
+        date: "3 Jan 2027",
+        description: "Pengarahan teknis; batas akhir perubahan anggota dan nama tim",
+      },
+      {
+        name: "On-Site Programming & Final",
+        date: "9 - 10 Jan 2027",
+        description: "Pra Kualifikasi, Kualifikasi, 16 Besar hingga Final di Departemen Teknik Elektro Otomasi ITS",
+      },
     ],
   },
   {
@@ -930,7 +994,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
     tagline: "Gagasan Inovatif Masa Depan & Solusi Riset Strategis Nasional",
     description:
       "Kompetisi Karya Tulis Ilmiah (KTI) yang menantang pemikiran kritis generasi muda dalam melahirkan ide konseptual serta solusi rekayasa teknologi terapan menjawab tantangan nyata industri dan masyarakat.",
-    levels: ["SMA/SMK", "Mahasiswa"],
+    levels: ["SMA/SMK", "Mahasiswa", "International"],
     tracks: [
       {
         id: "vortex-track",
@@ -1006,8 +1070,65 @@ export const COMPETITIONS: CompetitionDivision[] = [
           },
           {
             id: "kti-mahasiswa",
-            name: "Perguruan Tinggi (Mahasiswa Nasional & International)",
+            name: "Perguruan Tinggi (Mahasiswa Nasional)",
             level: "Mahasiswa",
+            teamRequirement: "1 hingga 3 mahasiswa aktif (D3/D4/S1) dari universitas yang sama",
+            guidebookDocId: "kti-mahasiswa",
+            registrationUrl: "https://its.id/m/FormRegistVortexIARCXII",
+            fees: {
+              batch1: "Rp 90.000 - 100.000",
+              batch2: "Rp 90.000 - 100.000",
+              batch3: "Rp 90.000 - 100.000",
+            },
+            highlights: [
+              "Menjawab problem statement dari 4 fokus riset unggulan ITS",
+              "Analisis kasus tajam (30%), Kelayakan solusi & purwarupa (30%), Orisinalitas (15%)",
+              "Sidang presentasi ilmiah di hadapan dewan dosen penguji ITS",
+            ],
+                        stages: [
+              {
+                name: "Preliminary Stage (Online)",
+                date: "Submission Period",
+                description: "Selection of 1 of 4 case study topics, submission of scientific research/innovation paper in PDF format. Top 10 teams advance to Final.",
+              },
+              {
+                name: "Final: Vortex Idea Challenge",
+                date: "Offline ITS",
+                description: "On-site problem solving for a new case study within 120 minutes, followed by a 3-Minute Thesis (3MT) pitch and rigorous jury Q&A defense.",
+              },
+              {
+                name: "Final: Vortex Innovation Challenge",
+                date: "Offline ITS",
+                description: "Exhibition booth setup, on-site live prototype/device demonstration during booth judging rounds, and technical Q&A session.",
+              },
+            ],
+            scoringCriteria: [
+              {
+                criterion: "Preliminary: Idea Challenge",
+                weight: "100 Points",
+                note: "Originality of Ideas (35%), Relevance & Depth (20%), Concept Feasibility (20%), Systematics (15%), Format Compliance (10%).",
+              },
+              {
+                criterion: "Preliminary: Innovation Challenge",
+                weight: "100 Points",
+                note: "Problem Urgency (30%), Solution & Feasibility (30%), Research Methodology (15%), Originality (15%), Format Compliance (10%).",
+              },
+              {
+                criterion: "Final: Idea Challenge (3MT)",
+                weight: "100 Points",
+                note: "Spontaneity & New Solutions (25%), Verbal Communication (25%), Jury Q&A Defense (25%), Concept Quality (20%), Rules Compliance (5%).",
+              },
+              {
+                criterion: "Final: Innovation Challenge (Booth)",
+                weight: "100 Points",
+                note: "Problem Urgency (30%), Verbal Presentation (25%), Jury Q&A (25%), Technical Prototype Quality (15%), Rules Compliance (5%).",
+              },
+            ],
+          },
+          {
+            id: "kti-college",
+            name: "International College",
+            level: "International",
             teamRequirement: "1 hingga 3 mahasiswa aktif (D3/D4/S1) dari universitas yang sama",
             guidebookDocId: "kti-mahasiswa",
             registrationUrl: "https://its.id/m/FormRegistVortexIARCXII",
