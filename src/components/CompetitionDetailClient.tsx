@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, MapPin, Clock } from "lucide-react";
 import { CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
 import { getCompetitionBySlug } from "@/data/competitions";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
+import SmartRoboticsTrackSection from "./SmartRoboticsTrackSection";
+import SmartRoboticsTrackModal from "./SmartRoboticsTrackModal";
 
 interface CompetitionDetailClientProps {
   division: CompetitionDivision;
@@ -42,6 +44,17 @@ export default function CompetitionDetailClient({
       ...prev,
       [catId]: !prev[catId],
     }));
+  };
+
+  // Smart Robotics track modal state
+  const [trackModalOpen, setTrackModalOpen] = useState(false);
+  const [trackModalTrackId, setTrackModalTrackId] = useState("track-sd");
+  const [trackModalVariantId, setTrackModalVariantId] = useState<string | undefined>(undefined);
+
+  const openTrackModal = (trackId: string, variantId?: string) => {
+    setTrackModalTrackId(trackId);
+    setTrackModalVariantId(variantId);
+    setTrackModalOpen(true);
   };
 
   useEffect(() => {
@@ -108,6 +121,15 @@ export default function CompetitionDetailClient({
 
               {/* Master Actions */}
               <div className="flex flex-wrap items-center gap-3">
+                {isSmartRobotics && (
+                  <a
+                    href="#lintasan-resmi"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-rose-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                  >
+                    <MapPin className="h-4 w-4 text-rose-400" aria-hidden="true" />
+                    <span>{language === "id" ? "Denah Lintasan" : "Arena Tracks"}</span>
+                  </a>
+                )}
                 <button
                   type="button"
                   onClick={() => openModal("utama")}
@@ -530,6 +552,14 @@ export default function CompetitionDetailClient({
             </div>
           )}
 
+          {/* Smart Robotics Arena Track Section */}
+          {isSmartRobotics && (
+            <SmartRoboticsTrackSection
+              onOpenGuidebookModal={openModal}
+              onOpenTrackModal={openTrackModal}
+            />
+          )}
+
           {/* Energy Treasure Specifications */}
           {isEnergyTreasure && (
             <div className="rounded-md border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6">
@@ -805,7 +835,7 @@ export default function CompetitionDetailClient({
                   <button
                     type="button"
                     onClick={() => openModal(cat.guidebookDocId)}
-                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
+                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 cursor-pointer"
                   >
                     <span>
                       {language === "id"
@@ -813,6 +843,59 @@ export default function CompetitionDetailClient({
                         : "View Category Guidebook (PDF)"}
                     </span>
                   </button>
+
+                  {/* Track arena action for Smart Robotics */}
+                  {isSmartRobotics && (
+                    <>
+                      {cat.level === "SD" && (
+                        <button
+                          type="button"
+                          onClick={() => openTrackModal("track-sd")}
+                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-rose-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/50 cursor-pointer"
+                        >
+                          <MapPin className="h-3.5 w-3.5 text-rose-400" aria-hidden="true" />
+                          <span>
+                            {language === "id"
+                              ? "Lihat Track Arena (PDF)"
+                              : "View Arena Track (PDF)"}
+                          </span>
+                        </button>
+                      )}
+                      {cat.level === "Mahasiswa" && (
+                        <button
+                          type="button"
+                          onClick={() => openTrackModal("track-mahasiswa", "mahasiswa-offline")}
+                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-rose-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/50 cursor-pointer"
+                        >
+                          <MapPin className="h-3.5 w-3.5 text-rose-400" aria-hidden="true" />
+                          <span>
+                            {language === "id"
+                              ? "Lihat Track (Offline & Online)"
+                              : "View Tracks (Offline & Online)"}
+                          </span>
+                        </button>
+                      )}
+                      {(cat.level === "SMP" || cat.level === "SMA/SMK") && (
+                        <button
+                          type="button"
+                          onClick={() => openTrackModal(cat.level === "SMP" ? "track-smp" : "track-sma")}
+                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-navy-800 bg-navy-950/70 py-2.5 text-xs font-semibold text-text-dim transition hover:border-navy-700 hover:text-text-soft focus:outline-none focus:ring-2 focus:ring-navy-700 cursor-pointer"
+                          title={
+                            language === "id"
+                              ? "Track arena sedang dalam finalisasi teknis panitia"
+                              : "Arena track is in technical finalization by the committee"
+                          }
+                        >
+                          <Clock className="h-3.5 w-3.5 text-rose-400/70" aria-hidden="true" />
+                          <span>
+                            {language === "id"
+                              ? "Track Arena: Segera Dirilis"
+                              : "Track: Coming Soon"}
+                          </span>
+                        </button>
+                      )}
+                    </>
+                  )}
 
                   <a
                     href={cat.registrationUrl}
@@ -926,6 +1009,16 @@ export default function CompetitionDetailClient({
           </div>
         </div>
       </div>
+
+      {/* Smart Robotics Dedicated Track Modal */}
+      {isSmartRobotics && (
+        <SmartRoboticsTrackModal
+          isOpen={trackModalOpen}
+          onClose={() => setTrackModalOpen(false)}
+          initialTrackId={trackModalTrackId}
+          initialVariantId={trackModalVariantId}
+        />
+      )}
     </div>
   );
 }

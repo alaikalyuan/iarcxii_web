@@ -50,6 +50,30 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Fallback focus ring for any control that does not define its own */
+:where(a, button, [role="tab"], summary, select, input, textarea):focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+}
+
+:where(a[href], button:not(:disabled), [role="tab"], summary, select, label[for]) {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 h1,
 h2,
 h3,
