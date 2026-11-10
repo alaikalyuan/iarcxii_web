@@ -7,10 +7,10 @@ import { CategoryCard, CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
 import { getCompetitionBySlug, getCompetitions } from "@/data/competitions";
-import { getSmartRoboticsTrackByLevel } from "@/data/smartRoboticsTracks";
+import { getArenaTrack, getArenaTracks } from "@/data/arenaTracks";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
-import SmartRoboticsTrackModal from "./SmartRoboticsTrackModal";
+import TrackViewerModal from "./TrackViewerModal";
 
 interface CompetitionDetailClientProps {
   division: CompetitionDivision;
@@ -147,11 +147,8 @@ export default function CompetitionDetailClient({
         ]
   ).filter((group) => group.lines.length > 0);
 
-  // Arena layout (Smart Robotics only)
-  const isSmartRobotics = division.slug === "smart-robotics";
-  const arena = isSmartRobotics
-    ? getSmartRoboticsTrackByLevel(category.level)
-    : undefined;
+  // Arena layout, for divisions that have published track files
+  const arena = getArenaTrack(division.slug, category.level);
   const [arenaVariantId, setArenaVariantId] = useState<string | undefined>();
   const arenaVariant =
     arena?.variants?.find((v) => v.id === arenaVariantId) || arena?.variants?.[0];
@@ -566,7 +563,8 @@ export default function CompetitionDetailClient({
       </div>
 
       {arena && (
-        <SmartRoboticsTrackModal
+        <TrackViewerModal
+          tracks={getArenaTracks(division.slug)}
           isOpen={arenaModalOpen}
           onClose={() => setArenaModalOpen(false)}
           initialTrackId={arena.id}

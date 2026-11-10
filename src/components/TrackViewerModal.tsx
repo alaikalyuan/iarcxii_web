@@ -14,16 +14,15 @@ import {
   Layers,
   MapPin,
 } from "lucide-react";
-import {
-  SMART_ROBOTICS_TRACKS,
-  SmartRoboticsTrack,
-  TrackVariant,
-} from "@/data/smartRoboticsTracks";
+import { TrackVariant } from "@/data/smartRoboticsTracks";
+import { ArenaTrack } from "@/data/arenaTracks";
 import { useLanguage } from "@/context/LanguageContext";
 
-interface SmartRoboticsTrackModalProps {
+interface TrackViewerModalProps {
   isOpen: boolean;
   onClose: () => void;
+  // Tracks listed in the switcher; pass one division's tracks (see getArenaTracks)
+  tracks: ArenaTrack[];
   initialTrackId?: string;
   initialVariantId?: string;
 }
@@ -31,19 +30,22 @@ interface SmartRoboticsTrackModalProps {
 const FOCUSABLE =
   'a[href], button:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
 
-export default function SmartRoboticsTrackModal({
+export default function TrackViewerModal({
   isOpen,
   onClose,
-  initialTrackId = "track-sd",
+  tracks,
+  initialTrackId,
   initialVariantId,
-}: SmartRoboticsTrackModalProps) {
+}: TrackViewerModalProps) {
   const { language } = useLanguage();
   const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
-  const [selectedTrackId, setSelectedTrackId] = useState(initialTrackId);
-  const [selectedVariantId, setSelectedVariantId] = useState<string>(
-    initialVariantId || "mahasiswa-offline"
+  const [selectedTrackId, setSelectedTrackId] = useState(
+    initialTrackId ?? tracks[0]?.id
   );
+  const [selectedVariantId, setSelectedVariantId] = useState<
+    string | undefined
+  >(initialVariantId);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,17 +63,14 @@ export default function SmartRoboticsTrackModal({
       if (initialTrackId) {
         setSelectedTrackId(initialTrackId);
       }
-      setSelectedVariantId(initialVariantId || "mahasiswa-offline");
+      setSelectedVariantId(initialVariantId);
       setIsLoading(true);
     }
   }, [isOpen, initialTrackId, initialVariantId]);
 
-  const activeTrack: SmartRoboticsTrack = useMemo(() => {
-    return (
-      SMART_ROBOTICS_TRACKS.find((t) => t.id === selectedTrackId) ||
-      SMART_ROBOTICS_TRACKS[0]
-    );
-  }, [selectedTrackId]);
+  const activeTrack: ArenaTrack = useMemo(() => {
+    return tracks.find((t) => t.id === selectedTrackId) || tracks[0];
+  }, [tracks, selectedTrackId]);
 
   const activeVariant: TrackVariant | undefined = useMemo(() => {
     if (!activeTrack.variants || activeTrack.variants.length === 0) {
@@ -277,7 +276,7 @@ export default function SmartRoboticsTrackModal({
                       id="track-modal-menu"
                       className="absolute left-0 top-full z-30 mt-1 max-h-72 w-72 sm:w-80 overflow-y-auto rounded-md border border-navy-700 bg-navy-950 p-1.5 shadow-xl shadow-navy-950/80"
                     >
-                      {SMART_ROBOTICS_TRACKS.map((item) => {
+                      {tracks.map((item) => {
                         const isAvailable = item.status === "available";
                         const isCurrent = item.id === selectedTrackId;
                         return (
