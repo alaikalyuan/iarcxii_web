@@ -33,3 +33,5 @@ yarn-error.log*
 Prototype IARC XII (1).pdf
 
 /.agents/
+# Old static site, separate git repo
+/iarcxii/
