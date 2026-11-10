@@ -10,6 +10,7 @@ export interface DivisionTheme {
   badge: string;
   pillActive: string;
   trackActive: string;
+  tabActive: string;
   specBox: string;
   specTitle: string;
   bulletDot: string;
@@ -30,6 +31,7 @@ export const DIVISION_THEMES: Record<string, DivisionTheme> = {
     badge: "bg-purple-500/15 text-purple-300 border-purple-500/30",
     pillActive: "bg-purple-500/20 text-purple-300 border-purple-500/40",
     trackActive: "bg-purple-500/15 border-purple-500 text-purple-300 shadow-purple-500/10",
+    tabActive: "border-purple-400 text-purple-300",
     specBox: "border-purple-500/30 bg-navy-900/70",
     specTitle: "text-purple-400",
     bulletDot: "text-purple-400",
@@ -48,6 +50,7 @@ export const DIVISION_THEMES: Record<string, DivisionTheme> = {
     badge: "bg-rose-500/15 text-rose-300 border-rose-500/30",
     pillActive: "bg-rose-500/20 text-rose-300 border-rose-500/40",
     trackActive: "bg-rose-500/15 border-rose-500 text-rose-300 shadow-rose-500/10",
+    tabActive: "border-rose-400 text-rose-300",
     specBox: "border-rose-500/30 bg-navy-900/70",
     specTitle: "text-rose-400",
     bulletDot: "text-rose-400",
@@ -66,6 +69,7 @@ export const DIVISION_THEMES: Record<string, DivisionTheme> = {
     badge: "bg-sky-500/15 text-sky-300 border-sky-500/30",
     pillActive: "bg-sky-500/20 text-sky-300 border-sky-500/40",
     trackActive: "bg-sky-500/15 border-sky-500 text-sky-300 shadow-sky-500/10",
+    tabActive: "border-sky-400 text-sky-300",
     specBox: "border-sky-500/30 bg-navy-900/70",
     specTitle: "text-sky-400",
     bulletDot: "text-sky-400",
@@ -84,6 +88,7 @@ export const DIVISION_THEMES: Record<string, DivisionTheme> = {
     badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
     pillActive: "bg-amber-500/20 text-amber-300 border-amber-500/40",
     trackActive: "bg-amber-500/15 border-amber-500 text-amber-300 shadow-amber-500/10",
+    tabActive: "border-amber-400 text-amber-300",
     specBox: "border-amber-500/30 bg-navy-900/70",
     specTitle: "text-amber-400",
     bulletDot: "text-amber-400",
@@ -104,6 +109,7 @@ export const DEFAULT_THEME: DivisionTheme = {
   badge: "bg-gold-500/15 text-gold-300 border-gold-500/30",
   pillActive: "bg-gold-500/20 text-gold-400 border-gold-500/40",
   trackActive: "bg-gold-500/15 border-gold-500 text-gold-400 shadow-gold-500/10",
+  tabActive: "border-gold-400 text-gold-400",
   specBox: "border-gold-500/30 bg-navy-900/70",
   specTitle: "text-gold-400",
   bulletDot: "text-gold-400",

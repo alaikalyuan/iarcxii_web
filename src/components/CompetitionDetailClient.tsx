@@ -1,21 +1,63 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, ChevronDown, MapPin, Clock } from "lucide-react";
-import { CompetitionDivision } from "@/types";
+import { ChevronRight } from "lucide-react";
+import { CategoryCard, CompetitionDivision } from "@/types";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { getDivisionTheme } from "@/data/divisionThemes";
-import { getCompetitionBySlug } from "@/data/competitions";
+import { getCompetitionBySlug, getCompetitions } from "@/data/competitions";
+import { getSmartRoboticsTrackByLevel } from "@/data/smartRoboticsTracks";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
-import SmartRoboticsTrackSection from "./SmartRoboticsTrackSection";
 import SmartRoboticsTrackModal from "./SmartRoboticsTrackModal";
 
 interface CompetitionDetailClientProps {
   division: CompetitionDivision;
   initialTrackId?: string;
   lockedTrackId?: string;
+}
+
+const PANEL_ID = "level-panel";
+const URL_PATTERN = /(https?:\/\/[^\s)]+)/g;
+
+const divisionHref = (slug: string) =>
+  slug === "automation-challenge"
+    ? "/competition/automation-challenge/iot"
+    : `/competition/${slug}`;
+
+// Spec lines in the data carry plain URLs; render those as real links
+function withLinks(text: string, linkClass: string) {
+  return text.split(URL_PATTERN).map((part, i) =>
+    /^https?:\/\//.test(part) ? (
+      <a
+        key={i}
+        href={part}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`break-all underline underline-offset-2 ${linkClass}`}
+      >
+        {part.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+      </a>
+    ) : (
+      <React.Fragment key={i}>{part}</React.Fragment>
+    )
+  );
+}
+
+function InfoSection({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="grid gap-x-8 gap-y-3 border-t border-navy-800 py-6 md:grid-cols-[8.5rem_minmax(0,1fr)]">
+      <h2 className="text-base font-bold text-text-main">{title}</h2>
+      <div className="min-w-0 text-sm leading-relaxed text-text-soft">{children}</div>
+    </section>
+  );
 }
 
 export default function CompetitionDetailClient({
@@ -25,998 +67,510 @@ export default function CompetitionDetailClient({
 }: CompetitionDetailClientProps) {
   const { openModal } = usePdfModal();
   const { language, t } = useLanguage();
+  const tr = (id: string, en: string) => (language === "id" ? id : en);
 
   const division =
     getCompetitionBySlug(initialDivision.slug, language) || initialDivision;
-
   const theme = getDivisionTheme(division.slug);
 
-  // Active track state for multi-track divisions like Automation Challenge
-  const [activeTrackId, setActiveTrackId] = useState(
-    lockedTrackId || initialTrackId || division.tracks[0]?.id || ""
+  const trackId = lockedTrackId || initialTrackId;
+  const currentTrack =
+    division.tracks.find((trk) => trk.id === trackId) || division.tracks[0];
+  const categories = currentTrack.categories;
+
+  const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id);
+  const category: CategoryCard =
+    categories.find((c) => c.id === activeCategoryId) || categories[0];
+
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // The tab row scrolls sideways on narrow screens; keep the chosen tab in view
+  const selectCategory = (index: number) => {
+    setActiveCategoryId(categories[index].id);
+    tabRefs.current[index]?.scrollIntoView({ inline: "nearest", block: "nearest" });
+  };
+
+  // Arrow keys, Home and End move between tabs (WAI-ARIA tabs pattern)
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    const last = categories.length - 1;
+    let next: number | null = null;
+    if (e.key === "ArrowRight") next = index === last ? 0 : index + 1;
+    if (e.key === "ArrowLeft") next = index === 0 ? last : index - 1;
+    if (e.key === "Home") next = 0;
+    if (e.key === "End") next = last;
+    if (next !== null) {
+      e.preventDefault();
+      selectCategory(next);
+      tabRefs.current[next]?.focus();
+    }
+  };
+
+  const levelLabel = (level: string) => t.competitions.levelFilters[level] || level;
+
+  // Some spec lines apply to one level only and start with "SD: ..." or "Elementary: ...".
+  // Keep the shared lines plus the active level's own line, without its prefix.
+  const levelPrefixes = Array.from(
+    new Set(categories.flatMap((c) => [c.level, levelLabel(c.level)]))
+  );
+  const ownPrefixes = [category.level, levelLabel(category.level)];
+  const specsForLevel = (specs: string[] = []) =>
+    specs.flatMap((line) => {
+      const prefix = levelPrefixes.find((p) => line.startsWith(`${p}: `));
+      if (!prefix) return [line];
+      if (!ownPrefixes.includes(prefix)) return [];
+      const rest = line.slice(prefix.length + 2);
+      return [rest.charAt(0).toUpperCase() + rest.slice(1)];
+    });
+
+  // Vortex is a paper competition: its spec lines are submission terms, not hardware or software
+  const isPaperCompetition = division.slug === "vortex";
+  const specGroups = (
+    isPaperCompetition
+      ? [
+          {
+            label: tr("Ketentuan karya", "Submission requirements"),
+            lines: [
+              ...specsForLevel(currentTrack.hardwareSpecs),
+              ...specsForLevel(currentTrack.softwareSpecs),
+            ],
+          },
+        ]
+      : [
+          {
+            label: tr("Perangkat keras", "Hardware"),
+            lines: specsForLevel(currentTrack.hardwareSpecs),
+          },
+          {
+            label: tr("Perangkat lunak", "Software"),
+            lines: specsForLevel(currentTrack.softwareSpecs),
+          },
+        ]
+  ).filter((group) => group.lines.length > 0);
+
+  // Arena layout (Smart Robotics only)
+  const isSmartRobotics = division.slug === "smart-robotics";
+  const arena = isSmartRobotics
+    ? getSmartRoboticsTrackByLevel(category.level)
+    : undefined;
+  const [arenaVariantId, setArenaVariantId] = useState<string | undefined>();
+  const arenaVariant =
+    arena?.variants?.find((v) => v.id === arenaVariantId) || arena?.variants?.[0];
+  const arenaFile = arenaVariant ?? arena;
+  const arenaTitle = arenaVariant
+    ? tr(arenaVariant.name, arenaVariant.nameEn)
+    : arena
+    ? tr(arena.title, arena.titleEn)
+    : "";
+  const arenaDescription = arenaVariant
+    ? tr(arenaVariant.description, arenaVariant.descriptionEn)
+    : arena
+    ? tr(arena.description, arena.descriptionEn)
+    : "";
+  const [arenaModalOpen, setArenaModalOpen] = useState(false);
+
+  const otherDivisions = getCompetitions(language).filter(
+    (d) => d.slug !== division.slug
   );
 
-  // Per-category accordion expansion state
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
+  const fees = [
+    { label: "Batch 1", value: category.fees.batch1 },
+    { label: "Batch 2", value: category.fees.batch2 },
+    { label: "Batch 3", value: category.fees.batch3 },
+  ];
 
-  const toggleCategoryAccordion = (catId: string) => {
-    setExpandedCategories((prev) => ({
-      ...prev,
-      [catId]: !prev[catId],
-    }));
-  };
-
-  // Smart Robotics track modal state
-  const [trackModalOpen, setTrackModalOpen] = useState(false);
-  const [trackModalTrackId, setTrackModalTrackId] = useState("track-sd");
-  const [trackModalVariantId, setTrackModalVariantId] = useState<string | undefined>(undefined);
-
-  const openTrackModal = (trackId: string, variantId?: string) => {
-    setTrackModalTrackId(trackId);
-    setTrackModalVariantId(variantId);
-    setTrackModalOpen(true);
-  };
-
-  useEffect(() => {
-    if (lockedTrackId) {
-      setActiveTrackId(lockedTrackId);
-    }
-  }, [lockedTrackId]);
-
-  const currentTrack =
-    division.tracks.find((tr) => tr.id === activeTrackId) || division.tracks[0];
-
-  const isAutomationChallenge = division.slug === "automation-challenge";
-  const isSmartRobotics = division.slug === "smart-robotics";
-  const isEnergyTreasure = division.slug === "energy-treasure";
-  const isVortex = division.slug === "vortex";
+  const secondaryButton =
+    "inline-flex min-h-[44px] items-center justify-center rounded-md border border-navy-600 bg-navy-900 px-4 py-2.5 text-sm font-semibold text-text-main transition-colors hover:border-gold-400 hover:text-gold-400 active:bg-navy-800";
+  const primaryButton =
+    "inline-flex min-h-[44px] items-center justify-center rounded-md bg-gold-500 px-4 py-2.5 text-sm font-bold text-navy-950 transition-colors hover:bg-gold-400 active:bg-gold-600";
 
   return (
-    <div className="pt-24 pb-16 md:py-28 relative overflow-hidden">
+    <div className="relative overflow-clip pt-24 pb-16 md:pt-28 md:pb-20">
       <DecorativeBackground variant="section-e" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <nav className="mb-6 flex flex-wrap items-center gap-2 text-xs text-text-dim">
-          <Link href="/" className="hover:text-gold-400 transition-colors">
-            {language === "id" ? "Beranda" : "Home"}
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-5 flex flex-wrap items-center gap-2 text-xs text-text-dim"
+        >
+          <Link href="/" className="transition-colors hover:text-gold-400">
+            {tr("Beranda", "Home")}
           </Link>
           <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-          <Link href="/#kompetisi" className="hover:text-gold-400 transition-colors">
+          <Link href="/#kompetisi" className="transition-colors hover:text-gold-400">
             {t.nav.competitions}
           </Link>
           <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-          {isAutomationChallenge && currentTrack ? (
-            <>
-              <Link
-                href="/competition/automation-challenge/iot"
-                className="hover:text-gold-400 transition-colors text-text-soft"
-              >
-                {division.name}
-              </Link>
-              <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
-              <span className={`font-semibold ${theme.text}`}>{currentTrack.name}</span>
-            </>
-          ) : (
-            <span className={`font-semibold ${theme.text}`}>{division.name}</span>
-          )}
+          <span className="font-semibold text-text-soft">{division.name}</span>
         </nav>
 
-        {/* Hero Header Card with Division Secondary Glow */}
-        <div className="relative overflow-hidden rounded-md border border-navy-800 bg-navy-900 p-6 sm:p-8 md:p-10">
+        <header className="rounded-md border border-navy-800 bg-navy-900 p-6 sm:p-8">
+          <h1 className="text-3xl font-extrabold tracking-tight text-text-main sm:text-4xl">
+            {division.name}
+          </h1>
+          <p className={`mt-2 text-sm font-semibold sm:text-base ${theme.tagline}`}>
+            {division.tagline}
+          </p>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-text-soft sm:text-base">
+            {division.description}
+          </p>
+        </header>
 
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="flex items-start gap-4">
-                <div>
-                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-text-main">
-                    {division.name}
-                  </h1>
-                  <p className={`mt-1 text-sm sm:text-base font-medium ${theme.tagline}`}>
-                    {isAutomationChallenge && currentTrack
-                      ? `${currentTrack.name}: ${currentTrack.tagline}`
-                      : division.tagline}
-                  </p>
-                </div>
+        {/* Track picker: only divisions with more than one track (Automation Challenge) */}
+        {division.tracks.length > 1 && (
+          <nav
+            aria-label={t.competitionDetail.divisionTracks}
+            className="mt-6 grid gap-2 sm:grid-cols-2"
+          >
+            {division.tracks.map((track) => {
+              const isActive = track.id === currentTrack.id;
+              return (
+                <Link
+                  key={track.id}
+                  href={`/competition/${division.slug}/${track.id}`}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`flex min-h-[44px] flex-col justify-center rounded-md border px-4 py-3 transition-colors ${
+                    isActive
+                      ? theme.trackActive
+                      : "border-navy-700 bg-navy-900 text-text-soft hover:border-navy-600 hover:text-text-main active:bg-navy-800"
+                  }`}
+                >
+                  <span className="text-sm font-bold">{track.name}</span>
+                  <span className="mt-0.5 text-xs text-text-soft">{track.tagline}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        )}
+
+        {/* Level tabs */}
+        <div
+          role="tablist"
+          aria-label={t.competitionDetail.categories}
+          className="mt-6 flex overflow-x-auto border-b-2 border-navy-700 [scrollbar-width:none]"
+        >
+          {categories.map((cat, index) => {
+            const isActive = cat.id === category.id;
+            return (
+              <button
+                key={cat.id}
+                ref={(el) => {
+                  tabRefs.current[index] = el;
+                }}
+                type="button"
+                role="tab"
+                id={`tab-${cat.id}`}
+                aria-selected={isActive}
+                aria-controls={PANEL_ID}
+                tabIndex={isActive ? 0 : -1}
+                onClick={() => selectCategory(index)}
+                onKeyDown={(e) => handleTabKeyDown(e, index)}
+                className={`-mb-0.5 min-h-[48px] shrink-0 whitespace-nowrap border-b-2 px-4 text-sm transition-colors sm:px-5 sm:text-base ${
+                  isActive
+                    ? `font-bold ${theme.tabActive}`
+                    : "border-transparent font-medium text-text-soft hover:border-navy-600 hover:text-text-main active:text-text-main"
+                }`}
+              >
+                {levelLabel(cat.level)}
+              </button>
+            );
+          })}
+        </div>
+
+        <div
+          id={PANEL_ID}
+          role="tabpanel"
+          aria-labelledby={`tab-${category.id}`}
+          className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10"
+        >
+          {/* Fee and actions: first on small screens, sticky right column on large ones */}
+          <aside className="rounded-md border border-navy-700 bg-navy-900 p-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1 lg:self-start">
+            <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_14rem] sm:items-start lg:grid-cols-1">
+              <div>
+                <h2 className="text-base font-bold text-text-main">
+                  {t.competitionDetail.registrationFee}
+                </h2>
+                <p className="mt-0.5 text-xs text-text-soft">
+                  {category.name}, {tr("per tim", "per team")}
+                </p>
+                <dl className="mt-3 divide-y divide-navy-800 border-y border-navy-800">
+                  {fees.map((fee) => (
+                    <div
+                      key={fee.label}
+                      className="flex items-baseline justify-between gap-3 py-2.5"
+                    >
+                      <dt className="text-sm text-text-soft">{fee.label}</dt>
+                      <dd className="text-sm font-bold tabular-nums text-text-main">
+                        {fee.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
 
-              {/* Master Actions */}
-              <div className="flex flex-wrap items-center gap-3">
-                {isSmartRobotics && (
-                  <a
-                    href="#lintasan-resmi"
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-rose-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
-                  >
-                    <MapPin className="h-4 w-4 text-rose-400" aria-hidden="true" />
-                    <span>{language === "id" ? "Denah Lintasan" : "Arena Tracks"}</span>
-                  </a>
-                )}
+              <div className="flex flex-col gap-2.5">
+                <a
+                  href={category.registrationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={primaryButton}
+                >
+                  {t.nav.registerNow}
+                </a>
                 <button
                   type="button"
-                  onClick={() => openModal("utama")}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md border border-gold-500/40 bg-navy-900 px-4 py-2.5 text-xs sm:text-sm font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
+                  onClick={() => openModal(category.guidebookDocId)}
+                  className={secondaryButton}
                 >
-                  <span>{t.nav.mainGuidebook}</span>
+                  {tr("Buka Guidebook", "Open Guidebook")}
                 </button>
-                <a
-                  href="#pendaftaran"
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-md bg-gold-500 px-4 py-2.5 text-xs sm:text-sm font-bold text-navy-950 transition hover:bg-gold-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
-                >
-                  <span>{t.nav.registerNow}</span>
-                </a>
-              </div>
-            </div>
-
-            <p className="mt-4 max-w-3xl text-xs sm:text-sm md:text-base text-text-soft leading-relaxed">
-              {isAutomationChallenge && currentTrack
-                ? currentTrack.description
-                : division.description}
-            </p>
-
-            {/* Educational Levels Badges */}
-            <div className="mt-6 flex flex-wrap items-center gap-2 pt-4 border-t border-navy-800/80">
-              <span className="text-xs font-semibold text-text-dim">
-                {language === "id" ? "Jenjang Partisipan" : "Eligible Education Levels"}{" "}
-                {isAutomationChallenge && currentTrack ? `(${currentTrack.name})` : ""}:
-              </span>
-              {(isAutomationChallenge && currentTrack
-                ? Array.from(new Set(currentTrack.categories.map((c) => c.level)))
-                : division.levels
-              ).map((lvl) => (
-                <span
-                  key={lvl}
-                  className={`rounded-md border px-2.5 py-1 text-xs font-semibold ${theme.badge}`}
-                >
-                  {t.competitions.levelFilters[lvl] || lvl}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Track Switcher Section */}
-        {division.tracks.length > 1 && (
-          <div className="mt-10">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-navy-800 pb-4">
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-text-main">
-                  {t.competitionDetail.divisionTracks}
-                </h2>
-                <p className="mt-1 text-xs sm:text-sm text-text-soft">
-                  {language === "id"
-                    ? `Kompetisi ${division.name} terbagi menjadi ${division.tracks.length} jalur spesialisasi dengan halaman dedikasi terpisah.`
-                    : `${division.name} is divided into ${division.tracks.length} specialization tracks with dedicated overviews.`}
+                <p className="text-xs leading-relaxed text-text-soft">
+                  {tr(
+                    "Nomor rekening pembayaran tercantum di formulir pendaftaran. Siapkan juga",
+                    "Payment account details are in the registration form. You also need the"
+                  )}{" "}
+                  <a
+                    href="https://its.id/m/TwibbonCompeIARCXII"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-gold-400 underline underline-offset-2 hover:text-gold-500"
+                  >
+                    twibbon
+                  </a>{" "}
+                  {tr("dan", "and")}{" "}
+                  <a
+                    href="https://its.id/m/CaptionTwibbonIARCXII"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-gold-400 underline underline-offset-2 hover:text-gold-500"
+                  >
+                    {tr("caption", "caption")}
+                  </a>
+                  .
                 </p>
               </div>
-
-              {/* Track Selector Navigation Links */}
-              <div className="flex flex-wrap items-center gap-2">
-                {division.tracks.map((track) => {
-                  const isActive = track.id === activeTrackId;
-                  const trackUrl =
-                    isAutomationChallenge && (track.id === "iot" || track.id === "plc")
-                      ? `/competition/automation-challenge/${track.id}`
-                      : undefined;
-
-                  if (trackUrl) {
-                    return (
-                      <Link
-                        key={track.id}
-                        href={trackUrl}
-                        className={`min-h-[44px] inline-flex items-center rounded-md px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
-                          isActive
-                            ? theme.trackActive
-                            : "border border-navy-700 bg-navy-900 text-text-soft hover:border-purple-500/40 hover:text-text-main"
-                        }`}
-                      >
-                        {track.name}
-                      </Link>
-                    );
-                  }
-
-                  return (
-                    <button
-                      key={track.id}
-                      type="button"
-                      onClick={() => setActiveTrackId(track.id)}
-                      className={`min-h-[44px] rounded-md px-4 py-2.5 text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
-                        isActive
-                          ? theme.trackActive
-                          : "border border-navy-700 bg-navy-900 text-text-soft hover:border-gold-500/40 hover:text-text-main"
-                      }`}
-                    >
-                      {track.name}
-                    </button>
-                  );
-                })}
-              </div>
             </div>
-          </div>
-        )}
+          </aside>
 
-        {/* Active Track Header & Description */}
-        {currentTrack && (
-          <div className="mt-6 rounded-md border border-navy-800/80 bg-navy-900/60 p-5">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold text-text-main">
-                  {currentTrack.name}
-                </h3>
-                <p className={`text-xs sm:text-sm font-medium ${theme.tagline}`}>
-                  {currentTrack.tagline}
-                </p>
-              </div>
-              <span className="text-xs text-text-dim">
-                {currentTrack.categories.length}{" "}
-                {language === "id" ? "Kategori Tersedia" : "Categories Available"}
-              </span>
-            </div>
-            <p className="mt-3 text-xs sm:text-sm text-text-soft leading-relaxed">
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+            <p className="pb-6 text-sm leading-relaxed text-text-soft sm:text-base">
               {currentTrack.description}
             </p>
-          </div>
-        )}
 
-        {/* Technical Specification Banner */}
-        <div className="mt-8">
-          {/* Automation Challenge: Microcontroller Track Specifications */}
-          {isAutomationChallenge && activeTrackId === "iot" && (
-            <div className="rounded-md border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
-                <span>
-                  {language === "id"
-                    ? "Spesifikasi Teknis & Regulasi Track 1: Microcontroller (IoT)"
-                    : "Technical Specifications & Rules for Track 1: Microcontroller (IoT)"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-purple-400">
-                    {language === "id" ? "3 Acuan Pusat Studi (Pusdi) ITS" : "3 Flagship ITS Study Centers"}
-                  </h4>
-                  <ul className="space-y-1.5 list-disc list-inside text-text-soft">
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Pusdi Energi & Sumber Daya Mineral:" : "Energy & Mineral Resources Center:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Solar monitoring, smart grid, efisiensi energi terbarukan."
-                        : "Solar telemetry, smart grid, renewable power optimization."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Pusdi Mitigasi Bencana & Perubahan Iklim:" : "Disaster Mitigation & Climate Change Center:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Deteksi dini banjir, pemantauan longsor, sensor kualitas udara."
-                        : "Early flood detection, landslide alert networks, air quality indexing."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Pusdi Teknologi Tepat Guna:" : "Appropriate Technology Center:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Otomasi pertanian/hidroponik presisi, smart green house, pemilah sampah otomatis."
-                        : "Precision agriculture/hydroponics automation, smart greenhouse controls, waste sorter systems."}
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-purple-400">
-                    {language === "id" ? "Hardware, Plafon Anggaran & Seleksi" : "Hardware, Budget Ceiling & Evaluation"}
-                  </h4>
-                  <ul className="space-y-1.5 list-disc list-inside text-text-soft">
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Mikrokontroler Bebas:" : "Open Microcontroller Architecture:"}
-                      </strong>{" "}
-                      ESP32, ESP8266, STM32, Arduino, Raspberry Pi Pico.
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Plafon Anggaran:" : "Component Budget Cap:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Biaya komponen maksimal Rp 500.000 disertai Rencana Anggaran Biaya (RAB) resmi."
-                        : "Maximum component cost of IDR 500,000 supported by an official budget breakdown."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Tahap Seleksi:" : "Selection Stages:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Penyisihan proposal & video konsep, dilanjutkan demonstrasi langsung alat luring di ITS untuk finalis."
-                        : "Proposal screening and video pitch evaluation, advancing finalists to the physical live expo at ITS."}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Automation Challenge: PLC Track Specifications */}
-          {isAutomationChallenge && activeTrackId === "plc" && (
-            <div className="rounded-md border border-purple-500/30 bg-navy-900/70 p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-sm font-bold text-purple-400 mb-3">
-                <span>
-                  {language === "id"
-                    ? "Spesifikasi Hardware & Software Resmi Track 2: PLC"
-                    : "Official Hardware & Software Specifications for Track 2: PLC"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-purple-400">
-                    {language === "id" ? "Perangkat Lunak (Software) Standar" : "Standard Software Toolchain"}
-                  </h4>
-                  <ul className="space-y-1.5 list-disc list-inside text-text-soft">
-                    <li>
-                      <strong className="text-text-main">OMRON CX-Programmer:</strong>{" "}
-                      {language === "id"
-                        ? "Perancangan diagram tangga (ladder diagram) target tipe PLC CP2E-N pada babak penyisihan dan final."
-                        : "Ladder diagram programming targeting Omron CP2E-N for both preliminary and final rounds."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">Haiwell Cloud SCADA Designer:</strong>{" "}
-                      {language === "id"
-                        ? "Perancangan antarmuka visual HMI Haiwell B7-H/W pada babak final luring."
-                        : "HMI operator visual screen design for Haiwell B7-H/W in the offline finals."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">CX-Simulator:</strong>{" "}
-                      {language === "id"
-                        ? "Simulasi logika mandiri selama babak penyisihan daring via Zoom."
-                        : "Proctored offline ladder simulation verification during preliminary rounds."}
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-purple-400">
-                    {language === "id" ? "Modul Trainer Hardware ITS" : "Official ITS Hardware Trainers"}
-                  </h4>
-                  <ul className="space-y-1.5 list-disc list-inside text-text-soft">
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Modul Trainer Resmi:" : "Official Trainer Module:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Hardware Trainer Modul PLC Omron CP2E-N fisik disediakan panitia ITS."
-                        : "Physical Omron CP2E-N PLC trainer units provided by the ITS committee."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Perangkat HMI:" : "HMI Hardware Units:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Modul fisik HMI Haiwell B7-H/W disediakan panitia ITS."
-                        : "Physical Haiwell B7-H/W industrial displays provided on-site."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Koneksi & Uji:" : "Interface & Commissioning:"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Komunikasi kabel Ethernet industri, sesi penyesuaian hardware 10 menit sebelum kompetisi 60 menit."
-                        : "Direct Ethernet cable communication, with a 10-minute calibration window before the 60-minute test."}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Smart Robotics Specifications */}
-          {isSmartRobotics && (
-            <div className="rounded-md border border-rose-500/30 bg-navy-900/70 p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-sm font-bold text-rose-400 mb-3">
-                <span>
-                  {language === "id"
-                    ? "Spesifikasi 4 Jenjang Smart Robotics"
-                    : "Specifications across 4 Smart Robotics Categories"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-text-soft">
-                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">
-                    {language === "id" ? "SD (Beginner)" : "Elementary (Beginner)"}
-                  </span>
-                  <p>
-                    {language === "id"
-                      ? "Line follower grafis blok (Ardublock). Misi mendorong objek keluar zona rintangan."
-                      : "Block programming line follower (Ardublock). Mission to push objects outside hazard zones."}
-                  </p>
-                </div>
-                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">
-                    {language === "id" ? "SMP (Junior)" : "Junior High (Junior)"}
-                  </span>
-                  <p>
-                    {language === "id"
-                      ? "Line follower mikrokontroler mandiri dengan sensor optik. 60 menit trial, top 16 ke babak gugur."
-                      : "Optical sensor line follower with microcontroller. 60 min trial, top 16 advance to knockouts."}
-                  </p>
-                </div>
-                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">
-                    {language === "id" ? "SMA/SMK (Senior)" : "Senior High (Senior)"}
-                  </span>
-                  <p>
-                    {language === "id"
-                      ? "Gripper Line Follower (max 25x20x25 cm). Checkpoint (+15), relokasi kotak objek."
-                      : "Gripper line follower (max 25x20x25 cm). Point checkpoints (+15) and cube relocation."}
-                  </p>
-                </div>
-                <div className="rounded-md bg-navy-950/60 p-3.5 border border-navy-800">
-                  <span className="font-bold text-rose-400 block mb-1">
-                    {language === "id" ? "Mahasiswa (Dual Robot)" : "University (Dual Robot)"}
-                  </span>
-                  <p>
-                    {language === "id"
-                      ? "Kolaborasi R1 (Autonomous LF) + R2 (Shooter Robot). Format Best of 3 (BO3)."
-                      : "Collaboration: R1 (Autonomous Line Follower) + R2 (Shooter Robot). Best of 3 format."}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-3 pt-3 border-t border-navy-800 flex flex-wrap items-center justify-between gap-3 text-xs">
-                <div className="flex flex-wrap items-center gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-text-dim">
-                      {language === "id" ? "Showcase & Web App LF:" : "LF Showcase & Web App:"}
-                    </span>
-                    <a
-                      href="https://ismarintan98.github.io/LF_ITS-Share/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
-                    >
-                      <span>{language === "id" ? "Web App & Panduan" : "Web App & Guide"}</span>
-                    </a>
-                  </div>
-                  <span className="text-navy-700 hidden sm:inline">•</span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-text-dim">
-                      {language === "id" ? "Modul Lintasan Resmi Daring:" : "Official Digital Track Layout:"}
-                    </span>
-                    <a
-                      href="https://its.id/m/SmartRoboticsOnline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 font-semibold text-rose-400 hover:underline"
-                    >
-                      <span>{language === "id" ? "Unduh Lintasan" : "Download Track File"}</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Smart Robotics Showcase & Web App Programming Guide Banner */}
-          {isSmartRobotics && (
-            <div className="mt-6 overflow-hidden rounded-md border border-rose-500/40 bg-navy-900 p-5 sm:p-6 relative">
-              <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div className="space-y-3 max-w-2xl">
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-text-main">
-                      {language === "id"
-                        ? "Showcase & Panduan Pemrograman LF (Web App)"
-                        : "LF Showcase & Web App Programming Guide"}
-                    </h3>
-                    <p className="mt-1.5 text-xs sm:text-sm text-text-soft leading-relaxed">
-                      {language === "id"
-                        ? "Akses website showcase resmi dan panduan robot Line Follower 16 sensor dengan gripper dari tim robotika ITS. Tersedia platform pemrograman blok langsung dari browser web app, download firmware & software, serta aplikasi remote controller HP via Bluetooth."
-                        : "Access the official showcase and programming guide for 16-sensor Line Follower robots with gripper from the ITS robotics team. Features browser-based block coding web app, firmware downloads, and Bluetooth mobile remote controller app."}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-rose-300 border border-navy-800">
-                      {language === "id" ? "Pemrograman Blok via Web App" : "Browser Block Coding"}
-                    </span>
-                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
-                      {language === "id" ? "16 Sensor Garis & Gripper" : "16 Line Sensors & Gripper"}
-                    </span>
-                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
-                      {language === "id" ? "Firmware & Aplikasi Remote HP" : "Firmware & Mobile Remote"}
-                    </span>
-                    <span className="rounded-md bg-navy-950/80 px-2.5 py-1 text-[11px] font-medium text-text-soft border border-navy-800">
-                      {language === "id" ? "Layar OLED & Sensor ToF" : "OLED Display & ToF Sensors"}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 shrink-0">
-                  <a
-                    href="https://ismarintan98.github.io/LF_ITS-Share/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white transition hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-400"
-                  >
-                    <span>
-                      {language === "id"
-                        ? "Buka Web App & Showcase LF"
-                        : "Open LF Web App & Showcase"}
-                    </span>
-                  </a>
-                  <a
-                    href="https://ismarintan98.github.io/LF_ITS-Share/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[11px] font-mono text-rose-400/80 hover:text-rose-300 hover:underline flex items-center gap-1"
-                  >
-                    <span>ismarintan98.github.io/LF_ITS-Share</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Smart Robotics Arena Track Section */}
-          {isSmartRobotics && (
-            <SmartRoboticsTrackSection
-              onOpenGuidebookModal={openModal}
-              onOpenTrackModal={openTrackModal}
-            />
-          )}
-
-          {/* Energy Treasure Specifications */}
-          {isEnergyTreasure && (
-            <div className="rounded-md border border-sky-500/30 bg-navy-900/70 p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-sm font-bold text-sky-400 mb-3">
-                <span>
-                  {language === "id"
-                    ? "Spesifikasi Navigasi Labirin & Efisiensi Konsumsi Daya"
-                    : "Maze Navigation Specifications & Power Consumption Ratio"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-sky-400 mb-1.5">
-                    {language === "id" ? "Mekanisme 3 Tahapan Seleksi" : "3-Stage Selection Mechanics"}
-                  </h4>
-                  <ul className="space-y-1 list-disc list-inside">
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Tahap 1 (Pra-Kualifikasi):" : "Stage 1 (Pre-Qualification):"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Seeding awal waktu tempuh dan konsumsi miliampere."
-                        : "Baseline seeding based on runtime and milliampere power draw."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Tahap 2 (Onsite Programming):" : "Stage 2 (Onsite Programming):"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Penyesuaian algoritma pada arena labirin rahasia baru di ITS."
-                        : "Algorithm adjustments on the undisclosed secret maze arena at ITS."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">
-                        {language === "id" ? "Tahap 3 (Final Non-Eliminasi):" : "Stage 3 (Final Run):"}
-                      </strong>{" "}
-                      {language === "id"
-                        ? "Akumulasi skor tertinggi efisiensi daya dan kecepatan tercepat."
-                        : "Accumulated score weighing power efficiency and completion speed."}
-                    </li>
-                  </ul>
-                </div>
-                <div className="rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-sky-400 mb-1.5">
-                    {language === "id" ? "Persyaratan Robot Fisik" : "Physical Robot Requirements"}
-                  </h4>
-                  <p className="leading-relaxed">
-                    {language === "id"
-                      ? "Pastikan robot line follower dilengkapi sensor pendeteksi jarak/dinding optik atau ultrasonik, modul telemetri daya, dan sakelar pemutus arus darurat."
-                      : "Robots must feature optical or ultrasonic wall/distance sensors, power telemetry indicators, and an emergency manual cutoff switch."}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Vortex Specifications */}
-          {isVortex && (
-            <div className="rounded-md border border-amber-500/30 bg-navy-900/70 p-5 sm:p-6">
-              <div className="flex items-center gap-2 text-sm font-bold text-amber-400 mb-3">
-                <span>
-                  {language === "id"
-                    ? "Format Kompetisi KTI Vortex & Batasan Plagiarisme"
-                    : "Vortex Scientific Paper Format & Originality Standards"}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-text-soft">
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-amber-400 mb-1.5">
-                    {language === "id" ? "Dua Pendekatan Gagasan" : "Two Paper Approaches"}
-                  </h4>
-                  <ul className="space-y-1 list-disc list-inside">
-                    <li>
-                      <strong className="text-text-main">Vortex Idea Challenge:</strong>{" "}
-                      {language === "id"
-                        ? "Eksplorasi bebas ide visioner bidang energi, lingkungan, dan teknologi rekayasa masa depan."
-                        : "Open exploration of visionary ideas in energy, climate, and applied engineering."}
-                    </li>
-                    <li>
-                      <strong className="text-text-main">Vortex Innovation Challenge:</strong>{" "}
-                      {language === "id"
-                        ? "Solusi pemecahan masalah konkret dari 4 fokus riset unggulan Departemen Teknik Elektro Otomasi ITS."
-                        : "Applied problem solving addressing 4 research flagships of the ITS Department of Automation Electrical Engineering."}
-                    </li>
-                  </ul>
-                </div>
-                <div className="space-y-2 rounded-md bg-navy-950/60 p-4 border border-navy-800">
-                  <h4 className="font-bold text-text-main text-xs text-amber-400 mb-1.5">
-                    {language === "id" ? "Persyaratan Orisinalitas Ketat" : "Strict Originality Rules"}
-                  </h4>
-                  <p className="leading-relaxed">
-                    {language === "id"
-                      ? "Naskah karya tulis ilmiah wajib bebas plagiarisme dengan indeks kemiripan Turnitin di bawah 20%. Naskah dengan kemiripan di atas 20% langsung didiskualifikasi."
-                      : "Scientific manuscripts must maintain a Turnitin similarity index below 20%. Submissions exceeding 20% are disqualified during administrative screening."}
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Distinct Category Cards Grid with Thematic Accents */}
-        <div id="pendaftaran" className="mt-10 scroll-mt-24">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg sm:text-xl font-bold text-text-main">
-              {language === "id"
-                ? `Kategori Partisipasi (${currentTrack.categories.length})`
-                : `Participation Categories (${currentTrack.categories.length})`}
-            </h3>
-            <span className="text-xs text-text-dim">
-              {language === "id"
-                ? "Setiap kategori memiliki berkas panduan PDF dan formulir pendaftaran mandiri"
-                : "Each category includes dedicated PDF guidebooks and online registration"}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentTrack.categories.map((cat) => (
-              <div
-                key={cat.id}
-                className={`group flex flex-col justify-between rounded-md border border-navy-800 bg-navy-900/80 p-5 sm:p-6 transition-all duration-300 ${theme.cardHoverBorder} hover:bg-navy-900/95`}
-              >
+            <InfoSection title={tr("Spesifikasi", "Specifications")}>
+              <dl className="space-y-4">
                 <div>
-                  <h4
-                    className={`text-base sm:text-lg font-bold text-text-main ${theme.textHover} transition-colors`}
-                  >
-                    {cat.name}
-                  </h4>
-
-                  <p className="mt-2 text-xs text-text-soft leading-relaxed border-b border-navy-800 pb-3">
-                    {cat.teamRequirement}
-                  </p>
-
-                  {/* Highlights Bullet Points */}
-                  <div className="my-3 space-y-1.5">
-                    {cat.highlights.map((item, idx) => (
-                      <div key={idx} className="text-xs leading-relaxed text-text-soft">
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                  <dt className="font-semibold text-text-main">
+                    {t.competitionDetail.teamRequirement}
+                  </dt>
+                  <dd className="mt-1">{category.teamRequirement}</dd>
+                </div>
+                {specGroups.map((group) => (
+                  <div key={group.label}>
+                    <dt className="font-semibold text-text-main">{group.label}</dt>
+                    <dd className="mt-1">
+                      <ul className="list-disc space-y-1 pl-5 marker:text-text-dim">
+                        {group.lines.map((line) => (
+                          <li key={line}>{withLinks(line, theme.text)}</li>
+                        ))}
+                      </ul>
+                    </dd>
                   </div>
+                ))}
+              </dl>
+            </InfoSection>
 
-                  {/* Fee Matrix Box */}
-                  <div className="mt-4 rounded-md border border-navy-800 bg-navy-950/70 p-3">
-                    <span className="text-[10px] font-bold text-text-dim block mb-1.5">
-                      {language === "id"
-                        ? "Biaya Pendaftaran per Tim:"
-                        : "Registration Fee per Team:"}
-                    </span>
-                    <div className="grid grid-cols-3 gap-1.5 text-center">
-                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
-                        <span className="text-[9px] text-text-dim block">Batch 1</span>
-                        <span className={`text-xs font-bold ${theme.text}`}>{cat.fees.batch1}</span>
-                      </div>
-                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
-                        <span className="text-[9px] text-text-dim block">Batch 2</span>
-                        <span className="text-xs font-bold text-text-main">{cat.fees.batch2}</span>
-                      </div>
-                      <div className="rounded-md bg-navy-900/80 p-1.5 border border-navy-800">
-                        <span className="text-[9px] text-text-dim block">Batch 3</span>
-                        <span className="text-xs font-bold text-text-soft">{cat.fees.batch3}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Accordion: Details & Scoring */}
-                  {(cat.stages || cat.scoringCriteria) && (
-                    <div className="mt-4 pt-3 border-t border-navy-800/80">
-                      <button
-                        type="button"
-                        onClick={() => toggleCategoryAccordion(cat.id)}
-                        aria-expanded={!!expandedCategories[cat.id]}
-                        className="flex w-full items-center justify-between gap-2 rounded-md border border-navy-700/80 bg-navy-950/60 px-3.5 py-2.5 text-xs font-semibold text-text-soft transition hover:border-gold-500/40 hover:text-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/40"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span>
-                            {language === "id"
-                              ? "Rincian Babak & Penilaian"
-                              : "Rounds & Scoring Criteria"}
-                          </span>
-                        </span>
-                        <ChevronDown
-                          className={`h-4 w-4 text-text-dim transition-transform duration-200 ${
-                            expandedCategories[cat.id] ? "rotate-180 text-gold-400" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {/* Accordion Content */}
-                      {expandedCategories[cat.id] && (
-                        <div className="mt-3 space-y-4 rounded-md border border-navy-800 bg-navy-950/90 p-4 text-xs text-text-soft">
-                          {/* Stages */}
-                          {cat.stages && cat.stages.length > 0 && (
-                            <div>
-                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] mb-2.5">
-                                <span>
-                                  {language === "id"
-                                    ? "Alur Babak Kompetisi"
-                                    : "Competition Round Stages"}
-                                </span>
-                              </div>
-                              <div className="space-y-2.5 border-l border-navy-800 pl-3 ml-1">
-                                {cat.stages.map((stg, sIdx) => (
-                                  <div key={sIdx} className="relative">
-                                    <div className="flex items-baseline justify-between gap-2">
-                                      <span className="font-semibold text-text-main text-xs">
-                                        {stg.name}
-                                      </span>
-                                      {stg.date && (
-                                        <span className="text-[10px] text-gold-400 font-mono shrink-0">
-                                          {stg.date}
-                                        </span>
-                                      )}
-                                    </div>
-                                    <p className="text-[11px] text-text-dim mt-0.5 leading-relaxed">
-                                      {stg.description}
-                                    </p>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Scoring criteria */}
-                          {cat.scoringCriteria && cat.scoringCriteria.length > 0 && (
-                            <div className="pt-3 border-t border-navy-800/80">
-                              <div className="flex items-center gap-1.5 font-bold text-text-main text-[11px] mb-2.5">
-                                <span>
-                                  {language === "id"
-                                    ? "Fokus Kriteria Penilaian"
-                                    : "Evaluation Rubric Focus"}
-                                </span>
-                              </div>
-                              <div className="space-y-2">
-                                {cat.scoringCriteria.map((crit, cIdx) => (
-                                  <div
-                                    key={cIdx}
-                                    className="flex items-start justify-between gap-2 rounded-md bg-navy-900/70 p-2.5 border border-navy-800"
-                                  >
-                                    <div>
-                                      <span className="font-semibold text-text-main text-xs block">
-                                        {crit.criterion}
-                                      </span>
-                                      {crit.note && (
-                                        <span className="text-[11px] text-text-dim block mt-0.5 leading-relaxed">
-                                          {crit.note}
-                                        </span>
-                                      )}
-                                    </div>
-                                    <span className="shrink-0 rounded bg-gold-500/10 border border-gold-500/20 px-2 py-0.5 text-[10px] font-bold text-gold-400">
-                                      {crit.weight}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Guidebook Reminder Note */}
-                          <div className="pt-2 text-[11px] text-text-dim italic leading-relaxed border-t border-navy-800/60">
-                            {language === "id"
-                              ? "Regulasi teknis lengkap, batas toleransi dimensi, dan instrumen penilaian komprehensif tercantum di Guidebook PDF resmi jenjang ini."
-                              : "Complete technical parameters, dimension tolerances, and full evaluation rubrics are specified in the official category PDF guidebook."}
-                          </div>
+            {arena && (
+              <InfoSection title={tr("Lintasan", "Track")}>
+                {arena.status === "available" && arenaFile?.imageUrl ? (
+                  <div className="grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]">
+                    <a
+                      href={arenaFile.imageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={tr(
+                        `Buka gambar ${arenaTitle} ukuran penuh`,
+                        `Open the full-size image of ${arenaTitle}`
+                      )}
+                      className="block self-start overflow-hidden rounded-md border border-navy-700 bg-white transition-opacity hover:opacity-90"
+                    >
+                      <img
+                        key={arenaFile.imageUrl}
+                        src={arenaFile.imageUrl}
+                        width={arenaFile.imageWidth}
+                        height={arenaFile.imageHeight}
+                        alt={tr(`Denah ${arenaTitle}`, `Layout of ${arenaTitle}`)}
+                        loading="lazy"
+                        className="h-auto w-full"
+                      />
+                    </a>
+                    <div>
+                      {arena.variants && arena.variants.length > 1 && (
+                        <div
+                          role="group"
+                          aria-label={tr("Varian lintasan", "Track variant")}
+                          className="mb-4 flex flex-wrap gap-2"
+                        >
+                          {arena.variants.map((v) => {
+                            const isSelected = v.id === arenaVariant?.id;
+                            return (
+                              <button
+                                key={v.id}
+                                type="button"
+                                aria-pressed={isSelected}
+                                onClick={() => setArenaVariantId(v.id)}
+                                className={`min-h-[44px] rounded-md border px-3 py-2 text-sm font-semibold transition-colors ${
+                                  isSelected
+                                    ? theme.trackActive
+                                    : "border-navy-700 bg-navy-900 text-text-soft hover:border-navy-600 hover:text-text-main active:bg-navy-800"
+                                }`}
+                              >
+                                {tr(v.name, v.nameEn)}
+                              </button>
+                            );
+                          })}
                         </div>
                       )}
+                      <p className="font-semibold text-text-main">{arenaTitle}</p>
+                      <p className="mt-1">{arenaDescription}</p>
+                      <div className="mt-4 flex flex-wrap gap-2.5">
+                        <a
+                          href={arenaFile.fileUrl}
+                          download={arenaFile.fileName}
+                          className={secondaryButton}
+                        >
+                          {tr("Unduh PDF", "Download PDF")}
+                        </a>
+                        {/* Phone browsers rarely render a PDF inside a page, so the viewer is offered from sm up */}
+                        <div className="hidden sm:block">
+                          <button
+                            type="button"
+                            onClick={() => setArenaModalOpen(true)}
+                            className={secondaryButton}
+                          >
+                            {tr("Lihat layar penuh", "View fullscreen")}
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="font-semibold text-text-main">
+                      {tr("Denah belum dirilis", "Layout not released yet")}
+                    </p>
+                    <p className="mt-1">
+                      {tr(arena.placeholderNotice || "", arena.placeholderNoticeEn || "")}
+                    </p>
+                  </div>
+                )}
+              </InfoSection>
+            )}
 
-                {/* Dedicated Action Buttons */}
-                <div className="mt-6 pt-4 border-t border-navy-800 flex flex-col gap-2">
-                  <button
-                    type="button"
-                    onClick={() => openModal(cat.guidebookDocId)}
-                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50 cursor-pointer"
-                  >
-                    <span>
-                      {language === "id"
-                        ? "Lihat Guidebook (PDF)"
-                        : "View Category Guidebook (PDF)"}
-                    </span>
-                  </button>
+            {category.scoringCriteria && category.scoringCriteria.length > 0 && (
+              <InfoSection title={tr("Penilaian", "Scoring")}>
+                <ul className="divide-y divide-navy-800">
+                  {category.scoringCriteria.map((crit) => (
+                    <li key={crit.criterion} className="py-3 first:pt-0 last:pb-0">
+                      <div className="flex items-baseline justify-between gap-4">
+                        <span className="font-semibold text-text-main">
+                          {crit.criterion}
+                        </span>
+                        <span
+                          className={`shrink-0 font-bold tabular-nums ${theme.text}`}
+                        >
+                          {crit.weight}
+                        </span>
+                      </div>
+                      {crit.note && <p className="mt-1">{crit.note}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </InfoSection>
+            )}
 
-                  {/* Track arena action for Smart Robotics */}
-                  {isSmartRobotics && (
-                    <>
-                      {cat.level === "SD" && (
-                        <button
-                          type="button"
-                          onClick={() => openTrackModal("track-sd")}
-                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-rose-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/50 cursor-pointer"
-                        >
-                          <MapPin className="h-3.5 w-3.5 text-rose-400" aria-hidden="true" />
-                          <span>
-                            {language === "id"
-                              ? "Lihat Track Arena (PDF)"
-                              : "View Arena Track (PDF)"}
-                          </span>
-                        </button>
-                      )}
-                      {cat.level === "Mahasiswa" && (
-                        <button
-                          type="button"
-                          onClick={() => openTrackModal("track-mahasiswa", "mahasiswa-offline")}
-                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-rose-500/40 bg-navy-900/90 py-2.5 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/10 hover:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-500/50 cursor-pointer"
-                        >
-                          <MapPin className="h-3.5 w-3.5 text-rose-400" aria-hidden="true" />
-                          <span>
-                            {language === "id"
-                              ? "Lihat Track (Offline & Online)"
-                              : "View Tracks (Offline & Online)"}
-                          </span>
-                        </button>
-                      )}
-                      {(cat.level === "SMP" || cat.level === "SMA/SMK") && (
-                        <button
-                          type="button"
-                          onClick={() => openTrackModal(cat.level === "SMP" ? "track-smp" : "track-sma")}
-                          className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md border border-navy-800 bg-navy-950/70 py-2.5 text-xs font-semibold text-text-dim transition hover:border-navy-700 hover:text-text-soft focus:outline-none focus:ring-2 focus:ring-navy-700 cursor-pointer"
-                          title={
-                            language === "id"
-                              ? "Track arena sedang dalam finalisasi teknis panitia"
-                              : "Arena track is in technical finalization by the committee"
-                          }
-                        >
-                          <Clock className="h-3.5 w-3.5 text-rose-400/70" aria-hidden="true" />
-                          <span>
-                            {language === "id"
-                              ? "Track Arena: Segera Dirilis"
-                              : "Track: Coming Soon"}
-                          </span>
-                        </button>
-                      )}
-                    </>
-                  )}
+            <InfoSection title={tr("Aturan", "Rules")}>
+              <ul className="list-disc space-y-1 pl-5 marker:text-text-dim">
+                {category.highlights.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
 
-                  <a
-                    href={cat.registrationUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full min-h-[44px] items-center justify-center gap-2 rounded-md bg-gold-500 py-2.5 text-xs font-bold text-navy-950 transition hover:bg-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
-                  >
-                    <span>{t.nav.registerNow}</span>
-                  </a>
-                </div>
-              </div>
-            ))}
+              {category.stages && category.stages.length > 0 && (
+                <>
+                  <h3 className="mt-5 font-semibold text-text-main">
+                    {t.competitionDetail.stages}
+                  </h3>
+                  <ol className="mt-2 divide-y divide-navy-800">
+                    {category.stages.map((stage) => (
+                      <li key={stage.name} className="py-3 first:pt-0 last:pb-0">
+                        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
+                          <span className="font-semibold text-text-main">
+                            {stage.name}
+                          </span>
+                          {stage.date && (
+                            <span className="text-xs font-semibold text-gold-400">
+                              {stage.date}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-1">{stage.description}</p>
+                      </li>
+                    ))}
+                  </ol>
+                </>
+              )}
+
+              <p className="mt-5">
+                {tr(
+                  "Aturan lengkap dan mengikat ada di guidebook jenjang ini.",
+                  "The full, binding rules are in this level's guidebook."
+                )}{" "}
+                <button
+                  type="button"
+                  onClick={() => openModal(category.guidebookDocId)}
+                  className="font-semibold text-gold-400 underline underline-offset-2 hover:text-gold-500"
+                >
+                  {tr("Buka Guidebook", "Open Guidebook")}
+                </button>
+              </p>
+            </InfoSection>
           </div>
         </div>
 
-        {/* Official Regulation Reference Callout */}
-        <div className="mt-12 rounded-md border border-navy-800 bg-navy-900/60 p-5 sm:p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-start gap-3.5">
-              <div>
-                <h3 className="text-sm sm:text-base font-bold text-text-main">
-                  {language === "id"
-                    ? "Acuan Regulasi & Teknis Resmi IARC XII"
-                    : "Official IARC XII Regulatory & Technical Reference"}
-                </h3>
-                <p className="mt-1 text-xs text-text-soft leading-relaxed max-w-2xl">
-                  {language === "id"
-                    ? "Setiap kategori jenjang memiliki spesifikasi arena, dimensi alat, toleransi mekanik, dan instrumen penilaian yang berbeda. Buka dokumen Guidebook PDF pada masing-masing kartu kategori di atas untuk panduan teknis yang mengikat."
-                    : "Each category specifies unique arena layouts, device dimensions, mechanical tolerances, and evaluation rubrics. Consult the respective PDF Guidebooks above for binding regulations."}
-                </p>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => openModal("utama")}
-              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-md border border-gold-500/40 bg-navy-900 px-4 py-2 text-xs font-bold text-gold-400 transition hover:bg-gold-500/10 hover:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-500/50"
-            >
-              <span>{t.nav.mainGuidebook}</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Registration Guidance & Verification Section */}
-        <div
-          id="panduan-pendaftaran"
-          className="mt-12 rounded-md border border-gold-500/30 bg-navy-900 p-6 sm:p-8"
+        <nav
+          aria-labelledby="other-divisions-heading"
+          className="mt-12 rounded-md border border-navy-800 bg-navy-900 p-5 sm:p-6"
         >
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-2xl">
-              <h3 className="text-xl sm:text-2xl font-bold text-text-main">
-                {language === "id"
-                  ? "Petunjuk Pendaftaran & Verifikasi Berkas"
-                  : "Registration & Document Verification Guidelines"}
-              </h3>
-              <p className="text-xs sm:text-sm text-text-soft leading-relaxed">
-                {language === "id"
-                  ? "Informasi nomor rekening tujuan pembayaran dan rincian biaya registrasi resmi tercantum langsung di dalam formulir Google Form pendaftaran masing-masing kategori lomba. Unggah bukti pembayaran beserta berkas persyaratan pada formulir tersebut untuk proses verifikasi oleh panitia."
-                  : "Bank account transfer instructions and official entry fees are provided directly inside the registration Google Form for each competition category. Upload transfer receipts and verification documents via the form for committee approval."}
-              </p>
-            </div>
-
-            <div className="w-full sm:w-auto rounded-md border border-gold-500/30 bg-navy-950/80 p-5 text-center sm:min-w-[260px] flex flex-col items-center justify-center gap-2">
-              <span className="text-xs font-bold text-text-main">
-                {language === "id" ? "Formulir Pendaftaran" : "Registration Form"}
-              </span>
-              <p className="text-[11px] text-text-soft max-w-[220px]">
-                {language === "id"
-                  ? "Informasi rekening transfer tersedia langsung di Google Form"
-                  : "Transfer account details are provided directly in the Google Form"}
-              </p>
-              <a
-                href="#pendaftaran"
-                className="mt-1 inline-flex min-h-[44px] items-center justify-center gap-1.5 rounded-md bg-gold-500 px-4 py-2 text-xs font-bold text-navy-950 transition hover:bg-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400"
-              >
-                <span>{language === "id" ? "Pilih Kategori & Daftar" : "Select Category & Register"}</span>
-              </a>
-            </div>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-navy-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-text-dim">
-                {language === "id" ? "Kelengkapan Berkas:" : "Required Submissions:"}
-              </span>
-              <a
-                href="https://its.id/m/TwibbonCompeIARCXII"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
-              >
-                <span>{t.footer.downloadTwibbon}</span>
-              </a>
-              <span className="text-navy-700">•</span>
-              <a
-                href="https://its.id/m/CaptionTwibbonIARCXII"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-gold-400 hover:underline"
-              >
-                <span>{t.footer.copyCaption}</span>
-              </a>
-            </div>
-
-            <Link
-              href="/#kompetisi"
-              className="inline-flex items-center gap-1.5 font-bold text-gold-400 hover:text-gold-300 transition"
-            >
-              <span>{language === "id" ? "Jelajahi Divisi Lain" : "Explore Other Divisions"}</span>
-            </Link>
-          </div>
-        </div>
+          <h2 id="other-divisions-heading" className="text-base font-bold text-text-main">
+            {tr("Divisi lain", "Other divisions")}
+          </h2>
+          <ul className="mt-3 grid gap-x-8 sm:grid-cols-3">
+            {otherDivisions.map((d) => (
+              <li key={d.slug} className="border-t border-navy-800">
+                <Link
+                  href={divisionHref(d.slug)}
+                  className="group block py-3.5"
+                >
+                  <span
+                    className={`block text-sm font-bold text-text-main transition-colors ${getDivisionTheme(d.slug).textHover}`}
+                  >
+                    {d.name}
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-relaxed text-text-soft">
+                    {d.tagline}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
-      {/* Smart Robotics Dedicated Track Modal */}
-      {isSmartRobotics && (
+      {arena && (
         <SmartRoboticsTrackModal
-          isOpen={trackModalOpen}
-          onClose={() => setTrackModalOpen(false)}
-          initialTrackId={trackModalTrackId}
-          initialVariantId={trackModalVariantId}
+          isOpen={arenaModalOpen}
+          onClose={() => setArenaModalOpen(false)}
+          initialTrackId={arena.id}
+          initialVariantId={arenaVariant?.id}
         />
       )}
     </div>

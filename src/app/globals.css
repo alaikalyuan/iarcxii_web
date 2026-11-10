@@ -45,7 +45,6 @@ html {
 body {
   background-color: var(--navy-950);
   color: var(--text-main);
-  overflow-x: hidden;
   max-width: 100%;
   font-family: var(--font-sans);
 }
