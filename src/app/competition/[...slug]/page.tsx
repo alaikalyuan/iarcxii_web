@@ -89,9 +89,9 @@ export default async function CompetitionCatchAllPage({
     }
 
     return (
-      <div className="flex min-h-screen flex-col bg-navy-950 text-text-main overflow-x-hidden">
+      <div className="flex min-h-screen flex-col bg-navy-950 text-text-main overflow-x-clip">
         <Navbar />
-        <main className="flex-1 overflow-x-hidden">
+        <main className="flex-1 overflow-x-clip">
           <CompetitionDetailClient
             division={competition}
             initialTrackId={trackSlug}
@@ -109,9 +109,9 @@ export default async function CompetitionCatchAllPage({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-navy-950 text-text-main overflow-x-hidden">
+    <div className="flex min-h-screen flex-col bg-navy-950 text-text-main overflow-x-clip">
       <Navbar />
-      <main className="flex-1 overflow-x-hidden">
+      <main className="flex-1 overflow-x-clip">
         <CompetitionDetailClient division={competition} />
       </main>
       <Footer />

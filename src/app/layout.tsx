@@ -37,7 +37,8 @@ export default function RootLayout({
       lang="id"
       className={`${sora.variable} ${plusJakartaSans.variable} scroll-smooth overflow-x-hidden`}
     >
-      <body className="min-h-screen bg-navy-950 text-text-main antialiased selection:bg-gold-500/30 selection:text-gold-400 overflow-x-hidden font-sans">
+      {/* overflow-x-clip, not hidden: hidden makes body a scroll container and breaks position: sticky */}
+      <body className="min-h-screen bg-navy-950 text-text-main antialiased selection:bg-gold-500/30 selection:text-gold-400 overflow-x-clip font-sans">
         <LanguageProvider>
           <PdfModalProvider>
             {children}

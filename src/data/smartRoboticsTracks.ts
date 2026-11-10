@@ -6,6 +6,9 @@ export interface TrackVariant {
   tagEn: string;
   fileUrl: string;
   fileName: string;
+  imageUrl: string;
+  imageWidth: number;
+  imageHeight: number;
   description: string;
   descriptionEn: string;
 }
@@ -20,6 +23,9 @@ export interface SmartRoboticsTrack {
   descriptionEn: string;
   fileUrl?: string;
   fileName?: string;
+  imageUrl?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   variants?: TrackVariant[];
   placeholderNotice?: string;
   placeholderNoticeEn?: string;
@@ -35,6 +41,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
     status: "available",
     fileUrl: "/tracks/Track Smart Robotics (SD).pdf",
     fileName: "Track Smart Robotics (SD).pdf",
+    imageUrl: "/tracks/track-sr-sd.webp",
+    imageWidth: 1800,
+    imageHeight: 2400,
     guidebookDocId: "sr-sd",
     description:
       "Denah lintasan resmi kategori SD. Menampilkan rute garis putih panduan line follower, titik start bertingkat, dan zona rintangan dorong objek.",
@@ -93,6 +102,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
         tagEn: "Onsite Seeding & Knockout",
         fileUrl: "/tracks/Track Smart Robotics (Mahasiswa) (Offline).pdf",
         fileName: "Track Smart Robotics (Mahasiswa) (Offline).pdf",
+        imageUrl: "/tracks/track-sr-mahasiswa-offline.webp",
+        imageWidth: 1800,
+        imageHeight: 2057,
         description:
           "Konfigurasi arena luring (offline) di kampus ITS untuk babak Seeding dan babak Knockout sistem Best of 3 (BO3).",
         descriptionEn:
@@ -106,6 +118,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
         tagEn: "Stage 1 Online Selection",
         fileUrl: "/tracks/Track Smart Robotics (Mahasiswa) (Online).pdf",
         fileName: "Track Smart Robotics (Mahasiswa) (Online).pdf",
+        imageUrl: "/tracks/track-sr-mahasiswa-online.webp",
+        imageWidth: 1800,
+        imageHeight: 1285,
         description:
           "Konfigurasi lintasan resmi untuk pengujian video seleksi tahap 1 daring bagi Robot Autonomous Line Follower dan Robot Shooter.",
         descriptionEn:
