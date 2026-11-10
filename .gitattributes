@@ -1,0 +1,6 @@
+# Some PDFs are pure ASCII (e.g. ASCII85 streams); line-ending conversion would break their byte offsets
+*.pdf binary
+*.webp binary
+*.png binary
+*.jpg binary
+*.jpeg binary
