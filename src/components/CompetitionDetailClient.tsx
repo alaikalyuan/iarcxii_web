@@ -436,6 +436,16 @@ export default function CompetitionDetailClient({
                         >
                           {tr("Unduh PDF", "Download PDF")}
                         </a>
+                        {arenaFile.sourceFileUrl && (
+                          <a
+                            href={arenaFile.sourceFileUrl}
+                            download={arenaFile.sourceFileName}
+                            aria-label={tr("Unduh CDR (file CorelDRAW)", "Download CDR (CorelDRAW file)")}
+                            className={secondaryButton}
+                          >
+                            {tr("Unduh CDR", "Download CDR")}
+                          </a>
+                        )}
                         {/* Phone browsers rarely render a PDF inside a page, so the viewer is offered from sm up */}
                         <div className="hidden sm:block">
                           <button

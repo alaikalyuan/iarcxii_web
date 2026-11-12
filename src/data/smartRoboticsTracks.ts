@@ -6,6 +6,8 @@ export interface TrackVariant {
   tagEn: string;
   fileUrl: string;
   fileName: string;
+  sourceFileUrl?: string;
+  sourceFileName?: string;
   imageUrl: string;
   imageWidth: number;
   imageHeight: number;
@@ -23,6 +25,9 @@ export interface SmartRoboticsTrack {
   descriptionEn: string;
   fileUrl?: string;
   fileName?: string;
+  // Editable CorelDRAW source, offered next to the PDF when the committee publishes one
+  sourceFileUrl?: string;
+  sourceFileName?: string;
   imageUrl?: string;
   imageWidth?: number;
   imageHeight?: number;
@@ -39,9 +44,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
     title: "Track Smart Robotics (SD)",
     titleEn: "Smart Robotics Track (Elementary)",
     status: "available",
-    fileUrl: "/tracks/Track Smart Robotics (SD).pdf",
+    fileUrl: "/tracks/smart-robotics/Track Smart Robotics (SD).pdf",
     fileName: "Track Smart Robotics (SD).pdf",
-    imageUrl: "/tracks/track-sr-sd.webp",
+    imageUrl: "/tracks/smart-robotics/Track Smart Robotics (SD).webp",
     imageWidth: 1800,
     imageHeight: 2400,
     guidebookDocId: "sr-sd",
@@ -53,18 +58,21 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
   {
     id: "track-smp",
     level: "SMP",
-    title: "Track Smart Robotics (SMP)",
-    titleEn: "Smart Robotics Track (Junior High)",
-    status: "placeholder",
+    title: "Arena 1 Smart Robotics (SMP)",
+    titleEn: "Smart Robotics Arena 1 (Junior High)",
+    status: "available",
+    fileUrl: "/tracks/smart-robotics/Track Smart Robotics (SMP) [Arena 1].pdf",
+    fileName: "Track Smart Robotics (SMP) [Arena 1].pdf",
+    sourceFileUrl: "/tracks/smart-robotics/Track Smart Robotics (SMP) [Arena 1].cdr",
+    sourceFileName: "Track Smart Robotics (SMP) [Arena 1].cdr",
+    imageUrl: "/tracks/smart-robotics/Track Smart Robotics (SMP) [Arena 1].webp",
+    imageWidth: 1800,
+    imageHeight: 1500,
     guidebookDocId: "sr-smp",
     description:
-      "Lintasan arena resmi Smart Robotics kategori SMP dengan spesifikasi mekanik gripper dan checkpoint.",
+      "Arena 1 untuk Babak Kualifikasi (Day 1): robot membawa objek dari area start, mengikuti garis hitam melewati checkpoint merah, lalu mencapai area finish. Babak 16 Besar (Day 2) memakai Arena 2 dengan konfigurasi lintasan dan posisi objek yang berbeda.",
     descriptionEn:
-      "Official Smart Robotics arena track layout for Junior High category featuring gripper mechanics and checkpoints.",
-    placeholderNotice:
-      "Konfigurasi lintasan resmi jenjang SMP sedang dalam tahap pengujian rintangan dan penyusunan teknis oleh panitia IARC XII. Denah akan dipublikasikan pada halaman ini.",
-    placeholderNoticeEn:
-      "The official track layout for the Junior High category is currently in final testing and technical preparation by the IARC XII committee. It will be published here once ready.",
+      "Arena 1 for the Qualification round (Day 1): the robot carries an object from the start area, follows the black line past the red checkpoints, and reaches the finish area. The Round of 16 (Day 2) uses Arena 2, with a different track layout and object positions.",
   },
   {
     id: "track-sma",
@@ -100,9 +108,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
         nameEn: "Offline Track (Onsite ITS)",
         tag: "Babak Penyisihan & Gugur Onsite",
         tagEn: "Onsite Seeding & Knockout",
-        fileUrl: "/tracks/Track Smart Robotics (Mahasiswa) (Offline).pdf",
-        fileName: "Track Smart Robotics (Mahasiswa) (Offline).pdf",
-        imageUrl: "/tracks/track-sr-mahasiswa-offline.webp",
+        fileUrl: "/tracks/smart-robotics/Track Smart Robotics (Mahasiswa) [Offline].pdf",
+        fileName: "Track Smart Robotics (Mahasiswa) [Offline].pdf",
+        imageUrl: "/tracks/smart-robotics/Track Smart Robotics (Mahasiswa) [Offline].webp",
         imageWidth: 1800,
         imageHeight: 2057,
         description:
@@ -116,9 +124,9 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
         nameEn: "Online Track (Stage 1 Selection)",
         tag: "Seleksi Tahap 1 Daring",
         tagEn: "Stage 1 Online Selection",
-        fileUrl: "/tracks/Track Smart Robotics (Mahasiswa) (Online).pdf",
-        fileName: "Track Smart Robotics (Mahasiswa) (Online).pdf",
-        imageUrl: "/tracks/track-sr-mahasiswa-online.webp",
+        fileUrl: "/tracks/smart-robotics/Track Smart Robotics (Mahasiswa) [Online].pdf",
+        fileName: "Track Smart Robotics (Mahasiswa) [Online].pdf",
+        imageUrl: "/tracks/smart-robotics/Track Smart Robotics (Mahasiswa) [Online].webp",
         imageWidth: 1800,
         imageHeight: 1285,
         description:
