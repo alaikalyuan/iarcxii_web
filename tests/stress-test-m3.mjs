@@ -72,7 +72,7 @@ for (const comp of COMPETITIONS) {
       totalCategories++;
       assert(Boolean(cat.id && cat.name && cat.level), `Category "${cat.name}" has ID, name, level`);
       assert(typeof cat.teamRequirement === 'string' && cat.teamRequirement.length > 5, `Category "${cat.name}" has teamRequirement`);
-      assert(cat.registrationUrl.startsWith('https://its.id/m/'), `Category "${cat.name}" registrationUrl starts with https://its.id/m/`, cat.registrationUrl);
+      assert(cat.registrationUrl.startsWith('https://forms.gle/'), `Category "${cat.name}" registrationUrl starts with https://forms.gle/`, cat.registrationUrl);
       assert(!cat.registrationUrl.includes(' - ') && !cat.registrationUrl.startsWith('-'), `Category "${cat.name}" registrationUrl is clean without dashes`);
       assert(Boolean(cat.fees && cat.fees.batch1 && cat.fees.batch2 && cat.fees.batch3), `Category "${cat.name}" has 3-batch fees`);
       assert(Array.isArray(cat.highlights) && cat.highlights.length >= 2, `Category "${cat.name}" has multiple highlights`);

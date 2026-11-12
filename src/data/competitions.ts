@@ -35,7 +35,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SD",
             teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-sd",
-            registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
+            registrationUrl: "https://forms.gle/fagcFFRvJ7xBviiV7",
             fees: {
               batch1: "Rp 125.000",
               batch2: "Rp 145.000",
@@ -112,7 +112,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMP",
             teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-smp",
-            registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
+            registrationUrl: "https://forms.gle/fagcFFRvJ7xBviiV7",
             fees: {
               batch1: "Rp 145.000",
               batch2: "Rp 175.000",
@@ -184,7 +184,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMA/SMK",
             teamRequirement: "Maksimal 3 siswa (boleh lintas sekolah) ditambah 1 guru pembimbing",
             guidebookDocId: "ac-iot-sma",
-            registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
+            registrationUrl: "https://forms.gle/fagcFFRvJ7xBviiV7",
             fees: {
               batch1: "Rp 150.000",
               batch2: "Rp 185.000",
@@ -246,7 +246,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "Mahasiswa",
             teamRequirement: "Maksimal 3 mahasiswa aktif (D3/D4/S1) dari kampus yang sama ditambah 1 dosen pembimbing",
             guidebookDocId: "ac-iot-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
+            registrationUrl: "https://forms.gle/fagcFFRvJ7xBviiV7",
             fees: {
               batch1: "Rp 165.000",
               batch2: "Rp 195.000",
@@ -308,7 +308,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "International",
             teamRequirement: "Maximum 3 undergraduate students from the same university + 1 advisor",
             guidebookDocId: "ac-iot-college",
-            registrationUrl: "https://its.id/m/FormRegistIoTIARCXII",
+            registrationUrl: "https://forms.gle/fagcFFRvJ7xBviiV7",
             fees: {
               batch1: "IDR 165.000",
               batch2: "IDR 195.000",
@@ -389,7 +389,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMA/SMK",
             teamRequirement: "Tepat 2 siswa aktif dari sekolah yang sama ditambah 1 guru pembimbing",
             guidebookDocId: "ac-plc-sma",
-            registrationUrl: "https://its.id/m/FormRegistPLCIARCXII",
+            registrationUrl: "https://forms.gle/afKJEFp1dQvP7uaZ9",
             fees: {
               batch1: "Rp 135.000",
               batch2: "Rp 165.000",
@@ -451,7 +451,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "Mahasiswa",
             teamRequirement: "Tepat 2 mahasiswa aktif (D3/D4/S1) dari perguruan tinggi yang sama ditambah 1 dosen pembimbing",
             guidebookDocId: "ac-plc-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistPLCIARCXII",
+            registrationUrl: "https://forms.gle/afKJEFp1dQvP7uaZ9",
             fees: {
               batch1: "Rp 175.000",
               batch2: "Rp 200.000",
@@ -567,7 +567,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SD",
             teamRequirement: "Maksimal 2 siswa SD ditambah 1 pendamping (opsional)",
             guidebookDocId: "sr-sd",
-            registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
+            registrationUrl: "https://forms.gle/nif2YqbEb7fc2rQG7",
             fees: {
               batch1: "Rp 95.000",
               batch2: "Rp 135.000",
@@ -624,7 +624,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMP",
             teamRequirement: "Maksimal 2 siswa SMP ditambah 1 pendamping (opsional)",
             guidebookDocId: "sr-smp",
-            registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
+            registrationUrl: "https://forms.gle/nif2YqbEb7fc2rQG7",
             fees: {
               batch1: "Rp 110.000",
               batch2: "Rp 150.000",
@@ -681,7 +681,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMA/SMK",
             teamRequirement: "Tepat 2 siswa aktif dari sekolah yang sama ditambah 1 guru pendamping (opsional)",
             guidebookDocId: "sr-sma",
-            registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
+            registrationUrl: "https://forms.gle/nif2YqbEb7fc2rQG7",
             fees: {
               batch1: "Rp 125.000",
               batch2: "Rp 165.000",
@@ -743,7 +743,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "Mahasiswa",
             teamRequirement: "Tepat 2 mahasiswa aktif (D3/D4/S1) dari institusi yang sama ditambah 1 dosen pendamping (opsional)",
             guidebookDocId: "sr-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistSmartRobotIARCXII",
+            registrationUrl: "https://forms.gle/nif2YqbEb7fc2rQG7",
             fees: {
               batch1: "Rp 200.000",
               batch2: "Rp 245.000",
@@ -862,7 +862,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMA/SMK",
             teamRequirement: "Maksimal 2 siswa dari institusi yang sama ditambah 1 guru pendamping (wajib)",
             guidebookDocId: "et-sma",
-            registrationUrl: "https://its.id/m/FormRegistEnergyTreasureIARCXII",
+            registrationUrl: "https://forms.gle/pMSetSgSqcSvnJJC7",
             fees: {
               batch1: "Rp 120.000",
               batch2: "Rp 145.000",
@@ -914,7 +914,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "Mahasiswa",
             teamRequirement: "Maksimal 2 mahasiswa aktif (D3/D4/S1) dari institusi yang sama ditambah 1 dosen pendamping (wajib)",
             guidebookDocId: "et-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistEnergyTreasureIARCXII",
+            registrationUrl: "https://forms.gle/pMSetSgSqcSvnJJC7",
             fees: {
               batch1: "Rp 130.000",
               batch2: "Rp 155.000",
@@ -1017,7 +1017,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "SMA/SMK",
             teamRequirement: "1 hingga 3 siswa aktif dari sekolah yang sama",
             guidebookDocId: "kti-sma",
-            registrationUrl: "https://its.id/m/FormRegistVortexIARCXII",
+            registrationUrl: "https://forms.gle/3REUFKJfkaCFGaBd9",
             fees: {
               batch1: "Rp 50.000",
               batch2: "Rp 75.000",
@@ -1074,7 +1074,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "Mahasiswa",
             teamRequirement: "1 hingga 3 mahasiswa aktif (D3/D4/S1) dari universitas yang sama",
             guidebookDocId: "kti-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistVortexIARCXII",
+            registrationUrl: "https://forms.gle/3REUFKJfkaCFGaBd9",
             fees: {
               batch1: "Rp 90.000 - 100.000",
               batch2: "Rp 90.000 - 100.000",
@@ -1131,7 +1131,7 @@ export const COMPETITIONS: CompetitionDivision[] = [
             level: "International",
             teamRequirement: "1 hingga 3 mahasiswa aktif (D3/D4/S1) dari universitas yang sama",
             guidebookDocId: "kti-mahasiswa",
-            registrationUrl: "https://its.id/m/FormRegistVortexIARCXII",
+            registrationUrl: "https://forms.gle/3REUFKJfkaCFGaBd9",
             fees: {
               batch1: "Rp 75.000",
               batch2: "Rp 90.000",

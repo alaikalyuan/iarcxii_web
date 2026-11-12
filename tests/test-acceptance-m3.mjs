@@ -152,7 +152,7 @@ async function main() {
     assert(srHtml.includes('SD') && srHtml.includes('SMP') && srHtml.includes('SMA') && srHtml.includes('Mahasiswa'), 'Smart Robotics covers all 4 education levels');
 
     const etHtml = competitionBodies['energy-treasure'];
-    assert(etHtml.includes('https://its.id/m/FormRegistEnergyTreasureIARCXII'), 'Energy Treasure has clean sanitized registration link without legacy typo');
+    assert(etHtml.includes('https://forms.gle/pMSetSgSqcSvnJJC7'), 'Energy Treasure has clean sanitized registration link without legacy typo');
     assert(etHtml.includes('Maze Solver') || etHtml.includes('Line Follower'), 'Energy Treasure mentions maze solver');
 
     const vortexHtml = competitionBodies['vortex'];

@@ -121,8 +121,8 @@ async function runTests() {
   console.log('\n--- Suite 3: Energy Treasure URL & Content ---');
   const etHtml = fs.readFileSync(path.join(NEXT_COMPETITION_DIR, 'energy-treasure.html'), 'utf8');
 
-  // Target clean URL: https://its.id/m/FormRegistEnergyTreasureIARCXII
-  const cleanEtUrl = 'https://its.id/m/FormRegistEnergyTreasureIARCXII';
+  // Target clean URL: https://forms.gle/pMSetSgSqcSvnJJC7
+  const cleanEtUrl = 'https://forms.gle/pMSetSgSqcSvnJJC7';
   const hasCleanUrl = etHtml.includes(cleanEtUrl);
   // Check that there is NO legacy malformed URL like "- https:" or similar
   const hasMalformedUrl = etHtml.includes('- https://its.id/m/FormRegistEnergyTreasure') ||
