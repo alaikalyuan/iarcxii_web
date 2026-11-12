@@ -127,24 +127,24 @@ export default function CompetitionDetailClient({
   const specGroups = (
     isPaperCompetition
       ? [
-          {
-            label: tr("Ketentuan karya", "Submission requirements"),
-            lines: [
-              ...specsForLevel(currentTrack.hardwareSpecs),
-              ...specsForLevel(currentTrack.softwareSpecs),
-            ],
-          },
-        ]
+        {
+          label: tr("Ketentuan karya", "Submission requirements"),
+          lines: [
+            ...specsForLevel(currentTrack.hardwareSpecs),
+            ...specsForLevel(currentTrack.softwareSpecs),
+          ],
+        },
+      ]
       : [
-          {
-            label: tr("Perangkat keras", "Hardware"),
-            lines: specsForLevel(currentTrack.hardwareSpecs),
-          },
-          {
-            label: tr("Perangkat lunak", "Software"),
-            lines: specsForLevel(currentTrack.softwareSpecs),
-          },
-        ]
+        {
+          label: tr("Perangkat keras", "Hardware"),
+          lines: specsForLevel(currentTrack.hardwareSpecs),
+        },
+        {
+          label: tr("Perangkat lunak", "Software"),
+          lines: specsForLevel(currentTrack.softwareSpecs),
+        },
+      ]
   ).filter((group) => group.lines.length > 0);
 
   // Arena layout, for divisions that have published track files
@@ -156,13 +156,13 @@ export default function CompetitionDetailClient({
   const arenaTitle = arenaVariant
     ? tr(arenaVariant.name, arenaVariant.nameEn)
     : arena
-    ? tr(arena.title, arena.titleEn)
-    : "";
+      ? tr(arena.title, arena.titleEn)
+      : "";
   const arenaDescription = arenaVariant
     ? tr(arenaVariant.description, arenaVariant.descriptionEn)
     : arena
-    ? tr(arena.description, arena.descriptionEn)
-    : "";
+      ? tr(arena.description, arena.descriptionEn)
+      : "";
   const [arenaModalOpen, setArenaModalOpen] = useState(false);
 
   const otherDivisions = getCompetitions(language).filter(
@@ -224,11 +224,10 @@ export default function CompetitionDetailClient({
                   key={track.id}
                   href={`/competition/${division.slug}/${track.id}`}
                   aria-current={isActive ? "page" : undefined}
-                  className={`flex min-h-[44px] flex-col justify-center rounded-md border px-4 py-3 transition-colors ${
-                    isActive
+                  className={`flex min-h-[44px] flex-col justify-center rounded-md border px-4 py-3 transition-colors ${isActive
                       ? theme.trackActive
                       : "border-navy-700 bg-navy-900 text-text-soft hover:border-navy-600 hover:text-text-main active:bg-navy-800"
-                  }`}
+                    }`}
                 >
                   <span className="text-sm font-bold">{track.name}</span>
                   <span className="mt-0.5 text-xs text-text-soft">{track.tagline}</span>
@@ -260,11 +259,10 @@ export default function CompetitionDetailClient({
                 tabIndex={isActive ? 0 : -1}
                 onClick={() => selectCategory(index)}
                 onKeyDown={(e) => handleTabKeyDown(e, index)}
-                className={`-mb-0.5 min-h-[48px] shrink-0 whitespace-nowrap border-b-2 px-4 text-sm transition-colors sm:px-5 sm:text-base ${
-                  isActive
+                className={`-mb-0.5 min-h-[48px] shrink-0 whitespace-nowrap border-b-2 px-4 text-sm transition-colors sm:px-5 sm:text-base ${isActive
                     ? `font-bold ${theme.tabActive}`
                     : "border-transparent font-medium text-text-soft hover:border-navy-600 hover:text-text-main active:text-text-main"
-                }`}
+                  }`}
               >
                 {levelLabel(cat.level)}
               </button>
@@ -414,11 +412,10 @@ export default function CompetitionDetailClient({
                                 type="button"
                                 aria-pressed={isSelected}
                                 onClick={() => setArenaVariantId(v.id)}
-                                className={`min-h-[44px] rounded-md border px-3 py-2 text-sm font-semibold transition-colors ${
-                                  isSelected
+                                className={`min-h-[44px] rounded-md border px-3 py-2 text-sm font-semibold transition-colors ${isSelected
                                     ? theme.trackActive
                                     : "border-navy-700 bg-navy-900 text-text-soft hover:border-navy-600 hover:text-text-main active:bg-navy-800"
-                                }`}
+                                  }`}
                               >
                                 {tr(v.name, v.nameEn)}
                               </button>
@@ -443,7 +440,7 @@ export default function CompetitionDetailClient({
                             aria-label={tr("Unduh CDR (file CorelDRAW)", "Download CDR (CorelDRAW file)")}
                             className={secondaryButton}
                           >
-                            {tr("Unduh CDR", "Download CDR")}
+                            {tr("Unduh CorelDRAW", "Download CorelDRAW")}
                           </a>
                         )}
                         {/* Phone browsers rarely render a PDF inside a page, so the viewer is offered from sm up */}
