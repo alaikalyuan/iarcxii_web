@@ -82,6 +82,8 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
     status: "available",
     fileUrl: "/tracks/smart-robotics/Track Smart Robotics (SMA).pdf",
     fileName: "Track Smart Robotics (SMA).pdf",
+    sourceFileUrl: "/tracks/smart-robotics/Track Smart Robotics (SMA).cdr",
+    sourceFileName: "Track Smart Robotics (SMA).cdr",
     imageUrl: "/tracks/smart-robotics/Track Smart Robotics (SMA).webp",
     imageWidth: 1800,
     imageHeight: 1286,
