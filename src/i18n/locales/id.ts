@@ -203,4 +203,14 @@ export const idTranslations: TranslationDictionary = {
     ],
     disclaimer: "Jawaban dirujuk langsung dari dokumen resmi Guidebook IARC XII.",
   },
+  announcement: {
+    plcCountdownLabel: "Pendaftaran PLC ditutup dalam",
+    plcDeadlineText: "Jumat, 20 Nov, 09.00 WIB",
+    plcClosedText: "Pendaftaran PLC sudah ditutup pada Jumat, 20 Nov, pukul 09.00 WIB.",
+    plcLink: "Lihat jalur PLC",
+    dayUnit: "hari",
+    daysUnit: "hari",
+    dismiss: "Tutup pengumuman",
+    registrationClosed: "Pendaftaran ditutup",
+  },
 };

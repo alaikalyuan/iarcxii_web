@@ -159,6 +159,17 @@ export interface ChatbotTranslations {
   disclaimer: string;
 }
 
+export interface AnnouncementTranslations {
+  plcCountdownLabel: string;
+  plcDeadlineText: string;
+  plcClosedText: string;
+  plcLink: string;
+  dayUnit: string;
+  daysUnit: string;
+  dismiss: string;
+  registrationClosed: string;
+}
+
 export interface TranslationDictionary {
   nav: NavTranslations;
   hero: HeroTranslations;
@@ -171,4 +182,5 @@ export interface TranslationDictionary {
   footer: FooterTranslations;
   competitionDetail: CompetitionDetailTranslations;
   chatbot: ChatbotTranslations;
+  announcement: AnnouncementTranslations;
 }

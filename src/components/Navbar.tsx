@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { usePdfModal } from "@/context/PdfModalContext";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "./LanguageSwitcher";
+import AnnouncementBanner from "./AnnouncementBanner";
 
 export default function Navbar() {
   const { openModal } = usePdfModal();
@@ -34,12 +35,14 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 w-full z-40 transition-all duration-300 ${
-        isScrolled
-          ? "border-b border-navy-800 bg-navy-950 py-3"
-          : "bg-transparent py-5"
+        isScrolled ? "border-b border-navy-800 bg-navy-950" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all duration-300 sm:px-6 lg:px-8 ${
+          isScrolled ? "py-3" : "py-5"
+        }`}
+      >
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <Image
@@ -97,6 +100,8 @@ export default function Navbar() {
           <span className="text-xs font-semibold">{t.nav.menu}</span>
         </button>
       </div>
+
+      <AnnouncementBanner />
 
       {/* Mobile Drawer */}
       <AnimatePresence>

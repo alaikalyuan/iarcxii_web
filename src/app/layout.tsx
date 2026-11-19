@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${sora.variable} ${plusJakartaSans.variable} scroll-smooth overflow-x-hidden`}
+      className={`${sora.variable} ${plusJakartaSans.variable} scroll-smooth scroll-pt-[calc(4rem+var(--announce-h,0px))] overflow-x-hidden`}
     >
       {/* overflow-x-clip, not hidden: hidden makes body a scroll container and breaks position: sticky */}
       <body className="min-h-screen bg-navy-950 text-text-main antialiased selection:bg-gold-500/30 selection:text-gold-400 overflow-x-clip font-sans">

@@ -10,7 +10,7 @@ export default function HeroSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden pt-20 pb-8 md:pt-28 md:pb-12">
+    <section className="relative min-h-[100dvh] flex flex-col justify-center overflow-hidden pt-[calc(5rem+var(--announce-h,0px))] pb-8 md:pt-[calc(7rem+var(--announce-h,0px))] md:pb-12">
       <DecorativeBackground variant="hero" showHoneycomb={false} />
 
       <Hexagon3DVisual />

@@ -11,6 +11,8 @@ import { getArenaTrack, getArenaTracks } from "@/data/arenaTracks";
 import DecorativeBackground from "./DecorativeBackground";
 import { useLanguage } from "@/context/LanguageContext";
 import TrackViewerModal from "./TrackViewerModal";
+import { TRACK_REGISTRATION_DEADLINES } from "@/data/registrationDeadlines";
+import { useDeadline } from "@/lib/useDeadline";
 
 interface CompetitionDetailClientProps {
   division: CompetitionDivision;
@@ -77,6 +79,7 @@ export default function CompetitionDetailClient({
   const currentTrack =
     division.tracks.find((trk) => trk.id === trackId) || division.tracks[0];
   const categories = currentTrack.categories;
+  const registrationClosed = useDeadline(TRACK_REGISTRATION_DEADLINES[currentTrack.id]).expired;
 
   const [activeCategoryId, setActiveCategoryId] = useState(categories[0]?.id);
   const category: CategoryCard =
@@ -181,7 +184,7 @@ export default function CompetitionDetailClient({
     "inline-flex min-h-[44px] items-center justify-center rounded-md bg-gold-500 px-4 py-2.5 text-sm font-bold text-navy-950 transition-colors hover:bg-gold-400 active:bg-gold-600";
 
   return (
-    <div className="relative overflow-clip pt-24 pb-16 md:pt-28 md:pb-20">
+    <div className="relative overflow-clip pt-[calc(6rem+var(--announce-h,0px))] pb-16 md:pt-[calc(7rem+var(--announce-h,0px))] md:pb-20">
       <DecorativeBackground variant="section-e" />
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <nav
@@ -277,7 +280,7 @@ export default function CompetitionDetailClient({
           className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-10"
         >
           {/* Fee and actions: first on small screens, sticky right column on large ones */}
-          <aside className="rounded-md border border-navy-700 bg-navy-900 p-5 lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1 lg:self-start">
+          <aside className="rounded-md border border-navy-700 bg-navy-900 p-5 lg:sticky lg:top-[calc(6rem+var(--announce-h,0px))] lg:col-start-2 lg:row-start-1 lg:self-start">
             <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_14rem] sm:items-start lg:grid-cols-1">
               <div>
                 <h2 className="text-base font-bold text-text-main">
@@ -302,14 +305,24 @@ export default function CompetitionDetailClient({
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <a
-                  href={category.registrationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={primaryButton}
-                >
-                  {t.nav.registerNow}
-                </a>
+                {registrationClosed ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="inline-flex min-h-[44px] cursor-not-allowed items-center justify-center rounded-md border border-navy-600 bg-navy-800 px-4 py-2.5 text-sm font-bold text-text-dim"
+                  >
+                    {t.announcement.registrationClosed}
+                  </button>
+                ) : (
+                  <a
+                    href={category.registrationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={primaryButton}
+                  >
+                    {t.nav.registerNow}
+                  </a>
+                )}
                 <button
                   type="button"
                   onClick={() => openModal(category.guidebookDocId)}

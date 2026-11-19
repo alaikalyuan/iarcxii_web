@@ -203,4 +203,14 @@ export const enTranslations: TranslationDictionary = {
     ],
     disclaimer: "Answers are sourced directly from official IARC XII Guidebook documents.",
   },
+  announcement: {
+    plcCountdownLabel: "PLC registration closes in",
+    plcDeadlineText: "Fri, 20 Nov, 9:00 AM WIB",
+    plcClosedText: "PLC registration closed on Fri, 20 Nov at 9:00 AM WIB.",
+    plcLink: "See PLC track",
+    dayUnit: "day",
+    daysUnit: "days",
+    dismiss: "Close announcement",
+    registrationClosed: "Registration closed",
+  },
 };
