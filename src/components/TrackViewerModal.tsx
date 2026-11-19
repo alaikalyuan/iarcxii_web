@@ -335,7 +335,7 @@ export default function TrackViewerModal({
                       className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-md border border-navy-700 bg-navy-900 px-3 py-2 text-xs font-semibold text-text-main transition hover:border-rose-500/50 hover:bg-navy-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 cursor-pointer"
                       aria-label={
                         language === "id"
-                          ? "Unduh file PDF lintasan"
+                          ? "Unduh file PDF track"
                           : "Download track PDF file"
                       }
                     >
@@ -413,7 +413,7 @@ export default function TrackViewerModal({
                 <div className="flex items-center gap-1.5 text-text-dim">
                   <Layers className="h-3.5 w-3.5 text-rose-400" aria-hidden="true" />
                   <span>
-                    {language === "id" ? "Pilih Varian Lintasan:" : "Select Track Variant:"}
+                    {language === "id" ? "Pilih Varian Track:" : "Select Track Variant:"}
                   </span>
                 </div>
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -514,7 +514,7 @@ export default function TrackViewerModal({
                       <div className="h-10 w-10 animate-spin motion-reduce:animate-none rounded-full border-2 border-navy-700 border-t-rose-500" />
                       <p className="text-xs text-text-dim">
                         {language === "id"
-                          ? "Memuat PDF lintasan..."
+                          ? "Memuat PDF track..."
                           : "Loading track PDF..."}
                       </p>
                     </div>

@@ -107,7 +107,7 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
     variants: [
       {
         id: "mahasiswa-offline",
-        name: "Lintasan Offline (Onsite ITS)",
+        name: "Track Offline (Onsite ITS)",
         nameEn: "Offline Track (Onsite ITS)",
         tag: "Babak Penyisihan & Gugur Onsite",
         tagEn: "Onsite Seeding & Knockout",
@@ -123,7 +123,7 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
       },
       {
         id: "mahasiswa-online",
-        name: "Lintasan Online (Seleksi Daring)",
+        name: "Track Online (Seleksi Daring)",
         nameEn: "Online Track (Stage 1 Selection)",
         tag: "Seleksi Tahap 1 Daring",
         tagEn: "Stage 1 Online Selection",

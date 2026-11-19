@@ -374,7 +374,7 @@ export default function CompetitionDetailClient({
             </InfoSection>
 
             {arena && (
-              <InfoSection title={tr("Lintasan", "Track")}>
+              <InfoSection title={tr("Track", "Track")}>
                 {arena.status === "available" && arenaFile?.imageUrl ? (
                   <div className="grid gap-5 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)]">
                     <a
@@ -401,7 +401,7 @@ export default function CompetitionDetailClient({
                       {arena.variants && arena.variants.length > 1 && (
                         <div
                           role="group"
-                          aria-label={tr("Varian lintasan", "Track variant")}
+                          aria-label={tr("Varian track", "Track variant")}
                           className="mb-4 flex flex-wrap gap-2"
                         >
                           {arena.variants.map((v) => {
