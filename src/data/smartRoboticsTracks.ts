@@ -79,16 +79,17 @@ export const SMART_ROBOTICS_TRACKS: SmartRoboticsTrack[] = [
     level: "SMA/SMK",
     title: "Track Smart Robotics (SMA/SMK)",
     titleEn: "Smart Robotics Track (Senior High)",
-    status: "placeholder",
+    status: "available",
+    fileUrl: "/tracks/smart-robotics/Track Smart Robotics (SMA).pdf",
+    fileName: "Track Smart Robotics (SMA).pdf",
+    imageUrl: "/tracks/smart-robotics/Track Smart Robotics (SMA).webp",
+    imageWidth: 1800,
+    imageHeight: 1286,
     guidebookDocId: "sr-sma",
     description:
-      "Lintasan arena resmi Smart Robotics kategori SMA/SMK dengan mekanisme gripper capit dan kotak relokasi objek.",
+      "Dua lintasan cermin, masing-masing dengan area start dan finish sendiri. Robot mengikuti garis hitam melewati checkpoint bergaris merah, lalu memindahkan objek kubus 8 × 8 × 8 cm dengan gripper ke kotak target jingga dan hijau.",
     descriptionEn:
-      "Official Smart Robotics arena track layout for Senior High category featuring gripper mechanisms and object relocation target boxes.",
-    placeholderNotice:
-      "Konfigurasi lintasan resmi jenjang SMA/SMK dengan rute checkpoint dan zona relokasi objek sedang difinalisasi oleh panitia teknis. Denah akan segera diunggah.",
-    placeholderNoticeEn:
-      "The official track layout for the Senior High category with checkpoint routes and object relocation zones is being finalized by the technical committee and will be available soon.",
+      "Two mirrored lanes, each with its own start and finish area. The robot follows the black line past the red checkpoint lines and uses its gripper to move 8 × 8 × 8 cm cube objects into the orange and green target boxes.",
   },
   {
     id: "track-mahasiswa",
