@@ -19,7 +19,8 @@ const actionBase =
 
 export default function RegistrationFlowSection() {
   const { openModal } = usePdfModal();
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+  const batch3 = language === "id" ? "Gelombang 3" : "Batch 3";
 
   const steps: StepItem[] = [
     {
@@ -92,8 +93,16 @@ export default function RegistrationFlowSection() {
           <h2 className="max-w-xl text-3xl font-bold text-text-main md:text-4xl">
             {t.flow.sectionTitle}
           </h2>
-          <div className="w-full max-w-md">
-            <CountdownTimer targetDate="2026-11-15T23:59:59+07:00" />
+          {/* Batch 3 closes on different days per track; PLC has its own banner deadline */}
+          <div className="flex w-full max-w-md flex-col gap-3">
+            <CountdownTimer
+              targetDate="2026-11-27T23:59:59+07:00"
+              batchName={`${batch3}, Microcontroller (IoT) & Vortex`}
+            />
+            <CountdownTimer
+              targetDate="2026-12-13T23:59:59+07:00"
+              batchName={`${batch3}, Smart Robotics & Energy Treasure`}
+            />
           </div>
         </div>
 

@@ -17,13 +17,13 @@ export const TIMELINE_TRACKS: TimelineTrack[] = [
         date: "19 Okt - 15 Nov 2026",
         title: "Pendaftaran Gelombang 2 (Batch 2)",
         description: "Pendaftaran reguler untuk seluruh tim dari semua jenjang pendidikan.",
-        status: "active",
+        status: "completed",
       },
       {
         date: "16 Nov - 13 Des 2026",
         title: "Pendaftaran Gelombang 3 (Batch 3)",
         description: "Gelombang pendaftaran terakhir sebelum pelaksanaan babak penyisihan.",
-        status: "upcoming",
+        status: "active",
       },
       {
         date: "20 Desember 2026",
@@ -72,13 +72,13 @@ export const TIMELINE_TRACKS: TimelineTrack[] = [
         date: "17 Okt - 7 Nov 2026",
         title: "Pendaftaran Gelombang 2 (Batch 2)",
         description: "Pendaftaran reguler dan persiapan penyusunan proposal teknis atau naskah ilmiah.",
-        status: "active",
+        status: "completed",
       },
       {
         date: "8 Nov - 27 Nov 2026",
         title: "Pendaftaran Gelombang 3 (Batch 3)",
         description: "Batas akhir registrasi peserta tim kategori IoT dan Vortex.",
-        status: "upcoming",
+        status: "active",
       },
       {
         date: "11 Desember 2026",
@@ -124,13 +124,13 @@ export const TIMELINE_TRACKS_EN: TimelineTrack[] = [
         date: "Oct 19 - Nov 15, 2026",
         title: "Registration Batch 2 (Regular)",
         description: "Regular registration period for all teams across all educational levels.",
-        status: "active",
+        status: "completed",
       },
       {
         date: "Nov 16 - Dec 13, 2026",
         title: "Registration Batch 3 (Late Entry)",
         description: "Final registration window before the start of preliminary rounds.",
-        status: "upcoming",
+        status: "active",
       },
       {
         date: "December 20, 2026",
@@ -179,13 +179,13 @@ export const TIMELINE_TRACKS_EN: TimelineTrack[] = [
         date: "Oct 17 - Nov 7, 2026",
         title: "Registration Batch 2 (Regular)",
         description: "Regular registration and preparation of technical proposals or scientific papers.",
-        status: "active",
+        status: "completed",
       },
       {
         date: "Nov 8 - Nov 27, 2026",
         title: "Registration Batch 3 (Late Entry)",
         description: "Final registration deadline for IoT and Vortex competition categories.",
-        status: "upcoming",
+        status: "active",
       },
       {
         date: "December 11, 2026",
